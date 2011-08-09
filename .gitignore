@@ -1,2 +1,6 @@
 
 *.suo
+/TDVS/TDVS/obj
+/TDVS/TDVS/bin
+/TDVS/TDVSContent/bin
+/TDVS/TDVSContent/obj
