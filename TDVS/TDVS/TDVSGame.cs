@@ -38,6 +38,10 @@ namespace TDVS
 		/// </summary>
 		protected override void Initialize()
 		{
+#if WINDOWS
+			Components.Add( new Cursor( this ) );
+#endif
+
 			base.Initialize();
 
 			Window.AllowUserResizing = true;
@@ -45,10 +49,6 @@ namespace TDVS
 
 			SettingsManager.Initialize( this );
 			SettingsManager.ApplyVideoSettings();
-
-#if WINDOWS
-			Components.Add( new Cursor( this ) );
-#endif
 		}		
 
 		void Window_ClientSizeChanged( object sender, EventArgs e )
@@ -67,6 +67,8 @@ namespace TDVS
 		/// </summary>
 		protected override void LoadContent()
 		{
+			base.LoadContent();
+
 			spriteBatch = new SpriteBatch( GraphicsDevice );
 			font = Content.Load<SpriteFont>( @"Fonts\DefaultMenuFont" );
 		}

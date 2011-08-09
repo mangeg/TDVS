@@ -32,38 +32,64 @@ namespace TDVS
 
 		public override void Initialize()
 		{
+			base.Initialize();
+
 			Native.GetClipCursor( ref _InitialRect );
 			Clip( _ClipToWindow );
 		}
 
 		protected override void LoadContent()
 		{
+			base.LoadContent();
 			_SpriteBatch = new SpriteBatch( GraphicsDevice );
 			_CursorTexture = Game.Content.Load<Texture2D>( @"Textures\Cursor" );
 		}
 
+		/*
+		public override void Initialize()
+		{
+			base.Initialize();
+
+			Native.GetClipCursor( ref _InitialRect );
+			Clip( _ClipToWindow );
+		}
+
+		protected override void LoadContent()
+		{
+			base.LoadContent();
+
+			_SpriteBatch = new SpriteBatch( GraphicsDevice );
+			_CursorTexture = Game.Content.Load<Texture2D>( @"Textures\Cursor" );
+		}
+		 * */
+
 		protected override void UnloadContent()
 		{
-			Native.ClipCursor( ref _InitialRect );
+			//Native.ClipCursor( ref _InitialRect );
 		}
 
 		public override void Update( GameTime gameTime )
 		{
+			base.Update( gameTime );
 		}
 
 		public override void Draw( GameTime gameTime )
 		{
+			base.Draw( gameTime );
+
 			if ( !_IsVisible ) return;
 
 			Vector2 p = new Vector2( InputManager.MousePosition.X, InputManager.MousePosition.Y );
 			Vector2 p2 = new Vector2( p.X + 1, p.Y + 1 );
 			Color c = new Color( SettingsManager.Settings.VideoSettings.MouseColor );
 
+			_SpriteBatch.Begin();
 			_SpriteBatch.Draw( _CursorTexture, p2, null, Color.Black, 0f, Vector2.Zero,
 				SettingsManager.Settings.VideoSettings.MouseScale, SpriteEffects.None, 1 );
 			_SpriteBatch.Draw( _CursorTexture, p, null, c,
 				0f, Vector2.Zero,
 				SettingsManager.Settings.VideoSettings.MouseScale, SpriteEffects.None, 1 );
+			_SpriteBatch.End();
 		}
 
 		public static bool IsVisible
