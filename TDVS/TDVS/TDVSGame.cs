@@ -47,7 +47,7 @@ namespace TDVS
 			SettingsManager.ApplyVideoSettings();
 
 #if WINDOWS
-			Cursor.Initialize( this );
+			Components.Add( new Cursor( this ) );
 #endif
 		}		
 
@@ -68,7 +68,6 @@ namespace TDVS
 		protected override void LoadContent()
 		{
 			spriteBatch = new SpriteBatch( GraphicsDevice );
-			Cursor.LoadContent( spriteBatch, Content );
 			font = Content.Load<SpriteFont>( @"Fonts\DefaultMenuFont" );
 		}
 
@@ -79,9 +78,6 @@ namespace TDVS
 		/// 
 		protected override void UnloadContent()
 		{
-#if WINDOWS
-			Cursor.UnloadContent();
-#endif
 			SettingsManager.Save();
 		}
 
@@ -109,10 +105,6 @@ namespace TDVS
 
 			spriteBatch.DrawString( font, "FPS: " + ( FpsMeter.FPS ).ToString(), new Vector2( 100, 100 ), Color.Green, 0, Vector2.Zero, 1f, SpriteEffects.None, 1 );
 			spriteBatch.DrawString( font, "MS/s: " + ( gameTime.ElapsedGameTime.TotalMilliseconds ).ToString(), new Vector2( 100, 100 + font.MeasureString( "FPS: " + ( FpsMeter.FPS ).ToString() ).Y ), Color.Green, 0, Vector2.Zero, 1f, SpriteEffects.None, 1 );
-
-#if WINDOWS
-			Cursor.Draw( gameTime );
-#endif
 
 			spriteBatch.End();
 

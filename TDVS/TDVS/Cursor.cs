@@ -9,15 +9,20 @@ using Microsoft.Xna.Framework.Content;
 
 namespace TDVS
 {
-	public static class Cursor
+	public class Cursor : DrawableGameComponent
 	{
-		private static Game _Game;
-		private static SpriteBatch _SpriteBatch;
-		private static Texture2D _CursorTexture;
+		private SpriteBatch _SpriteBatch;
+		private Texture2D _CursorTexture;
+
 		private static bool _IsVisible;
 		private static bool _ClipToWindow;
-
 		private static Rectangle _InitialRect;
+
+		public Cursor( Game game )
+			: base( game )
+		{
+
+		}
 
 		static Cursor()
 		{
@@ -25,29 +30,28 @@ namespace TDVS
 			_ClipToWindow = false;
 		}
 
-		public static void Initialize( Game game )
+		public override void Initialize()
 		{
-			_Game = game;
 			Native.GetClipCursor( ref _InitialRect );
 			Clip( _ClipToWindow );
 		}
 
-		public static void LoadContent( SpriteBatch spriteBatch, ContentManager Content )
+		protected override void LoadContent()
 		{
-			_SpriteBatch = spriteBatch;
-			_CursorTexture = Content.Load<Texture2D>( @"Textures\Cursor" );
+			_SpriteBatch = new SpriteBatch( GraphicsDevice );
+			_CursorTexture = Game.Content.Load<Texture2D>( @"Textures\Cursor" );
 		}
 
-		public static void UnloadContent()
+		protected override void UnloadContent()
 		{
 			Native.ClipCursor( ref _InitialRect );
 		}
 
-		public static void Update( GameTime gameTime )
+		public override void Update( GameTime gameTime )
 		{
 		}
 
-		public static void Draw( GameTime gameTime )
+		public override void Draw( GameTime gameTime )
 		{
 			if ( !_IsVisible ) return;
 
@@ -67,21 +71,22 @@ namespace TDVS
 			get { return _IsVisible; }
 			set { _IsVisible = value; }
 		}
-		public static bool ClipToWindow
+
+		public bool ClipToWindow
 		{
 			get { return _ClipToWindow; }
-			set 
-			{ 
+			set
+			{
 				_ClipToWindow = value;
 				Clip( _ClipToWindow );
 			}
 		}
 
-		private static void Clip( bool clip )
+		private void Clip( bool clip )
 		{
 			if ( clip )
 			{
-				Rectangle rect = _Game.Window.ClientBounds;
+				Rectangle rect = Game.Window.ClientBounds;
 				rect.Width += rect.X;
 				rect.Height += rect.Y;
 				Native.ClipCursor( ref rect );
