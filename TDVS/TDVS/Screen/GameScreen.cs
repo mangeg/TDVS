@@ -13,7 +13,7 @@ namespace TDVS.Screen
 		public ScreenManager ScreenManager
 		{
 			get { return manager; }
-			protected set { manager = value; }
+			internal set { manager = value; }
 		}
 
 		public virtual void Activate() { }

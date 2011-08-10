@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework.Storage;
 using System.IO;
 using System.Runtime.InteropServices;
 using TDVS.Screen;
+using TDVS.Screen.Menues;
 
 namespace TDVS
 {
@@ -24,6 +25,7 @@ namespace TDVS
 		public GraphicsDeviceManager Graphics;
 		SpriteBatch spriteBatch;
 		SpriteFont font;
+		ScreenManager screenManager;
 
 		public TDVSGame()
 		{
@@ -39,7 +41,8 @@ namespace TDVS
 		/// </summary>
 		protected override void Initialize()
 		{
-			Components.Add( new ScreenManager( this ) );
+			screenManager = new ScreenManager( this );
+			Components.Add( screenManager );
 #if WINDOWS
 			Components.Add( new Cursor( this ) );
 #endif
@@ -51,6 +54,8 @@ namespace TDVS
 
 			SettingsManager.Initialize( this );
 			SettingsManager.ApplyVideoSettings();
+
+			screenManager.AddScreen( new MainMenu() );
 		}		
 
 		void Window_ClientSizeChanged( object sender, EventArgs e )
@@ -102,13 +107,13 @@ namespace TDVS
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Draw( GameTime gameTime )
 		{
-			GraphicsDevice.Clear( Color.CornflowerBlue );
+			GraphicsDevice.Clear( Color.DarkBlue );
 			FpsMeter.Update( gameTime );		
 
 			spriteBatch.Begin(); 
 
-			spriteBatch.DrawString( font, "FPS: " + ( FpsMeter.FPS ).ToString(), new Vector2( 100, 100 ), Color.Green, 0, Vector2.Zero, 1f, SpriteEffects.None, 1 );
-			spriteBatch.DrawString( font, "MS/s: " + ( gameTime.ElapsedGameTime.TotalMilliseconds ).ToString(), new Vector2( 100, 100 + font.MeasureString( "FPS: " + ( FpsMeter.FPS ).ToString() ).Y ), Color.Green, 0, Vector2.Zero, 1f, SpriteEffects.None, 1 );
+			spriteBatch.DrawString( font, "FPS: " + ( FpsMeter.FPS ).ToString(), new Vector2( 10, 10 ), Color.Green, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 1 );
+			spriteBatch.DrawString( font, "MS/f: " + ( gameTime.ElapsedGameTime.TotalMilliseconds ).ToString(), new Vector2( 10, 10 + font.LineSpacing * 0.8f ), Color.Green, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 1 );
 
 			spriteBatch.End();
 
