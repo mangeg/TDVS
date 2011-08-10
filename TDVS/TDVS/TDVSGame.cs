@@ -12,6 +12,7 @@ using TDVS.Settings;
 using Microsoft.Xna.Framework.Storage;
 using System.IO;
 using System.Runtime.InteropServices;
+using TDVS.Screen;
 
 namespace TDVS
 {
@@ -38,6 +39,7 @@ namespace TDVS
 		/// </summary>
 		protected override void Initialize()
 		{
+			Components.Add( new ScreenManager( this ) );
 #if WINDOWS
 			Components.Add( new Cursor( this ) );
 #endif

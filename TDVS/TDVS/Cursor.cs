@@ -34,8 +34,8 @@ namespace TDVS
 		{
 			base.Initialize();
 
-			Native.GetClipCursor( ref _InitialRect );
-			Clip( _ClipToWindow );
+			//Native.GetClipCursor( ref _InitialRect );
+			//Clip( _ClipToWindow );
 		}
 
 		protected override void LoadContent()
@@ -44,24 +44,6 @@ namespace TDVS
 			_SpriteBatch = new SpriteBatch( GraphicsDevice );
 			_CursorTexture = Game.Content.Load<Texture2D>( @"Textures\Cursor" );
 		}
-
-		/*
-		public override void Initialize()
-		{
-			base.Initialize();
-
-			Native.GetClipCursor( ref _InitialRect );
-			Clip( _ClipToWindow );
-		}
-
-		protected override void LoadContent()
-		{
-			base.LoadContent();
-
-			_SpriteBatch = new SpriteBatch( GraphicsDevice );
-			_CursorTexture = Game.Content.Load<Texture2D>( @"Textures\Cursor" );
-		}
-		 * */
 
 		protected override void UnloadContent()
 		{
@@ -104,7 +86,7 @@ namespace TDVS
 			set
 			{
 				_ClipToWindow = value;
-				Clip( _ClipToWindow );
+				//Clip( _ClipToWindow );
 			}
 		}
 
