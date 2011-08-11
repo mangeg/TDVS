@@ -14,7 +14,8 @@ namespace TDVS
 
 		public static void Update( GameTime gameTime )
 		{
-			totalTime += ( float )gameTime.ElapsedGameTime.TotalSeconds;			
+			totalTime += ( float )gameTime.ElapsedGameTime.TotalSeconds;
+			frameCount++;
 			if ( totalTime > 1 )
 			{
 				fps = frameCount;
@@ -23,7 +24,7 @@ namespace TDVS
 			}
 			else
 			{
-				frameCount++;
+				//frameCount++;
 			}
 		}
 

@@ -124,6 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cursor.cs" />
+    <Compile Include="FormsHelpers.cs" />
     <Compile Include="FpsMeter.cs" />
     <Compile Include="HardwareCursor.cs" />
     <Compile Include="InputAction.cs" />

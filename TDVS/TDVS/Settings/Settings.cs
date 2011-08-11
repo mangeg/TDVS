@@ -23,6 +23,7 @@ namespace TDVS.Settings
 			MouseScale = 1f;
 			MouseColor = Color.Red.ToVector4();
 			FullScreen = false;
+			VSynchEnabled = true;
 			WindowedResolution = new Resolution()
 			{
 				Width = 800,
@@ -34,6 +35,7 @@ namespace TDVS.Settings
 		public float MouseScale { get; set; }
 		public Vector4 MouseColor { get; set; }
 		public bool FullScreen { get; set; }
+		public bool VSynchEnabled { get; set; }
 
 		public Resolution WindowedResolution { get; set; }
 		public Resolution FullscreenResolution { get; set; }

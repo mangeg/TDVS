@@ -30,29 +30,7 @@ namespace TDVS
 		/// and initialize them as well.
 		/// </summary>
 		protected override void Initialize()
-		{			
-			
-			System.Drawing.Bitmap cur = new System.Drawing.Bitmap( @"Content\Textures\HWCursor.png", true );
-			var c2 = new Color( SettingsManager.Settings.VideoSettings.MouseColor );
-			for ( int i = 0; i < cur.Width; i++ )
-			{
-				for ( int j = 0; j < cur.Height; j++ )
-				{
-					System.Drawing.Color cc = cur.GetPixel( i, j );
-					if ( cc.A > 0 )
-					{
-						var red = Convert.ToInt32( ( ( c2.R - cc.R ) * 0.9 + cc.R ) );
-						var blue = Convert.ToInt32( ( ( c2.B - cc.B ) * 0.9 + cc.B ) );
-						var green = Convert.ToInt32( ( ( c2.G - cc.G ) * 0.9 + cc.G ) );
-						cur.SetPixel( i, j, System.Drawing.Color.FromArgb( cc.A, red, green, blue ) );
-					}
-				}
-			}
-			var cursor = Native.CreateCursorNoResize( cur, 24, 24, 0, 0 );
-			Native.SetCursor( Window.Handle, cursor );
-			this.IsMouseVisible = true;
-			
-
+		{
 			screenManager = new ScreenManager( this );
 			Components.Add( screenManager );
 #if WINDOWS
