@@ -9,25 +9,30 @@ namespace TDVS.Screen
 {
 	public class MenuEntry
 	{
-		private String text;
-		private Vector2 position;
-		private float selectionFade;
+		#region Fields
+		private String _Text;
+		private Vector2 _Position;
+		private float _SelectionFade;
+		private float _TimeSinceSelected;
+		#endregion
 
+		#region Properties		
 		public String Text
 		{
-			get { return text; }
-			set { text = value; }
+			get { return _Text; }
+			set { _Text = value; }
 		}
 		public Vector2 Position
 		{
-			get { return position; }
-			set { position = value; }
+			get { return _Position; }
+			set { _Position = value; }
 		}
 		public float SelectionFade
 		{
-			get { return selectionFade; }
-			set { selectionFade = value; }
+			get { return _SelectionFade; }
+			set { _SelectionFade = value; }
 		}
+		#endregion
 
 		public event EventHandler Selected;
 
@@ -42,36 +47,52 @@ namespace TDVS.Screen
 			float fadeSpeed = ( float )gameTime.ElapsedGameTime.TotalSeconds * 4;
 
 			if ( isSelected )
-				selectionFade = Math.Min( selectionFade + fadeSpeed, 1 );
+			{
+				_SelectionFade = Math.Min( _SelectionFade + fadeSpeed, 1 );
+			}
 			else
-				selectionFade = Math.Max( selectionFade - fadeSpeed, 0 );
+			{
+				_SelectionFade = Math.Max( _SelectionFade - fadeSpeed, 0 );
+			}
 		}
+
 		public virtual void Draw( MenuScreen screen, bool isSelected, GameTime gameTime )
 		{
-			var screenManager = screen.ScreenManager;
-			var spriteBatch = screenManager.SpriteBatch;
-			var font = screenManager.DefaultFont;
+			var spriteBatch = screen.ScreenManager.SpriteBatch;
+			var font = screen.ScreenManager.DefaultFont;
 
-			// Draw the selected entry in yellow, otherwise white.
 			Color color = isSelected ? Color.Yellow : Color.White;
 
-			// Pulsate the size of the selected menu entry.
 			double time = gameTime.TotalGameTime.TotalSeconds;
-			float pulsate = ( float )Math.Sin( time * 4 ) + 1;
-			float scale = 1 + pulsate * 0.1f * selectionFade;
+			float scale = 1 + 0.15f * _SelectionFade;
 
 			Vector2 origin = new Vector2( 0, font.LineSpacing / 2 );
-			spriteBatch.DrawString( font, text, position, color, 0,
+			color *= screen.TransitionAlpha;
+
+
+			spriteBatch.DrawString( font, _Text, _Position, color, 0,
 								  origin, scale, SpriteEffects.None, 0 );
 		}
 
+		#region Helpers
 		public virtual int GetHeight( SpriteFont font )
 		{
 			return font.LineSpacing;
 		}
 		public virtual int GetWidth( SpriteFont font )
 		{
-			return ( int )font.MeasureString( text ).X;
+			return ( int )font.MeasureString( _Text ).X;
 		}
+		public virtual bool IsMouseOver( SpriteFont font, int x, int y )
+		{
+			int w = GetWidth( font );
+			int h = GetHeight( font );
+			if ( x > _Position.X && x < _Position.X + w
+				&& y > _Position.Y - font.LineSpacing / 2 && y < _Position.Y + font.LineSpacing / 2 + h )
+				return true;
+
+			return false;
+		}
+		#endregion
 	}
 }

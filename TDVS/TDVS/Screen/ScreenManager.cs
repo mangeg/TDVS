@@ -10,18 +10,19 @@ namespace TDVS.Screen
 {
 	public class ScreenManager : DrawableGameComponent
 	{
-		private Texture2D blankTexture;
-		private SpriteFont defaultFont;
-		private SpriteBatch spriteBatch;
-		private List<GameScreen> screens = new List<GameScreen>();
+		private Texture2D _BlankTexture;
+		private SpriteFont _DefaultFont;
+		private SpriteBatch _SpriteBatch;
+		private List<GameScreen> _TempScreens = new List<GameScreen>();
+		private List<GameScreen> _Screens = new List<GameScreen>();
 
 		public SpriteBatch SpriteBatch
 		{
-			get { return spriteBatch; }
+			get { return _SpriteBatch; }
 		}
 		public SpriteFont DefaultFont
 		{
-			get { return defaultFont; }
+			get { return _DefaultFont; }
 		}
 
 		public ScreenManager( Game game )
@@ -38,9 +39,9 @@ namespace TDVS.Screen
 		{
 			base.LoadContent();
 
-			spriteBatch = new SpriteBatch( GraphicsDevice );
-			blankTexture = Game.Content.Load<Texture2D>( @"Textures\blank" );
-			defaultFont = Game.Content.Load<SpriteFont>( @"Fonts\DefaultMenuFont" );
+			_SpriteBatch = new SpriteBatch( GraphicsDevice );
+			_BlankTexture = Game.Content.Load<Texture2D>( @"Textures\blank" );
+			_DefaultFont = Game.Content.Load<SpriteFont>( @"Fonts\DefaultMenuFont" );
 		}
 
 		protected override void UnloadContent()
@@ -52,10 +53,36 @@ namespace TDVS.Screen
 		{
 			base.Update( gameTime );
 
-			foreach ( var screen in screens )
+			_TempScreens.Clear();
+
+			foreach ( var item in _Screens )
 			{
-				screen.HandleInput( gameTime );
-				screen.Update( gameTime );
+				_TempScreens.Add( item );
+			}
+
+			bool otherScreenHasFocus = !Game.IsActive;
+			bool coveredByOtherScreen = false;
+
+			for ( int i = _TempScreens.Count - 1; i >= 0; i-- )
+			{
+				var screen = _TempScreens[ i ];
+
+				screen.Update( gameTime, otherScreenHasFocus, coveredByOtherScreen );
+
+				if ( screen.ScreenState == GameScreenState.TransitionOn ||
+					screen.ScreenState == GameScreenState.Active )
+				{
+					if ( !otherScreenHasFocus )
+					{
+						screen.HandleInput( gameTime );
+						otherScreenHasFocus = true;
+					}
+
+					if ( !screen.IsPopup )
+					{
+						coveredByOtherScreen = true;
+					}
+				}
 			}
 		}
 
@@ -63,8 +90,11 @@ namespace TDVS.Screen
 		{
 			base.Draw( gameTime );
 
-			foreach ( var screen in screens )
+			foreach ( var screen in _Screens )
 			{
+				if ( screen.ScreenState == GameScreenState.Hidden )
+					continue;
+
 				screen.Draw( gameTime );
 			}
 		}
@@ -72,7 +102,12 @@ namespace TDVS.Screen
 		public void AddScreen( GameScreen screen )
 		{
 			screen.ScreenManager = this;
-			screens.Add( screen );
+			_Screens.Add( screen );
+		}
+		public void RemoveSceen( GameScreen screen )
+		{
+			screen.Unload();
+			_Screens.Remove( screen );
 		}
 	}
 }

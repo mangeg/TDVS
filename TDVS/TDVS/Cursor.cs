@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using TDVS.Settings;
-using Microsoft.Xna.Framework.Content;
 
 namespace TDVS
 {
 	public class Cursor : DrawableGameComponent
 	{
 		private SpriteBatch _SpriteBatch;
+		private SpriteBatch __SpriteBatch2;
 		private Texture2D _CursorTexture;
 
 		private static bool _IsVisible;
@@ -34,8 +30,8 @@ namespace TDVS
 		{
 			base.Initialize();
 
-			//Native.GetClipCursor( ref _InitialRect );
-			//Clip( _ClipToWindow );
+			Native.GetClipCursor( ref _InitialRect );
+			Clip( _ClipToWindow );
 		}
 
 		protected override void LoadContent()
@@ -47,7 +43,7 @@ namespace TDVS
 
 		protected override void UnloadContent()
 		{
-			//Native.ClipCursor( ref _InitialRect );
+			Native.ClipCursor( ref _InitialRect );
 		}
 
 		public override void Update( GameTime gameTime )
@@ -66,8 +62,10 @@ namespace TDVS
 			Color c = new Color( SettingsManager.Settings.VideoSettings.MouseColor );
 
 			_SpriteBatch.Begin();
+			// Shadow
 			_SpriteBatch.Draw( _CursorTexture, p2, null, Color.Black, 0f, Vector2.Zero,
 				SettingsManager.Settings.VideoSettings.MouseScale, SpriteEffects.None, 1 );
+			// Main
 			_SpriteBatch.Draw( _CursorTexture, p, null, c,
 				0f, Vector2.Zero,
 				SettingsManager.Settings.VideoSettings.MouseScale, SpriteEffects.None, 1 );
@@ -86,7 +84,7 @@ namespace TDVS
 			set
 			{
 				_ClipToWindow = value;
-				//Clip( _ClipToWindow );
+				Clip( _ClipToWindow );
 			}
 		}
 
@@ -97,11 +95,11 @@ namespace TDVS
 				Rectangle rect = Game.Window.ClientBounds;
 				rect.Width += rect.X;
 				rect.Height += rect.Y;
-				Native.ClipCursor( ref rect );
+				//Native.ClipCursor( ref rect );
 			}
 			else
 			{
-				Native.ClipCursor( ref _InitialRect );
+				//Native.ClipCursor( ref _InitialRect );
 			}
 		}
 	}

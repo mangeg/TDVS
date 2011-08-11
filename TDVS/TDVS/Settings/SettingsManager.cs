@@ -64,7 +64,7 @@ namespace TDVS.Settings
 		public static void ApplyVideoSettings()
 		{
 			_Game.IsFixedTimeStep = false;
-			//graphics.SynchronizeWithVerticalRetrace = false;
+			//_Game.Graphics.SynchronizeWithVerticalRetrace = false;
 
 			var S = SettingsManager.Settings;
 			if ( S.VideoSettings.FullscreenResolution.Width == 0 )

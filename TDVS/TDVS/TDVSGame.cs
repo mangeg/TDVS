@@ -1,19 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
-using TDVS.Settings;
-using Microsoft.Xna.Framework.Storage;
-using System.IO;
-using System.Runtime.InteropServices;
 using TDVS.Screen;
 using TDVS.Screen.Menues;
+using TDVS.Settings;
 
 namespace TDVS
 {
@@ -40,11 +30,33 @@ namespace TDVS
 		/// and initialize them as well.
 		/// </summary>
 		protected override void Initialize()
-		{
+		{			
+			
+			System.Drawing.Bitmap cur = new System.Drawing.Bitmap( @"Content\Textures\HWCursor.png", true );
+			var c2 = new Color( SettingsManager.Settings.VideoSettings.MouseColor );
+			for ( int i = 0; i < cur.Width; i++ )
+			{
+				for ( int j = 0; j < cur.Height; j++ )
+				{
+					System.Drawing.Color cc = cur.GetPixel( i, j );
+					if ( cc.A > 0 )
+					{
+						var red = Convert.ToInt32( ( ( c2.R - cc.R ) * 0.9 + cc.R ) );
+						var blue = Convert.ToInt32( ( ( c2.B - cc.B ) * 0.9 + cc.B ) );
+						var green = Convert.ToInt32( ( ( c2.G - cc.G ) * 0.9 + cc.G ) );
+						cur.SetPixel( i, j, System.Drawing.Color.FromArgb( cc.A, red, green, blue ) );
+					}
+				}
+			}
+			var cursor = Native.CreateCursorNoResize( cur, 24, 24, 0, 0 );
+			Native.SetCursor( Window.Handle, cursor );
+			this.IsMouseVisible = true;
+			
+
 			screenManager = new ScreenManager( this );
 			Components.Add( screenManager );
 #if WINDOWS
-			Components.Add( new Cursor( this ) );
+			//Components.Add( new Cursor( this ) );
 #endif
 
 			base.Initialize();
@@ -56,7 +68,7 @@ namespace TDVS
 			SettingsManager.ApplyVideoSettings();
 
 			screenManager.AddScreen( new MainMenu() );
-		}		
+		}
 
 		void Window_ClientSizeChanged( object sender, EventArgs e )
 		{
@@ -108,9 +120,9 @@ namespace TDVS
 		protected override void Draw( GameTime gameTime )
 		{
 			GraphicsDevice.Clear( Color.DarkBlue );
-			FpsMeter.Update( gameTime );		
+			FpsMeter.Update( gameTime );
 
-			spriteBatch.Begin(); 
+			spriteBatch.Begin();
 
 			spriteBatch.DrawString( font, "FPS: " + ( FpsMeter.FPS ).ToString(), new Vector2( 10, 10 ), Color.Green, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 1 );
 			spriteBatch.DrawString( font, "MS/f: " + ( gameTime.ElapsedGameTime.TotalMilliseconds ).ToString(), new Vector2( 10, 10 + font.LineSpacing * 0.8f ), Color.Green, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 1 );

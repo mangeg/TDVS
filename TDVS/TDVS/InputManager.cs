@@ -14,6 +14,9 @@ namespace TDVS
 		RightButton,
 		XButton1,
 		XButton2,
+		ScrollUp,
+		ScrollDown,
+		Move,
 	}
 
 	static class InputManager
@@ -24,46 +27,46 @@ namespace TDVS
 		}
 
 		#region Keyboard
-		private static KeyboardState _currentKeyboardState;
-		private static KeyboardState _prevKeyboardState;
+		private static KeyboardState _CurrentKeyboardState;
+		private static KeyboardState _PrevKeyboardState;
 
 		public static KeyboardState CurrentKeyboardState
 		{
-			get { return _currentKeyboardState; }
+			get { return _CurrentKeyboardState; }
 		}
 		public static KeyboardState PreviousKeyboardState
 		{
-			get { return _prevKeyboardState; }
+			get { return _PrevKeyboardState; }
 		}
 
 		public static bool IsKeyPressed( Keys key )
 		{
-			return _currentKeyboardState.IsKeyDown( key );
+			return _CurrentKeyboardState.IsKeyDown( key );
 		}
 		public static bool IsKeyTriggered( Keys key )
 		{
-			return _currentKeyboardState.IsKeyDown( key ) &&
-				!_prevKeyboardState.IsKeyDown( key );
+			return _CurrentKeyboardState.IsKeyDown( key ) &&
+				!_PrevKeyboardState.IsKeyDown( key );
 		}
 		#endregion
 
 		#region Mouse
 
-		private static MouseState _currentMouseState;
-		private static MouseState _prevMouseState;
+		private static MouseState _CurrentMouseState;
+		private static MouseState _PrevMouseState;
 
 		public static MouseState CurrentMouseState
 		{
 			get
 			{
-				return _currentMouseState;
+				return _CurrentMouseState;
 			}
 		}
 		public static MouseState PreviousMouseState
 		{
 			get
 			{
-				return _prevMouseState;
+				return _PrevMouseState;
 
 			}
 		}
@@ -73,15 +76,19 @@ namespace TDVS
 			switch ( button )
 			{
 				case MouseButtons.LeftButton:
-					return _currentMouseState.LeftButton == ButtonState.Pressed;
+					return _CurrentMouseState.LeftButton == ButtonState.Pressed;
 				case MouseButtons.MiddleButton:
-					return _currentMouseState.MiddleButton == ButtonState.Pressed;
+					return _CurrentMouseState.MiddleButton == ButtonState.Pressed;
 				case MouseButtons.RightButton:
-					return _currentMouseState.RightButton == ButtonState.Pressed;
+					return _CurrentMouseState.RightButton == ButtonState.Pressed;
 				case MouseButtons.XButton1:
-					return _currentMouseState.XButton1 == ButtonState.Pressed;
+					return _CurrentMouseState.XButton1 == ButtonState.Pressed;
 				case MouseButtons.XButton2:
-					return _currentMouseState.XButton2 == ButtonState.Pressed;
+					return _CurrentMouseState.XButton2 == ButtonState.Pressed;		
+				case MouseButtons.ScrollUp:
+					return _CurrentMouseState.ScrollWheelValue - _PrevMouseState.ScrollWheelValue > 0;
+				case MouseButtons.ScrollDown:
+					return _CurrentMouseState.ScrollWheelValue - _PrevMouseState.ScrollWheelValue < 0;
 				default:
 					return false;
 			}
@@ -91,34 +98,45 @@ namespace TDVS
 			switch ( button )
 			{
 				case MouseButtons.LeftButton:
-					return _currentMouseState.LeftButton == ButtonState.Pressed && 
-						_prevMouseState.LeftButton == ButtonState.Released;
+					return _CurrentMouseState.LeftButton == ButtonState.Pressed && 
+						_PrevMouseState.LeftButton == ButtonState.Released;
 				case MouseButtons.MiddleButton:
-					return _currentMouseState.MiddleButton == ButtonState.Pressed && 
-						_prevMouseState.MiddleButton == ButtonState.Released;
+					return _CurrentMouseState.MiddleButton == ButtonState.Pressed && 
+						_PrevMouseState.MiddleButton == ButtonState.Released;
 				case MouseButtons.RightButton:
-					return _currentMouseState.RightButton == ButtonState.Pressed && 
-						_prevMouseState.RightButton == ButtonState.Released;
+					return _CurrentMouseState.RightButton == ButtonState.Pressed && 
+						_PrevMouseState.RightButton == ButtonState.Released;
 				case MouseButtons.XButton1:
-					return _currentMouseState.XButton1 == ButtonState.Pressed && 
-						_prevMouseState.XButton1 == ButtonState.Released;
+					return _CurrentMouseState.XButton1 == ButtonState.Pressed && 
+						_PrevMouseState.XButton1 == ButtonState.Released;
 				case MouseButtons.XButton2:
-					return _currentMouseState.XButton2 == ButtonState.Pressed && 
-						_prevMouseState.XButton2 == ButtonState.Released;
+					return _CurrentMouseState.XButton2 == ButtonState.Pressed && 
+						_PrevMouseState.XButton2 == ButtonState.Released;
+				case MouseButtons.ScrollUp:
+					return _CurrentMouseState.ScrollWheelValue - _PrevMouseState.ScrollWheelValue < 0;
+				case MouseButtons.ScrollDown:
+					return _CurrentMouseState.ScrollWheelValue - _PrevMouseState.ScrollWheelValue > 0;
 				default:
 					return false;
 			}
 		}
+		public static bool MouseMoved
+		{
+			get
+			{
+				return _CurrentMouseState != _PrevMouseState;
+			}
+		}
 		public static Point MousePosition
 		{
-			get { return new Point( _currentMouseState.X, _currentMouseState.Y ); }
+			get { return new Point( _CurrentMouseState.X, _CurrentMouseState.Y ); }
 		}
 		public static Vector2 MouseDelta
 		{
 			get
 			{
-				int dX = _currentMouseState.X - _prevMouseState.X;
-				int dY = _currentMouseState.Y - _prevMouseState.Y;
+				int dX = _CurrentMouseState.X - _PrevMouseState.X;
+				int dY = _CurrentMouseState.Y - _PrevMouseState.Y;
 				return new Vector2( dX, dY );
 			}
 		}
@@ -127,11 +145,11 @@ namespace TDVS
 
 		public static void Update()
 		{
-			_prevKeyboardState = _currentKeyboardState;
-			_currentKeyboardState = Keyboard.GetState();
+			_PrevKeyboardState = _CurrentKeyboardState;
+			_CurrentKeyboardState = Keyboard.GetState();
 
-			_prevMouseState = _currentMouseState;
-			_currentMouseState = Mouse.GetState();
+			_PrevMouseState = _CurrentMouseState;
+			_CurrentMouseState = Mouse.GetState();
 		}
 	}
 }

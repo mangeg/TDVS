@@ -10,12 +10,30 @@ namespace TDVS.Screen.Menues
 		public MainMenu()
 			: base( "Main menu" )
 		{
-			MenuEntries.Add( new MenuEntry() { Text = "Myuu" } );
-			MenuEntries.Add( new MenuEntry() { Text = "Myuu1" } );
-			MenuEntries.Add( new MenuEntry() { Text = "Myuu2sgdgsdg" } );
-			MenuEntries.Add( new MenuEntry() { Text = "Myuu3sdsdh" } );
-			MenuEntries.Add( new MenuEntry() { Text = "Myuu4sdgsdg" } );
-			MenuEntries.Add( new MenuEntry() { Text = "Myuu52523" } );
+			MenuEntry newGame = new MenuEntry() { Text = "New Game" };
+			MenuEntry options = new MenuEntry() { Text = "Options" };
+			MenuEntry exit = new MenuEntry() { Text = "Exit" };
+
+			exit.Selected += new EventHandler( exit_Selected );
+			options.Selected += new EventHandler( options_Selected );
+
+			MenuEntries.Add( newGame );
+			MenuEntries.Add( options );
+			MenuEntries.Add( exit );
+		}
+
+		void options_Selected( object sender, EventArgs e )
+		{
+			ScreenManager.AddScreen( new OptionsMenu() );
+		}
+		void exit_Selected( object sender, EventArgs e )
+		{
+			ScreenManager.Game.Exit();
+		}
+
+		protected override void OnCancel()
+		{
+			
 		}
 	}
 }
