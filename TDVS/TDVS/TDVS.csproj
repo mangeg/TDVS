@@ -123,6 +123,7 @@
   <ItemGroup>
     <Compile Include="Cursor.cs" />
     <Compile Include="FpsMeter.cs" />
+    <Compile Include="InputAction.cs" />
     <Compile Include="InputManager.cs" />
     <Compile Include="Native.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

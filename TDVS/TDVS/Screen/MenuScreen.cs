@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace TDVS.Screen
 {
@@ -13,9 +14,15 @@ namespace TDVS.Screen
 		List<MenuEntry> menuEntries = new List<MenuEntry>();
 		int selectedEntry = 3;
 
+		private InputAction menuUp;
+		private InputAction menuDown;
+
 		public MenuScreen( String title )
 		{
 			menuTitle = title;
+
+			menuUp = new InputAction( new Keys[] { Keys.Up }, null, true );
+			menuDown = new InputAction( new Keys[] { Keys.Down }, null, true );
 		}
 
 		protected IList<MenuEntry> MenuEntries
@@ -25,10 +32,17 @@ namespace TDVS.Screen
 
 		public override void HandleInput( GameTime gameTime )
 		{
-			if ( false )
-			{
+			base.HandleInput( gameTime );
 
-			}
+			if ( menuUp.Evaluate() )
+				selectedEntry--;
+			if ( menuDown.Evaluate() )
+				selectedEntry++;
+
+			if ( selectedEntry < 0 )
+				selectedEntry = menuEntries.Count - 1;
+			if ( selectedEntry > menuEntries.Count - 1 )
+				selectedEntry = 0;
 		}
 
 		protected virtual void OnEnterySelected( int index )
@@ -40,7 +54,6 @@ namespace TDVS.Screen
 		{
 			base.Update( gameTime );
 
-			// Update each nested MenuEntry object.
 			for ( int i = 0; i < menuEntries.Count; i++ )
 			{
 				bool isSelected = ( i == selectedEntry );

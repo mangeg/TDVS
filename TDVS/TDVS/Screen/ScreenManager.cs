@@ -54,6 +54,7 @@ namespace TDVS.Screen
 
 			foreach ( var screen in screens )
 			{
+				screen.HandleInput( gameTime );
 				screen.Update( gameTime );
 			}
 		}
