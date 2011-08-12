@@ -10,10 +10,11 @@ namespace TDVS.Screen
 	public class MenuEntry
 	{
 		#region Fields
+		private static readonly float _ScaleFactor = 0.2f;
 		private String _Text;
 		private Vector2 _Position;
+		private float _Scale;
 		private float _SelectionFade;
-		private float _TimeSinceSelected;
 		#endregion
 
 		#region Properties		
@@ -54,6 +55,8 @@ namespace TDVS.Screen
 			{
 				_SelectionFade = Math.Max( _SelectionFade - fadeSpeed, 0 );
 			}
+
+			_Scale = 1 + _ScaleFactor * _SelectionFade;
 		}
 
 		public virtual void Draw( MenuScreen screen, bool isSelected, GameTime gameTime )
@@ -64,14 +67,13 @@ namespace TDVS.Screen
 			Color color = isSelected ? Color.Yellow : Color.White;
 
 			double time = gameTime.TotalGameTime.TotalSeconds;
-			float scale = 1 + 0.15f * _SelectionFade;
 
 			Vector2 origin = new Vector2( 0, font.LineSpacing / 2 );
 			color *= screen.TransitionAlpha;
 
 
 			spriteBatch.DrawString( font, _Text, _Position, color, 0,
-								  origin, scale, SpriteEffects.None, 0 );
+								  origin, _Scale, SpriteEffects.None, 0 );
 		}
 
 		#region Helpers
@@ -81,7 +83,7 @@ namespace TDVS.Screen
 		}
 		public virtual int GetWidth( SpriteFont font )
 		{
-			return ( int )font.MeasureString( _Text ).X;
+			return ( int )( font.MeasureString( _Text ).X * _Scale );
 		}
 		public virtual bool IsMouseOver( SpriteFont font, int x, int y )
 		{

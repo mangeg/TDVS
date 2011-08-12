@@ -59,6 +59,14 @@ namespace TDVS
 			ptr = CreateIconIndirect( ref tmp );
 			return new System.Windows.Forms.Cursor( ptr );
 		}
+		public static System.Windows.Forms.Cursor CreateCursor( System.Drawing.Bitmap bmp, float scale )
+		{
+			return CreateCursor( bmp, ( int )( bmp.Width * scale ), ( int )( bmp.Height * scale ) );
+		}
+		public static System.Windows.Forms.Cursor CreateCursor( System.Drawing.Bitmap bmp, float scale, int xHotSpot, int yHotSpot )
+		{
+			return CreateCursor( bmp, ( int )( bmp.Width * scale ), ( int )( bmp.Height * scale ), xHotSpot, yHotSpot );
+		}
 		public static void SetCursor( IntPtr handle, System.Windows.Forms.Cursor cursor )
 		{
 			System.Windows.Forms.Form.FromHandle( handle ).Cursor = cursor;

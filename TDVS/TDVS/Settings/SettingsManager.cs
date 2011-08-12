@@ -65,10 +65,10 @@ namespace TDVS.Settings
 		{
 			HardwareCursor.ApplyCursor( _Game.Window.Handle,
 				@"Content\Textures\HWCursor.png",
-				Point.Zero, Point.Zero, new Color( Settings.VideoSettings.MouseColor ) );
+				Settings.VideoSettings.MouseScale, Point.Zero, new Color( Settings.VideoSettings.MouseColor ) );
 
 			_Game.IsMouseVisible = true;
-			//_Game.IsFixedTimeStep = false;
+			_Game.IsFixedTimeStep = false;
 			_Game.Graphics.SynchronizeWithVerticalRetrace = Settings.VideoSettings.VSynchEnabled;
 
 			var S = SettingsManager.Settings;

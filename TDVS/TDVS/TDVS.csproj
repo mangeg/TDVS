@@ -144,7 +144,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Textures\HWCursor.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
