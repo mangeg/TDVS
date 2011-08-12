@@ -65,7 +65,7 @@ namespace TDVS.Settings
 		{
 			HardwareCursor.ApplyCursor( _Game.Window.Handle,
 				@"Content\Textures\HWCursor.png",
-				Settings.VideoSettings.MouseScale, Point.Zero, new Color( Settings.VideoSettings.MouseColor ) );
+				Settings.VideoSettings.MouseScale, new Point( 9, 3 ), new Color( Settings.VideoSettings.MouseColor ) );
 
 			_Game.IsMouseVisible = true;
 			_Game.IsFixedTimeStep = false;

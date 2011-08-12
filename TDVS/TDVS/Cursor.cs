@@ -4,6 +4,9 @@ using TDVS.Settings;
 
 namespace TDVS
 {
+	/// <summary>
+	/// Software cursor class
+	/// </summary>
 	public class Cursor : DrawableGameComponent
 	{
 		private SpriteBatch _SpriteBatch;
@@ -14,6 +17,10 @@ namespace TDVS
 		private static bool _ClipToWindow;
 		private static Rectangle _InitialRect;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Cursor"/> class.
+		/// </summary>
+		/// <param name="game">The Game that the game component should be attached to.</param>
 		public Cursor( Game game )
 			: base( game )
 		{
@@ -26,6 +33,9 @@ namespace TDVS
 			_ClipToWindow = false;
 		}
 
+		/// <summary>
+		/// Initializes the component. Override this method to load any non-graphics resources and query for any required services.
+		/// </summary>
 		public override void Initialize()
 		{
 			base.Initialize();
@@ -34,6 +44,9 @@ namespace TDVS
 			Clip( _ClipToWindow );
 		}
 
+		/// <summary>
+		/// Called when graphics resources need to be loaded. Override this method to load any component-specific graphics resources.
+		/// </summary>
 		protected override void LoadContent()
 		{
 			base.LoadContent();
@@ -41,16 +54,27 @@ namespace TDVS
 			_CursorTexture = Game.Content.Load<Texture2D>( @"Textures\Cursor" );
 		}
 
+		/// <summary>
+		/// Called when graphics resources need to be unloaded. Override this method to unload any component-specific graphics resources.
+		/// </summary>
 		protected override void UnloadContent()
 		{
 			Native.ClipCursor( ref _InitialRect );
 		}
 
+		/// <summary>
+		/// Called when the GameComponent needs to be updated. Override this method with component-specific update code.
+		/// </summary>
+		/// <param name="gameTime">Time elapsed since the last call to Update</param>
 		public override void Update( GameTime gameTime )
 		{
 			base.Update( gameTime );
 		}
 
+		/// <summary>
+		/// Called when the DrawableGameComponent needs to be drawn. Override this method with component-specific drawing code. Reference page contains links to related conceptual articles.
+		/// </summary>
+		/// <param name="gameTime">Time passed since the last call to Draw.</param>
 		public override void Draw( GameTime gameTime )
 		{
 			base.Draw( gameTime );
@@ -72,12 +96,24 @@ namespace TDVS
 			_SpriteBatch.End();
 		}
 
+		/// <summary>
+		/// Gets or sets a value indicating whether this instance is visible.
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if this instance is visible; otherwise, <c>false</c>.
+		/// </value>
 		public static bool IsVisible
 		{
 			get { return _IsVisible; }
 			set { _IsVisible = value; }
 		}
 
+		/// <summary>
+		/// Gets or sets a value indicating whether to clip the mouse to the current window.
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if [clip to window]; otherwise, <c>false</c>.
+		/// </value>
 		public bool ClipToWindow
 		{
 			get { return _ClipToWindow; }

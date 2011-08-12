@@ -7,6 +7,9 @@ using Microsoft.Xna.Framework;
 
 namespace TDVS
 {
+	/// <summary>
+	/// Enum over possible actions with the mouse.
+	/// </summary>
 	public enum MouseButtons
 	{
 		LeftButton,
@@ -19,6 +22,9 @@ namespace TDVS
 		Move,
 	}
 
+	/// <summary>
+	/// Static class for managing user input
+	/// </summary>
 	static class InputManager
 	{
 		static InputManager()
@@ -30,19 +36,45 @@ namespace TDVS
 		private static KeyboardState _CurrentKeyboardState;
 		private static KeyboardState _PrevKeyboardState;
 
+		/// <summary>
+		/// Gets the state of the current keyboard.
+		/// </summary>
+		/// <value>
+		/// The state of the current keyboard.
+		/// </value>
 		public static KeyboardState CurrentKeyboardState
 		{
 			get { return _CurrentKeyboardState; }
 		}
+		/// <summary>
+		/// Gets the previous state of the keyboard.
+		/// </summary>
+		/// <value>
+		/// The state of the previous keyboard.
+		/// </value>
 		public static KeyboardState PreviousKeyboardState
 		{
 			get { return _PrevKeyboardState; }
 		}
 
+		/// <summary>
+		/// Determines whether a specific key is currently pressed.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <returns>
+		///   <c>true</c> if the kkey is pressed; otherwise, <c>false</c>.
+		/// </returns>
 		public static bool IsKeyPressed( Keys key )
 		{
 			return _CurrentKeyboardState.IsKeyDown( key );
 		}
+		/// <summary>
+		/// Determines whether the specified key was triggered during the most recent update. Have to release and press it again to trigger it again.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <returns>
+		///   <c>true</c> if the key was pressed during the most recent update; otherwise, <c>false</c>.
+		/// </returns>
 		public static bool IsKeyTriggered( Keys key )
 		{
 			return _CurrentKeyboardState.IsKeyDown( key ) &&
@@ -55,6 +87,12 @@ namespace TDVS
 		private static MouseState _CurrentMouseState;
 		private static MouseState _PrevMouseState;
 
+		/// <summary>
+		/// Gets the current state of the mouse.
+		/// </summary>
+		/// <value>
+		/// The current state of the mouse.
+		/// </value>
 		public static MouseState CurrentMouseState
 		{
 			get
@@ -62,6 +100,12 @@ namespace TDVS
 				return _CurrentMouseState;
 			}
 		}
+		/// <summary>
+		/// Gets the previous state of the mouse.
+		/// </summary>
+		/// <value>
+		/// The previous state of the mouse.
+		/// </value>
 		public static MouseState PreviousMouseState
 		{
 			get
@@ -71,6 +115,13 @@ namespace TDVS
 			}
 		}
 
+		/// <summary>
+		/// Determines whether the specified mouse action is pressed.
+		/// </summary>
+		/// <param name="button">The button.</param>
+		/// <returns>
+		///   <c>true</c> if the action is pressed; otherwise, <c>false</c>.
+		/// </returns>
 		public static bool IsMouseButtonPressed( MouseButtons button )
 		{
 			switch ( button )
@@ -93,6 +144,14 @@ namespace TDVS
 					return false;
 			}
 		}
+		/// <summary>
+		/// Determines whether the specified mouse action was triggered during the most recent update.
+		/// Have to be released and pressed again to cause another trigger.
+		/// </summary>
+		/// <param name="button">The button.</param>
+		/// <returns>
+		///   <c>true</c> if the mouse action was triggered during the most recent update; otherwise, <c>false</c>.
+		/// </returns>
 		public static bool IsMouseButtonTriggered( MouseButtons button )
 		{
 			switch ( button )
@@ -120,6 +179,12 @@ namespace TDVS
 					return false;
 			}
 		}
+		/// <summary>
+		/// Gets a value indicating whether the mouse has moved since the last update.
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if moved; otherwise, <c>false</c>.
+		/// </value>
 		public static bool MouseMoved
 		{
 			get
@@ -127,10 +192,16 @@ namespace TDVS
 				return _CurrentMouseState != _PrevMouseState;
 			}
 		}
+		/// <summary>
+		/// Gets the current mouse position.
+		/// </summary>
 		public static Point MousePosition
 		{
 			get { return new Point( _CurrentMouseState.X, _CurrentMouseState.Y ); }
 		}
+		/// <summary>
+		/// Gets the mouse delta movement since last update.
+		/// </summary>
 		public static Vector2 MouseDelta
 		{
 			get
@@ -143,6 +214,9 @@ namespace TDVS
 
 		#endregion
 
+		/// <summary>
+		/// Updates this instance and fetch new states for input devices.
+		/// </summary>
 		public static void Update()
 		{
 			_PrevKeyboardState = _CurrentKeyboardState;

@@ -141,13 +141,14 @@ namespace TDVS.Screen
 		protected virtual void UpdateMenuEntryLocations()
 		{
 			float transitionOffset = ( float )Math.Pow( TransitionPosition, 2 );
-			Vector2 position = new Vector2( 0f, 120f );
-			var center = ScreenManager.GraphicsDevice.Viewport.Width / 2;
+			Vector2 position = new Vector2( 55f, 150f );
+			//var center = ScreenManager.GraphicsDevice.Viewport.Width / 2;
 
 			for ( int i = 0; i < _MenuEntries.Count; i++ )
 			{
 				MenuEntry entry = _MenuEntries[ i ];
-				position.X = center - entry.GetWidth( ScreenManager.DefaultFont ) / 2;
+				//position.X =  - entry.GetWidth( ScreenManager.DefaultFont ) / 2;
+				position.X = 55f;
 
 				if ( ScreenState == GameScreenState.TransitionOn )
 					position.X -= transitionOffset * 256;

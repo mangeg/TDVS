@@ -6,12 +6,19 @@ using Microsoft.Xna.Framework;
 
 namespace TDVS
 {
+	/// <summary>
+	/// Static class for monitoring FPS
+	/// </summary>
 	public static class FpsMeter
 	{
 		private static float totalTime = 0f;
 		private static int frameCount = 0;
 		private static int fps = 0;
 
+		/// <summary>
+		/// Updates the meter with specified game time.
+		/// </summary>
+		/// <param name="gameTime">The game time.</param>
 		public static void Update( GameTime gameTime )
 		{
 			totalTime += ( float )gameTime.ElapsedGameTime.TotalSeconds;
@@ -28,6 +35,9 @@ namespace TDVS
 			}
 		}
 
+		/// <summary>
+		/// Gets the current FPS.
+		/// </summary>
 		public static int FPS { get { return fps; } }
 	}
 }

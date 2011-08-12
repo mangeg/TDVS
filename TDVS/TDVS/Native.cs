@@ -65,7 +65,7 @@ namespace TDVS
 		}
 		public static System.Windows.Forms.Cursor CreateCursor( System.Drawing.Bitmap bmp, float scale, int xHotSpot, int yHotSpot )
 		{
-			return CreateCursor( bmp, ( int )( bmp.Width * scale ), ( int )( bmp.Height * scale ), xHotSpot, yHotSpot );
+			return CreateCursor( bmp, ( int )( bmp.Width * scale ), ( int )( bmp.Height * scale ), ( int )( xHotSpot * scale ), ( int )( yHotSpot * scale ) );
 		}
 		public static void SetCursor( IntPtr handle, System.Windows.Forms.Cursor cursor )
 		{

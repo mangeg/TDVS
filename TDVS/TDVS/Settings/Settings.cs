@@ -20,8 +20,8 @@ namespace TDVS.Settings
 	{
 		public VideoSettings()
 		{
-			MouseScale = 1f;
-			MouseColor = Color.Red.ToVector4();
+			MouseScale = 0.9f;
+			MouseColor = new Vector4(0.99f, 0.64f, 0.8f, 1f);
 			FullScreen = false;
 			VSynchEnabled = true;
 			WindowedResolution = new Resolution()
