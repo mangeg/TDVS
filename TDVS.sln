@@ -1,9 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDVS", "TDVS\TDVS\TDVS.csproj", "{8494FB24-B4FD-40C0-BD95-CE38128E5FD5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDVS.Game", "TDVS\TDVS.Game\TDVS.Game.csproj", "{8494FB24-B4FD-40C0-BD95-CE38128E5FD5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDVSContent", "TDVS\TDVSContent\TDVSContent.contentproj", "{387B23EC-80D8-49D1-9A0D-0F2F0DCBCB96}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDVS.Game.Content", "TDVS\TDVS.Game.Content\TDVS.Game.Content.contentproj", "{387B23EC-80D8-49D1-9A0D-0F2F0DCBCB96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDVS.Common", "TDVS\TDVS.Common\TDVS.Common.csproj", "{DB950256-DF8A-4167-9B98-184ECEC0784E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDVS.Server", "TDVS\TDVS.Server\TDVS.Server.csproj", "{BBEE98D5-7B23-4AF0-8725-B6D5E202C8CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDVS.Server.Application", "TDVS\TDVS.Server.Application\TDVS.Server.Application.csproj", "{F2CDBD55-4E15-46A7-BB34-A612DED212D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,6 +24,18 @@ Global
 		{387B23EC-80D8-49D1-9A0D-0F2F0DCBCB96}.Debug|x86.ActiveCfg = Debug|x86
 		{387B23EC-80D8-49D1-9A0D-0F2F0DCBCB96}.Debug|x86.Build.0 = Debug|x86
 		{387B23EC-80D8-49D1-9A0D-0F2F0DCBCB96}.Release|x86.ActiveCfg = Release|x86
+		{DB950256-DF8A-4167-9B98-184ECEC0784E}.Debug|x86.ActiveCfg = Debug|x86
+		{DB950256-DF8A-4167-9B98-184ECEC0784E}.Debug|x86.Build.0 = Debug|x86
+		{DB950256-DF8A-4167-9B98-184ECEC0784E}.Release|x86.ActiveCfg = Release|x86
+		{DB950256-DF8A-4167-9B98-184ECEC0784E}.Release|x86.Build.0 = Release|x86
+		{BBEE98D5-7B23-4AF0-8725-B6D5E202C8CA}.Debug|x86.ActiveCfg = Debug|x86
+		{BBEE98D5-7B23-4AF0-8725-B6D5E202C8CA}.Debug|x86.Build.0 = Debug|x86
+		{BBEE98D5-7B23-4AF0-8725-B6D5E202C8CA}.Release|x86.ActiveCfg = Release|x86
+		{BBEE98D5-7B23-4AF0-8725-B6D5E202C8CA}.Release|x86.Build.0 = Release|x86
+		{F2CDBD55-4E15-46A7-BB34-A612DED212D4}.Debug|x86.ActiveCfg = Debug|x86
+		{F2CDBD55-4E15-46A7-BB34-A612DED212D4}.Debug|x86.Build.0 = Debug|x86
+		{F2CDBD55-4E15-46A7-BB34-A612DED212D4}.Release|x86.ActiveCfg = Release|x86
+		{F2CDBD55-4E15-46A7-BB34-A612DED212D4}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
