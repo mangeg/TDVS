@@ -14,11 +14,17 @@ namespace TDVS.Screen.Menues
 			MenuEntry sound = new MenuEntry() { Text = "Sound Options" };
 			MenuEntry back = new MenuEntry() { Text = "Back" };
 
+			video.Selected += new EventHandler( video_Selected );
 			back.Selected += OnCancel;
 
 			MenuEntries.Add( video );
 			MenuEntries.Add( sound );
 			MenuEntries.Add( back );
+		}
+
+		void video_Selected( object sender, EventArgs e )
+		{
+			ScreenManager.AddScreen( new VideoMenu() );
 		}
 	}
 }

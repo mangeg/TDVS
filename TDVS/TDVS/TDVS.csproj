@@ -136,6 +136,7 @@
     <Compile Include="Screen\MenuEntry.cs" />
     <Compile Include="Screen\Menues\MainMenu.cs" />
     <Compile Include="Screen\Menues\OptionsMenu.cs" />
+    <Compile Include="Screen\Menues\VideoMenu.cs" />
     <Compile Include="Screen\MenuScreen.cs" />
     <Compile Include="Screen\ScreenManager.cs" />
     <Compile Include="Settings\Settings.cs" />

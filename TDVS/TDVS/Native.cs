@@ -7,6 +7,9 @@ using Microsoft.Xna.Framework;
 
 namespace TDVS
 {
+	/// <summary>
+	/// Static class with a collection of native function imports.
+	/// </summary>
 	public static class Native
 	{
 		public struct IconInfo

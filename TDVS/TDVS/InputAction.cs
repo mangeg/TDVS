@@ -6,40 +6,72 @@ using Microsoft.Xna.Framework.Input;
 
 namespace TDVS
 {
+	/// <summary>
+	/// Representing any form of input action that can be combined from serveral devices.
+	/// </summary>
 	public class InputAction
 	{
-		List<Keys> keys;
-		List<MouseButtons> mouseButtons;
-		List<Buttons> buttons;
-		bool trigger;
+		List<Keys> _Keys;
+		List<MouseButtons> _MouseButtons;
+		List<Buttons> _Buttons;
+		bool _Trigger;
 
+		/// <summary>
+		/// Gets the keys.
+		/// </summary>
 		public IList<Keys> Keys
 		{
-			get { return keys; }
+			get { return _Keys; }
 		}
+		/// <summary>
+		/// Gets the mouse buttons.
+		/// </summary>
 		public IList<MouseButtons> MouseButtons
 		{
-			get { return mouseButtons; }
+			get { return _MouseButtons; }
 		}
+		/// <summary>
+		/// Gets the buttons.
+		/// </summary>
 		public IList<Buttons> Buttons
 		{
-			get { return buttons; }
+			get { return _Buttons; }
+		}
+		/// <summary>
+		/// Gets a value indicating whether this <see cref="InputAction"/> is trigger.
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if trigger; otherwise, <c>false</c>.
+		/// </value>
+		public bool Trigger
+		{
+			get { return _Trigger; }
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="InputAction"/> class.
+		/// </summary>
+		/// <param name="keys">The keys.</param>
+		/// <param name="mouseButtons">The mouse buttons.</param>
+		/// <param name="trigger">if set to <c>true</c> only trigger actions will be tracked.</param>
 		public InputAction( Keys[] keys, MouseButtons[] mouseButtons, bool trigger )
 		{
-			this.keys = keys != null ? keys.ToList() : new List<Keys>();
-			this.mouseButtons = mouseButtons != null ? mouseButtons.ToList() : new List<MouseButtons>();
-			this.buttons = buttons != null ? buttons.ToList() : new List<Buttons>();
+			this._Keys = keys != null ? keys.ToList() : new List<Keys>();
+			this._MouseButtons = mouseButtons != null ? mouseButtons.ToList() : new List<MouseButtons>();
+			this._Buttons = _Buttons != null ? _Buttons.ToList() : new List<Buttons>();
 
-			this.trigger = trigger;
+			this._Trigger = trigger;
 		}
 
+		/// <summary>
+		/// Evaluates this instance.
+		/// </summary>
+		/// <returns><c>true</c> if any of the keys and actions was triggered.</returns>
 		public bool Evaluate()
 		{
-			foreach ( var key in keys )
+			foreach ( var key in _Keys )
 			{
-				if ( trigger )
+				if ( _Trigger )
 				{
 					if ( InputManager.IsKeyTriggered( key ) )
 						return true;
@@ -48,9 +80,9 @@ namespace TDVS
 					if ( InputManager.IsKeyPressed( key ) )
 						return true;				
 			}
-			foreach ( var key in mouseButtons )
+			foreach ( var key in _MouseButtons )
 			{
-				if ( trigger )
+				if ( _Trigger )
 				{
 					if ( InputManager.IsMouseButtonTriggered( key ) )
 						return true;
