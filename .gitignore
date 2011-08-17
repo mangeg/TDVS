@@ -109,3 +109,7 @@
 /TDVS/TDVS.Common/obj/x86/Debug/TDVS.Common.csproj.FileListAbsolute.txt
 /TDVS/TDVS.Common/obj/x86/Debug/TDVS.Common.dll
 /TDVS/TDVS.Common/obj/x86/Debug/TDVS.Common.pdb
+/TDVS/TDVS.Server/obj
+/TDVS/TDVS.Server/bin
+/TDVS/TDVS.Server.Application/obj
+/TDVS/TDVS.Server.Application/bin
