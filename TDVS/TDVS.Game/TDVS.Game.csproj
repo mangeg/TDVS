@@ -163,8 +163,9 @@
       <Name>TDVS.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\TDVS.Game.Content\TDVS.Game.Content.contentproj">
-      <Name>TDVS.Game.Content</Name>
+      <Name>TDVS.Game.Content %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>
+      <Project>{387B23EC-80D8-49D1-9A0D-0F2F0DCBCB96}</Project>
     </ProjectReference>
     <ProjectReference Include="..\TDVS.Server\TDVS.Server.csproj">
       <Project>{BBEE98D5-7B23-4AF0-8725-B6D5E202C8CA}</Project>

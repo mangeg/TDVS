@@ -13,5 +13,6 @@ namespace TDVS.Common.Network
         Server = 1 << 1,
         Login = 1 << 2,
         Worldstate = 1 << 3,
+        TileMap = 1 << 4
     }
 }
