@@ -1,0 +1,12 @@
+Component based Entity System:
+------------------------------
+http://cowboyprogramming.com/2007/01/05/evolve-your-heirachy/ - Refactoring Game Entities with Components
+http://et1337.wordpress.com/2011/02/02/refactoring-with-components/ - Basic
+http://et1337.wordpress.com/2011/06/27/component-binding-behind-the-scenes/ - In dept	
+http://stackoverflow.com/questions/1901251/component-based-game-engine-design - Link collection
+http://www.gamedev.net/topic/463508-outboard-component-based-entity-system-architecture/ - GameDev discussion
+http://t-machine.org/index.php/2007/09/03/entity-systems-are-the-future-of-mmog-development-part-1/ - Entity Systems are the future of MMOG development
+
+Dependancy Injection:
+------------------------------
+http://www.ic.uff.br/~mzamith/dependency-sbgames.pdf
