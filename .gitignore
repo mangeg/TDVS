@@ -1,4 +1,5 @@
 
+*.cache
 *.suo
 /TDVS/TDVS/obj
 /TDVS/TDVS/bin
