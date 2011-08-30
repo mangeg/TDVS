@@ -193,5 +193,12 @@ namespace TDVS.EntitySystem
 		/// </summary>
 		/// <param name="e">The entity that was removed.</param>
 		public virtual void EntityRemoved( Entity e ) { }
+
+		public static Type[] GetTypes( Type reqType, params Type[] types )
+		{
+			var list = types.ToList();
+			list.Insert( 0, reqType );
+			return list.ToArray();
+		}
 	}
 }
