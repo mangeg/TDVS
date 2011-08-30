@@ -99,6 +99,8 @@
     <Compile Include="EntityManager.cs" />
     <Compile Include="EntityProcessingSystem.cs" />
     <Compile Include="EntitySystem.cs" />
+    <Compile Include="GroupManager.cs" />
+    <Compile Include="GroupSystem.cs" />
     <Compile Include="IComponent.cs" />
     <Compile Include="IManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

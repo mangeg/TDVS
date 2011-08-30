@@ -9,6 +9,7 @@ namespace TDVS.EntitySystem
 	{
 		private EntityManager _entityManager;
 		private SystemManager _systemsManager;
+		private GroupManager _groupManager;
 
 		/// <summary>
 		/// Gets the entity manager.
@@ -24,6 +25,13 @@ namespace TDVS.EntitySystem
 		{
 			get { return _systemsManager; }
 		}
+		/// <summary>
+		/// Gets the group manager.
+		/// </summary>
+		public GroupManager GroupManager
+		{
+			get { return _groupManager; }
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="World"/> class.
@@ -32,6 +40,7 @@ namespace TDVS.EntitySystem
 		{
 			_entityManager = new EntityManager( this );
 			_systemsManager = new SystemManager( this );
+			_groupManager = new GroupManager();
 		}
 	}
 }
