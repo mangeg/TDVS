@@ -107,6 +107,8 @@
     <Compile Include="Property.cs" />
     <Compile Include="SystemBitManager.cs" />
     <Compile Include="SystemManager.cs" />
+    <Compile Include="TagManager.cs" />
+    <Compile Include="TagSystem.cs" />
     <Compile Include="World.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

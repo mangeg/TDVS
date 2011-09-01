@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Graphics;
 using TDVS.Game.Screen;
 using TDVS.Game.Screen.Menues;
 using TDVS.Game.Settings;
+using TDVS.Common.Input;
+using TDVS.Common.Utils;
 
 namespace TDVS.Game
 {
@@ -98,11 +100,11 @@ namespace TDVS.Game
 		protected override void Draw( GameTime gameTime )
 		{
 			GraphicsDevice.Clear( Color.DarkBlue );
-			FpsMeter.Update( gameTime );
+			FpsMeter.sUpdate( gameTime );
 
 			spriteBatch.Begin();
 
-			spriteBatch.DrawString( font, "FPS: " + ( FpsMeter.FPS ).ToString(), new Vector2( 10, 10 ), Color.Green, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 1 );
+			spriteBatch.DrawString( font, "FPS: " + ( FpsMeter.sFPS ).ToString(), new Vector2( 10, 10 ), Color.Green, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 1 );
 			spriteBatch.DrawString( font, "MS/f: " + ( gameTime.ElapsedGameTime.TotalMilliseconds ).ToString(), new Vector2( 10, 10 + font.LineSpacing * 0.8f ), Color.Green, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 1 );
 
 			spriteBatch.End();

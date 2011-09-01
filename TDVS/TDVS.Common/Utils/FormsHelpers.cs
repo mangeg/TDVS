@@ -5,7 +5,7 @@ using System.Text;
 using System.Drawing;
 using Microsoft.Xna.Framework;
 
-namespace TDVS.Game
+namespace TDVS.Common.Utils
 {
 	public static class FormsHelpers
 	{

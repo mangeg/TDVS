@@ -5,6 +5,9 @@ using System.Text;
 
 namespace TDVS.EntitySystem
 {
+	/// <summary>
+	/// Manager for group entity systems.
+	/// </summary>
 	public sealed class GroupManager
 	{
 		private readonly List<Entity> _empty = new List<Entity>();

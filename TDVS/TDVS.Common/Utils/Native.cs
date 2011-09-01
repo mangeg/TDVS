@@ -5,7 +5,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
 
-namespace TDVS.Game
+namespace TDVS.Common.Utils
 {
 	/// <summary>
 	/// Static class with a collection of native function imports.
