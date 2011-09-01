@@ -11,16 +11,37 @@ namespace TDVS.EntitySystem
 	/// </summary>
 	public abstract class EntitySystem
 	{
-		public static readonly int MAX_COMPONENT_TYPE_BITS = 128;
-		public static readonly int MAX_SYSTEM_TYPE_BITS = 64;
+		/// <summary>
+		/// Sets the max number of component types allowed.
+		/// </summary>
+		public static readonly int MAX_NR_COMPONENT_TYPES = 128;
+		/// <summary>
+		/// Sets the max number of entity system types.
+		/// </summary>
+		public static readonly int MAX_NR_SYSTEM_TYPES = 64;
 
+		/// <summary>
+		/// Enabled flag
+		/// </summary>
 		protected bool _enabled;
 
-		protected BitArray _systemBits = new BitArray( EntitySystem.MAX_SYSTEM_TYPE_BITS );
-		protected BitArray _typeBits = new BitArray( EntitySystem.MAX_COMPONENT_TYPE_BITS );
+		/// <summary>
+		/// System bits for this type.
+		/// </summary>
+		protected BitArray _systemBits = new BitArray( EntitySystem.MAX_NR_SYSTEM_TYPES );
+		/// <summary>
+		/// Type bits for this type.
+		/// </summary>
+		protected BitArray _typeBits = new BitArray( EntitySystem.MAX_NR_COMPONENT_TYPES );
 
+		/// <summary>
+		/// All entities bound to this system.
+		/// </summary>
 		protected Dictionary<int, Entity> _entities = new Dictionary<int, Entity>();
 
+		/// <summary>
+		/// Reference to the world object.
+		/// </summary>
 		protected World _world;
 
 		/// <summary>
@@ -158,7 +179,7 @@ namespace TDVS.EntitySystem
 		/// <summary>
 		/// Processes entities.
 		/// </summary>
-		/// <param name="enteties">The entities.</param>
+		/// <param name="entities">The entities.</param>
 		public virtual void ProcessEntities( Dictionary<int, Entity> entities ) { }
 
 		/// <summary>
@@ -194,6 +215,12 @@ namespace TDVS.EntitySystem
 		/// <param name="e">The entity that was removed.</param>
 		public virtual void EntityRemoved( Entity e ) { }
 
+		/// <summary>
+		/// Gets a merged array of types.
+		/// </summary>
+		/// <param name="reqType">Type of the required type.</param>
+		/// <param name="types">The other types.</param>
+		/// <returns></returns>
 		public static Type[] GetTypes( Type reqType, params Type[] types )
 		{
 			var list = types.ToList();

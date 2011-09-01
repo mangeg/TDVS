@@ -127,6 +127,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EntitySystem\ComponentPool.cs" />
     <Compile Include="HardwareCursor.cs" />
     <Compile Include="Network\Client\Core.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -155,6 +156,10 @@
     <ProjectReference Include="..\TDVS.Common\TDVS.Common.csproj">
       <Project>{DB950256-DF8A-4167-9B98-184ECEC0784E}</Project>
       <Name>TDVS.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TDVS.EntitySystem\TDVS.EntitySystem.csproj">
+      <Project>{ACDA4721-A292-4C7C-BAE8-05E0BE656730}</Project>
+      <Name>TDVS.EntitySystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\TDVS.Game.Content\TDVS.Game.Content.contentproj">
       <Name>TDVS.Game.Content</Name>

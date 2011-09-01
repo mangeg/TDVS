@@ -6,6 +6,7 @@ using TDVS.Game.Screen.Menues;
 using TDVS.Game.Settings;
 using TDVS.Common.Input;
 using TDVS.Common.Utils;
+using TDVS.EntitySystem;
 
 namespace TDVS.Game
 {
@@ -18,6 +19,12 @@ namespace TDVS.Game
 		SpriteBatch spriteBatch;
 		SpriteFont font;
 		ScreenManager screenManager;
+		World _world;
+
+		public World World
+		{
+			get { return _world; }
+		}
 
 		public TDVSGame()
 		{
@@ -33,6 +40,9 @@ namespace TDVS.Game
 		/// </summary>
 		protected override void Initialize()
 		{
+			_world = new World();
+			_world.EntityManager.ComponentRemoved += ComponentRemoved;
+
 			screenManager = new ScreenManager( this );
 			Components.Add( screenManager );
 #if WINDOWS
@@ -48,6 +58,11 @@ namespace TDVS.Game
 			SettingsManager.ApplyVideoSettings();
 
 			screenManager.AddScreen( new MainMenu() );
+		}
+
+		void ComponentRemoved( Entity e, IComponent c )
+		{
+
 		}
 
 		void Window_ClientSizeChanged( object sender, EventArgs e )

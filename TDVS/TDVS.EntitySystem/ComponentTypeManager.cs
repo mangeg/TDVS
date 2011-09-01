@@ -16,7 +16,7 @@ namespace TDVS.EntitySystem
 		/// <summary>
 		/// Gets the <see cref="ComponentType"/>.
 		/// </summary>
-		/// <typeparam name="T">The type of component to get the <see cref="CompontType"/> for.</typeparam>
+		/// <typeparam name="T">The type of component to get the <see cref="ComponentType"/> for.</typeparam>
 		/// <returns>The <see cref="ComponentType"/> for this IComponent</returns>
 		public static ComponentType GetTypeFor<T>() where T : IComponent
 		{

@@ -5,9 +5,27 @@ using System.Text;
 
 namespace TDVS.EntitySystem
 {
+	/// <summary>
+	/// Delegate for EntityCreated events.
+	/// </summary>
+	/// <param name="e">The entity.</param>
 	public delegate void EntityCreatedHandler( Entity e );
+	/// <summary>
+	/// Delegate for EntityDeleted events.
+	/// </summary>
+	/// <param name="e">The entity.</param>
 	public delegate void EntityDeletedHandler( Entity e );
+	/// <summary>
+	/// Delegate for ComponentAdded events.
+	/// </summary>
+	/// <param name="e">The entity.</param>
+	/// <param name="c">The component.</param>
 	public delegate void ComponentAddedHandler( Entity e, IComponent c );
+	/// <summary>
+	/// Delegate for ComponentRemoved events.
+	/// </summary>
+	/// <param name="e">The entity.</param>
+	/// <param name="c">The component.</param>
 	public delegate void ComponentRemovedHandler( Entity e, IComponent c );
 
 	/// <summary>
@@ -147,6 +165,10 @@ namespace TDVS.EntitySystem
 		{
 			return _activeEnteties.Contains( id );
 		}
+		/// <summary>
+		/// Refershes the specified entity.
+		/// </summary>
+		/// <param name="e">The entity.</param>
 		public void Refersh( Entity e )
 		{
 

@@ -5,6 +5,9 @@ using System.Text;
 
 namespace TDVS.EntitySystem
 {
+	/// <summary>
+	/// Manager for <see cref="EntitySystem"/> instances.
+	/// </summary>
 	public class SystemManager
 	{
 		private World _world;

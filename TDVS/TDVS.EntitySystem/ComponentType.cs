@@ -4,7 +4,7 @@ using System.Collections;
 namespace TDVS.EntitySystem
 {
 	/// <summary>
-	/// Class for making unique types for <see cref="Component"/>
+	/// Class for making unique types for <see cref="IComponent"/>
 	/// </summary>
 	public class ComponentType
 	{
@@ -39,7 +39,7 @@ namespace TDVS.EntitySystem
 		private void Init()
 		{
 			_id = _nextId++;			
-			_bit = new BitArray( EntitySystem.MAX_COMPONENT_TYPE_BITS );
+			_bit = new BitArray( EntitySystem.MAX_NR_COMPONENT_TYPES );
 			_bit.Set( _id, true );
 		}
 	}

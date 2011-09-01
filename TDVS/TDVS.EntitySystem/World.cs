@@ -5,6 +5,9 @@ using System.Text;
 
 namespace TDVS.EntitySystem
 {
+	/// <summary>
+	/// Represent the world for the component based entity system.
+	/// </summary>
 	public class World
 	{
 		private EntityManager _entityManager;

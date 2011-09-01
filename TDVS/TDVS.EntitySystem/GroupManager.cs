@@ -17,7 +17,6 @@ namespace TDVS.EntitySystem
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GroupManager"/> class.
 		/// </summary>
-		/// <param name="world">The world.</param>
 		public GroupManager( )
 		{
 		}

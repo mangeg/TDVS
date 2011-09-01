@@ -7,13 +7,16 @@ using System.Collections;
 
 namespace TDVS.EntitySystem
 {
+	/// <summary>
+	/// The basic entity class for all game entities.
+	/// </summary>
 	[Serializable]
 	public class Entity
 	{
 		private int _id;
 
-		private BitArray _typeBits = new BitArray( EntitySystem.MAX_COMPONENT_TYPE_BITS );
-		private BitArray _systemBits = new BitArray( EntitySystem.MAX_COMPONENT_TYPE_BITS );
+		private BitArray _typeBits = new BitArray( EntitySystem.MAX_NR_COMPONENT_TYPES );
+		private BitArray _systemBits = new BitArray( EntitySystem.MAX_NR_COMPONENT_TYPES );
 
 		private EntityManager _entityManager;
 		private World _world;
@@ -85,8 +88,8 @@ namespace TDVS.EntitySystem
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Entity"/> class.
 		/// </summary>
-		/// <param name="manager">The manager.</param>
 		/// <param name="world">The world.</param>
+		/// <param name="id">The id.</param>
 		public Entity( World world, int id )
 			: base()
 		{
@@ -115,10 +118,16 @@ namespace TDVS.EntitySystem
 			return String.Format( "Entity[{0}]", _id );
 		}
 
+		/// <summary>
+		/// Refreshes this instance.
+		/// </summary>
 		public void Refresh()
 		{
-
+			_entityManager.Refersh( this );
 		}
+		/// <summary>
+		/// Deletes this instance.
+		/// </summary>
 		public void Delete()
 		{
 			_entityManager.Delete( this );
