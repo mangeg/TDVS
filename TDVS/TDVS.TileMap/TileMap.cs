@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-namespace TDVS.Common.TileMap
+namespace TDVS.TileMap
 {
     public class TileMap
     {
