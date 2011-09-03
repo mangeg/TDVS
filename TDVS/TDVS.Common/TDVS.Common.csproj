@@ -100,6 +100,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bag.cs" />
+    <Compile Include="BitArrayExt.cs" />
+    <Compile Include="Extensions\BitArrayExtensions.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
