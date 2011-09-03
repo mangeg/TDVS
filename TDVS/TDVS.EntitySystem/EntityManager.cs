@@ -268,10 +268,10 @@ namespace TDVS.EntitySystem
 		/// <typeparam name="T">The type of component to get</typeparam>
 		/// <param name="e">The etity to get the component for.</param>
 		/// <returns>The <see cref="IComponent"/> if found; else <c>null</c>.</returns>
-		public IComponent GetComponent<T>( Entity e ) where T : IComponent
+		public T GetComponent<T>( Entity e ) where T : IComponent
 		{
 			var type = ComponentTypeManager.GetTypeFor<T>();
-			return GetComponent( e, type );
+			return (T)GetComponent( e, type );
 		}
 	}
 }

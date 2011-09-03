@@ -7,10 +7,12 @@ using TDVS.Common.Extensions;
 using TDVS.Common.Input;
 using TDVS.Common.Utils;
 using TDVS.EntitySystem;
-using TDVS.Game.EntitySystem;
+using TDVS.Game.EntitySystems;
+using TDVS.Game.EntitySystems.Components;
 using TDVS.Game.Screen;
 using TDVS.Game.Screen.Menues;
 using TDVS.Game.Settings;
+using TDVS.Game.Systems;
 
 namespace TDVS.Game
 {
@@ -22,26 +24,15 @@ namespace TDVS.Game
 		public GraphicsDeviceManager Graphics;
 		private SpriteBatch _spriteBatch;
 		private SpriteFont _font;
-		private ScreenManager _screenManager;
+		//		private ScreenManager _screenManager;
 		private ComponentPool _pool;
 
+		public EntitySystem.EntitySystem UIRenderSystem { get; set; }
+		public EntitySystem.EntitySystem MovementSystem2D { get; set; }
 		public World World { get; private set; }
 
 		public TDVSGame()
 		{
-			var ext = new BitArrayExt( 32, false );
-			ext.Set( 0, true );
-			ext.Set( 1, true );
-			var ext2 = new BitArrayExt( 32, false );
-			ext2.Set( 1, true );
-
-			if ( ( ext & ext2 ) == ext2 )
-			{
-
-			}
-			
-			ext &= ext2;
-
 			Graphics = new GraphicsDeviceManager( this );
 			Content.RootDirectory = "Content";
 		}
@@ -59,13 +50,8 @@ namespace TDVS.Game
 			_pool = new ComponentPool( typeof( IComponent ).GetDerivedTypes().ToArray() );
 			_pool.Initialize();
 
-			for ( var i = 0; i < 15; i++ )
-			{
-				//var t = _pool.Take<Transform2D>();
-			}
-
-			_screenManager = new ScreenManager( this );
-			Components.Add( _screenManager );
+			/*_screenManager = new ScreenManager( this );
+			Components.Add( _screenManager );*/
 
 			Window.AllowUserResizing = true;
 			Window.ClientSizeChanged += WindowClientSizeChanged;
@@ -73,7 +59,7 @@ namespace TDVS.Game
 			SettingsManager.Initialize( this );
 			SettingsManager.ApplyVideoSettings();
 
-			_screenManager.AddScreen( new MainMenu() );
+			//			_screenManager.AddScreen( new MainMenu() );
 
 			base.Initialize();
 		}
@@ -103,6 +89,15 @@ namespace TDVS.Game
 
 			_spriteBatch = new SpriteBatch( GraphicsDevice );
 			_font = Content.Load<SpriteFont>( @"Fonts\DefaultMenuFont" );
+
+			var systemManager = World.SystemManager;
+			UIRenderSystem = systemManager.SetSystem( new UIRenderSystem( _spriteBatch, Content, typeof( Transform2D ) ) );
+			MovementSystem2D = systemManager.SetSystem( new MovementSystem2D() );
+
+			var e = World.EntityManager.Create();
+			World.EntityManager.AddComponent( e, new Transform2D() );
+			World.EntityManager.AddComponent( e, new Velocity2D() { Direction = new Vector2( 1, 1 ), Speed = 100 } );
+			e.Refresh();
 		}
 
 		/// <summary>
@@ -123,6 +118,7 @@ namespace TDVS.Game
 		protected override void Update( GameTime gameTime )
 		{
 			InputManager.Update();
+			MovementSystem2D.Process();
 			base.Update( gameTime );
 		}
 
@@ -137,8 +133,12 @@ namespace TDVS.Game
 
 			_spriteBatch.Begin();
 
-			_spriteBatch.DrawString( _font, "FPS: " + ( FpsMeter.sFPS ), new Vector2( 10, 10 ), Color.Green, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 1 );
-			_spriteBatch.DrawString( _font, "MS/f: " + ( gameTime.ElapsedGameTime.TotalMilliseconds ), new Vector2( 10, 10 + _font.LineSpacing * 0.8f ), Color.Green, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 1 );
+			UIRenderSystem.Process();
+
+			_spriteBatch.DrawString( _font, "FPS: " + ( FpsMeter.sFPS ), new Vector2( 10, 10 ), 
+				Color.Green, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 1 );
+			_spriteBatch.DrawString( _font, "MS/f: " + ( gameTime.ElapsedGameTime.TotalMilliseconds ), 
+				new Vector2( 10, 10 + _font.LineSpacing * 0.8f ), Color.Green, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 1 );
 
 			_spriteBatch.End();
 

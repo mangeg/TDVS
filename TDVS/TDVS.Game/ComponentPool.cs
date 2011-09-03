@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using TDVS.EntitySystem;
 using TDVS.Common.Extensions;
+using TDVS.EntitySystem;
 
-namespace TDVS.Game.EntitySystem
+namespace TDVS.Game
 {
 	public class ComponentPool
 	{

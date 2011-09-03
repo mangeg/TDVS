@@ -127,9 +127,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EntitySystem\ComponentPool.cs" />
-    <Compile Include="EntitySystem\Components\Transform2D.cs" />
-    <Compile Include="EntitySystem\Components\Velocity.cs" />
+    <Compile Include="ComponentPool.cs" />
+    <Compile Include="EntitySystems\Components\Transform2D.cs" />
+    <Compile Include="EntitySystems\Components\Velocity.cs" />
     <Compile Include="HardwareCursor.cs" />
     <Compile Include="Network\Client\Core.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -144,6 +144,8 @@
     <Compile Include="Screen\ScreenManager.cs" />
     <Compile Include="Settings\Settings.cs" />
     <Compile Include="Settings\SettingsManager.cs" />
+    <Compile Include="Systems\MovementSystem2D.cs" />
+    <Compile Include="Systems\UIRenderSystem.cs" />
     <Compile Include="TDVSGame.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -25,7 +25,7 @@ namespace TDVS.EntitySystem
 		/// <summary>
 		/// Enabled flag
 		/// </summary>
-		protected bool _enabled;
+		protected bool _enabled = true;
 
 		/// <summary>
 		/// System bits for this type.
@@ -155,7 +155,7 @@ namespace TDVS.EntitySystem
 		public void EntityChanged( Entity e )
 		{
 			var contains = ( _systemBits & e.SystemBits ) == _systemBits;
-			var interest = ( _typeBits & e.TypeBits ) == e.TypeBits;
+			var interest = ( _typeBits & e.TypeBits ) == _typeBits;
 
 			if ( interest && !contains )
 			{
