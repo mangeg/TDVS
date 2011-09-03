@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 namespace TDVS.Game.Settings
 {
@@ -24,7 +20,7 @@ namespace TDVS.Game.Settings
 			MouseColor = new Vector4(0.99f, 0.64f, 0.8f, 1f);
 			FullScreen = false;
 			VSynchEnabled = true;
-			WindowedResolution = new Resolution()
+			WindowedResolution = new Resolution
 			{
 				Width = 800,
 				Height = 600,

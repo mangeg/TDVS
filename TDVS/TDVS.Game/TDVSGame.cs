@@ -1,12 +1,15 @@
 using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using TDVS.Game.Screen;
-using TDVS.Game.Screen.Menues;
-using TDVS.Game.Settings;
+using TDVS.Common.Extensions;
 using TDVS.Common.Input;
 using TDVS.Common.Utils;
 using TDVS.EntitySystem;
+using TDVS.Game.EntitySystem;
+using TDVS.Game.Screen;
+using TDVS.Game.Screen.Menues;
+using TDVS.Game.Settings;
 
 namespace TDVS.Game
 {
@@ -16,15 +19,12 @@ namespace TDVS.Game
 	public class TDVSGame : Microsoft.Xna.Framework.Game
 	{
 		public GraphicsDeviceManager Graphics;
-		SpriteBatch spriteBatch;
-		SpriteFont font;
-		ScreenManager screenManager;
-		World _world;
+		private SpriteBatch _spriteBatch;
+		private SpriteFont _font;
+		private ScreenManager _screenManager;
+		private ComponentPool _pool;
 
-		public World World
-		{
-			get { return _world; }
-		}
+		public World World { get; private set; }
 
 		public TDVSGame()
 		{
@@ -40,38 +40,42 @@ namespace TDVS.Game
 		/// </summary>
 		protected override void Initialize()
 		{
-			_world = new World();
-			_world.EntityManager.ComponentRemoved += ComponentRemoved;
+			World = new World();
+			World.EntityManager.ComponentRemoved += ComponentRemoved;
+			_pool = new ComponentPool( typeof( IComponent ).GetDerivedTypes().ToArray() );
+			_pool.Initialize();
 
-			screenManager = new ScreenManager( this );
-			Components.Add( screenManager );
-#if WINDOWS
-			//Components.Add( new Cursor( this ) );
-#endif
+			for ( var i = 0; i < 15; i++ )
+			{
+				//var t = _pool.Take<Transform2D>();
+			}
 
-			base.Initialize();
+			_screenManager = new ScreenManager( this );
+			Components.Add( _screenManager );
 
 			Window.AllowUserResizing = true;
-			Window.ClientSizeChanged += Window_ClientSizeChanged;
+			Window.ClientSizeChanged += WindowClientSizeChanged;
 
 			SettingsManager.Initialize( this );
 			SettingsManager.ApplyVideoSettings();
 
-			screenManager.AddScreen( new MainMenu() );
+			_screenManager.AddScreen( new MainMenu() );
+			
+			base.Initialize();
 		}
 
 		void ComponentRemoved( Entity e, IComponent c )
 		{
-
+			_pool.Return( c );
 		}
 
-		void Window_ClientSizeChanged( object sender, EventArgs e )
+		void WindowClientSizeChanged( object sender, EventArgs e )
 		{
-			var S = SettingsManager.Settings;
-			if ( !S.VideoSettings.FullScreen )
+			var s = SettingsManager.Settings;
+			if ( !s.VideoSettings.FullScreen )
 			{
-				S.VideoSettings.WindowedResolution.Width = Window.ClientBounds.Width;
-				S.VideoSettings.WindowedResolution.Height = Window.ClientBounds.Height;
+				s.VideoSettings.WindowedResolution.Width = Window.ClientBounds.Width;
+				s.VideoSettings.WindowedResolution.Height = Window.ClientBounds.Height;
 			}
 		}
 
@@ -82,9 +86,9 @@ namespace TDVS.Game
 		protected override void LoadContent()
 		{
 			base.LoadContent();
-
-			spriteBatch = new SpriteBatch( GraphicsDevice );
-			font = Content.Load<SpriteFont>( @"Fonts\DefaultMenuFont" );
+			
+			_spriteBatch = new SpriteBatch( GraphicsDevice );
+			_font = Content.Load<SpriteFont>( @"Fonts\DefaultMenuFont" );
 		}
 
 		/// <summary>
@@ -115,14 +119,14 @@ namespace TDVS.Game
 		protected override void Draw( GameTime gameTime )
 		{
 			GraphicsDevice.Clear( Color.DarkBlue );
-			FpsMeter.sUpdate( gameTime );
+			FpsMeter.SUpdate( gameTime );
 
-			spriteBatch.Begin();
+			_spriteBatch.Begin();
 
-			spriteBatch.DrawString( font, "FPS: " + ( FpsMeter.sFPS ).ToString(), new Vector2( 10, 10 ), Color.Green, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 1 );
-			spriteBatch.DrawString( font, "MS/f: " + ( gameTime.ElapsedGameTime.TotalMilliseconds ).ToString(), new Vector2( 10, 10 + font.LineSpacing * 0.8f ), Color.Green, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 1 );
+			_spriteBatch.DrawString( _font, "FPS: " + ( FpsMeter.sFPS ), new Vector2( 10, 10 ), Color.Green, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 1 );
+			_spriteBatch.DrawString( _font, "MS/f: " + ( gameTime.ElapsedGameTime.TotalMilliseconds ), new Vector2( 10, 10 + _font.LineSpacing * 0.8f ), Color.Green, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 1 );
 
-			spriteBatch.End();
+			_spriteBatch.End();
 
 			base.Draw( gameTime );
 		}

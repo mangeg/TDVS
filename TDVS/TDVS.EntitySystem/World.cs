@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace TDVS.EntitySystem
 {
@@ -10,10 +7,10 @@ namespace TDVS.EntitySystem
 	/// </summary>
 	public class World
 	{
-		private EntityManager _entityManager;
-		private SystemManager _systemsManager;
-		private GroupManager _groupManager;
-		private TagManager _tagManager;
+		private readonly EntityManager _entityManager;
+		private readonly SystemManager _systemsManager;
+		private readonly GroupManager _groupManager;
+		private readonly TagManager _tagManager;
 
 		/// <summary>
 		/// Gets the entity manager.

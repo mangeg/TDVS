@@ -100,6 +100,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bag.cs" />
+    <Compile Include="Extensions\IListExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Utils\Cursor.cs" />
     <Compile Include="Utils\FormsHelpers.cs" />
     <Compile Include="Utils\FpsMeter.cs" />

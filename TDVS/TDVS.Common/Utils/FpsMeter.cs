@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 namespace TDVS.Common.Utils
 {
@@ -12,9 +8,9 @@ namespace TDVS.Common.Utils
 	public class FpsMeter
 	{
 		#region Static
-		private static float _sTotalTime = 0f;
-		private static int _sFrameCount = 0;
-		private static int _sFps = 0;
+		private static float _sTotalTime;
+		private static int _sFrameCount;
+		private static int _sFps;
 
 		/// <summary>
 		/// Gets the current FPS.
@@ -25,7 +21,7 @@ namespace TDVS.Common.Utils
 		/// Updates the meter with specified game time.
 		/// </summary>
 		/// <param name="gameTime">The game time.</param>
-		public static void sUpdate( GameTime gameTime )
+		public static void SUpdate( GameTime gameTime )
 		{
 			_sTotalTime += ( float )gameTime.ElapsedGameTime.TotalSeconds;
 			if ( _sTotalTime > 1 )
@@ -38,20 +34,20 @@ namespace TDVS.Common.Utils
 		}
 		#endregion
 
-		private float _totalTime = 0f;
-		private int _frameCount = 0;
-		private int _fps = 0;
+		private float _totalTime;
+		private int _frameCount;
 
 		/// <summary>
 		/// Gets the FPS.
 		/// </summary>
-		public int FPS { get { return _fps; } }
+		public int FPS { get; private set; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FpsMeter"/> class.
 		/// </summary>
 		public FpsMeter()
 		{
+			FPS = 0;
 		}
 
 		/// <summary>
@@ -63,7 +59,7 @@ namespace TDVS.Common.Utils
 			_totalTime += ( float )gameTime.ElapsedGameTime.TotalSeconds;
 			if ( _totalTime > 1 )
 			{
-				_fps = _frameCount;
+				FPS = _frameCount;
 				_frameCount = 0;
 				_totalTime = 0f;
 			}

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace TDVS.EntitySystem
 {
@@ -10,7 +8,7 @@ namespace TDVS.EntitySystem
 	/// </summary>
 	public abstract class TagSystem : EntitySystem
 	{
-		private String _group;
+		private readonly String _group;
 
 		/// <summary>
 		/// Gets the group.
@@ -24,7 +22,7 @@ namespace TDVS.EntitySystem
 		/// Initializes a new instance of the <see cref="TagSystem"/> class.
 		/// </summary>
 		/// <param name="group">The group.</param>
-		public TagSystem( String group )
+		protected TagSystem( String group )
 		{
 			_group = group;
 		}

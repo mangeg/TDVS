@@ -22,3 +22,5 @@
 /TDVS/TDVS.EntitySystem/obj
 /TDVS/TDVS.EntitySystem2/bin
 /TDVS/TDVS.EntitySystem2/obj
+/TDVS/Tests/*/bin
+/TDVS/Tests/*/obj

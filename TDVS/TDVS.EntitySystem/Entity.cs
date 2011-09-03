@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
 using System.Collections;
 
@@ -17,9 +14,8 @@ namespace TDVS.EntitySystem
 
 		private BitArray _typeBits = new BitArray( EntitySystem.MAX_NR_COMPONENT_TYPES );
 		private BitArray _systemBits = new BitArray( EntitySystem.MAX_NR_COMPONENT_TYPES );
-
+		
 		private EntityManager _entityManager;
-		private World _world;
 
 		/// <summary>
 		/// Gets the unique ID for this <see cref="Entity"/>.
@@ -42,6 +38,7 @@ namespace TDVS.EntitySystem
 			get { return _typeBits; }
 			set { _typeBits = value; }
 		}
+
 		/// <summary>
 		/// Gets or sets the system bits.
 		/// </summary>
@@ -54,6 +51,7 @@ namespace TDVS.EntitySystem
 			get { return _systemBits; }
 			set { _systemBits = value; }
 		}
+
 		/// <summary>
 		/// Sets the world.
 		/// </summary>
@@ -63,8 +61,9 @@ namespace TDVS.EntitySystem
 		[XmlIgnore]
 		internal World World
 		{
-			set { _world = value; }
+			set { if ( value == null ) throw new ArgumentNullException( "value" ); }
 		}
+
 		/// <summary>
 		/// Sets the entity manager.
 		/// </summary>
@@ -91,10 +90,8 @@ namespace TDVS.EntitySystem
 		/// <param name="world">The world.</param>
 		/// <param name="id">The id.</param>
 		public Entity( World world, int id )
-			: base()
 		{
 			_entityManager = world.EntityManager;
-			_world = world;
 			_id = id;
 		}
 

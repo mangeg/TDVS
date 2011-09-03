@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework.Input;
 
 namespace TDVS.Common.Input
@@ -11,10 +9,10 @@ namespace TDVS.Common.Input
 	/// </summary>
 	public class InputAction
 	{
-		List<Keys> _keys;
-		List<MouseButtons> _mouseButtons;
-		List<Buttons> _buttons;
-		bool _trigger;
+		private readonly List<Keys> _keys;
+		private readonly List<MouseButtons> _mouseButtons;
+		private readonly List<Buttons> _buttons;
+		private readonly bool _trigger;
 
 		/// <summary>
 		/// Gets the keys.
@@ -54,13 +52,13 @@ namespace TDVS.Common.Input
 		/// <param name="keys">The keys.</param>
 		/// <param name="mouseButtons">The mouse buttons.</param>
 		/// <param name="trigger">if set to <c>true</c> only trigger actions will be tracked.</param>
-		public InputAction( Keys[] keys, MouseButtons[] mouseButtons, bool trigger )
+		public InputAction( IEnumerable<Keys> keys, IEnumerable<MouseButtons> mouseButtons, bool trigger )
 		{
-			this._keys = keys != null ? keys.ToList() : new List<Keys>();
-			this._mouseButtons = mouseButtons != null ? mouseButtons.ToList() : new List<MouseButtons>();
-			this._buttons = _buttons != null ? _buttons.ToList() : new List<Buttons>();
+			_keys = keys != null ? keys.ToList() : new List<Keys>();
+			_mouseButtons = mouseButtons != null ? mouseButtons.ToList() : new List<MouseButtons>();
+			_buttons = _buttons != null ? _buttons.ToList() : new List<Buttons>();
 
-			this._trigger = trigger;
+			_trigger = trigger;
 		}
 
 		/// <summary>

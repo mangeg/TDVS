@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using TDVS.Common.Extensions;
 
 namespace TDVS.EntitySystem
 {
@@ -33,13 +31,13 @@ namespace TDVS.EntitySystem
 	/// </summary>
 	public class EntityManager : IManager
 	{
-		private World _world;
+		private readonly World _world;
 
-		private List<Entity> _allEnteties = new List<Entity>( 10 );
-		private List<int> _activeEnteties = new List<int>();
-		private List<int> _inactiveEnteties = new List<int>();
+		private readonly List<Entity> _allEnteties = new List<Entity>( 10 );
+		private readonly List<int> _activeEnteties = new List<int>();
+		private readonly List<int> _inactiveEnteties = new List<int>();
 
-		private Dictionary<int, Dictionary<int, IComponent>> _componentsForEntity =
+		private readonly Dictionary<int, Dictionary<int, IComponent>> _componentsForEntity =
 			new Dictionary<int, Dictionary<int, IComponent>>();
 
 		/// <summary>
@@ -106,12 +104,10 @@ namespace TDVS.EntitySystem
 		{
 			Entity e;
 
-			int id = -1;
+			int id;
 			if ( _inactiveEnteties.Count > 0 )
 			{
-				id = _inactiveEnteties[ _inactiveEnteties.Count - 1 ];
-				_inactiveEnteties.RemoveAt( _inactiveEnteties.Count - 1 );
-
+				id = _inactiveEnteties.Pop();
 				e = _allEnteties[ id ];
 			}
 			else
@@ -181,7 +177,7 @@ namespace TDVS.EntitySystem
 		/// <param name="component">The component to add.</param>
 		public void AddComponent( Entity e, IComponent component )
 		{
-			Dictionary<int, IComponent> list = null;
+			Dictionary<int, IComponent> list;
 
 			ComponentType type = ComponentTypeManager.GetTypeFor( component.GetType() );
 			if ( !_componentsForEntity.ContainsKey( type.ID ) )

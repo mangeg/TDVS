@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace TDVS.EntitySystem
 {
@@ -15,7 +13,7 @@ namespace TDVS.EntitySystem
 		/// </summary>
 		/// <param name="reqType">Rquired type.</param>
 		/// <param name="types">Other types.</param>
-		public EntityProcessingSystem(Type reqType, params Type [] types)
+		protected EntityProcessingSystem(Type reqType, params Type [] types)
 			: base( GetTypes( reqType, types ) )
 		{
 		}

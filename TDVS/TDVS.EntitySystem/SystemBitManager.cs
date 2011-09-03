@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Collections;
 
 namespace TDVS.EntitySystem
@@ -12,7 +10,7 @@ namespace TDVS.EntitySystem
 	public static class SystemBitManager
 	{
 		private static int _next;
-		private static Dictionary<Type, BitArray> _bits
+		private static readonly Dictionary<Type, BitArray> _sBits
 			= new Dictionary<Type, BitArray>();
 
 		/// <summary>
@@ -23,11 +21,11 @@ namespace TDVS.EntitySystem
 		public static BitArray GetBit<T>() where T : EntitySystem
 		{
 			BitArray res;
-			if ( !_bits.TryGetValue( typeof( T ), out res ) )
+			if ( !_sBits.TryGetValue( typeof( T ), out res ) )
 			{
 				res = new BitArray( EntitySystem.MAX_NR_SYSTEM_TYPES );
 				res.Set( _next++, true );
-				_bits.Add( typeof( T ), res );
+				_sBits.Add( typeof( T ), res );
 			}
 
 			return res;

@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using TDVS.EntitySystem;
+using TDVS.Common.Extensions;
 
 namespace TDVS.Game.EntitySystem
 {
 	public class ComponentPool
 	{
-		private Dictionary<Type, List<IComponent>> _componetPool
+		private readonly Dictionary<Type, List<IComponent>> _componetPool
 			= new Dictionary<Type, List<IComponent>>();
-		private int _initialCount;
+		private readonly int _initialCount;
 
-		public ComponentPool()
+		public ComponentPool( params Type[] componentTypes )
 		{
 			_initialCount = 10;
+			foreach ( var item in componentTypes )
+			{
+				_componetPool.Add( item, new List<IComponent>() );
+			}
 		}
 
 		public void Initialize()
@@ -25,11 +28,11 @@ namespace TDVS.Game.EntitySystem
 			}
 		}
 
-		private void Populate(Type type, int count)
+		private void Populate( Type type, int count )
 		{
 			for ( int i = 0; i < count; i++ )
 			{
-				Return( ( IComponent )Activator.CreateInstance( type ) );
+				Return( ( IComponent )Activator.CreateInstance( type, true ) );
 			}
 		}
 
@@ -38,14 +41,14 @@ namespace TDVS.Game.EntitySystem
 			var type = typeof( T );
 			if ( _componetPool.ContainsKey( type ) )
 			{
-				IComponent component = _componetPool[ type ].LastOrDefault();
-				if ( component == null )
+				IComponent component = _componetPool[ type ].PopSafe();
+				if ( Equals( component, default( T ) ) )
 				{
 					Populate( type, ( int )( _initialCount * 0.25 ) );
-					component = _componetPool[ type ].LastOrDefault();
+					component = _componetPool[ type ].Pop();
 				}
 
-				_componetPool[ type ].Remove( component );
+				component.Reset();
 
 				return ( T )component;
 			}

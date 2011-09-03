@@ -113,6 +113,12 @@
     <Compile Include="TagSystem.cs" />
     <Compile Include="World.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TDVS.Common\TDVS.Common.csproj">
+      <Project>{DB950256-DF8A-4167-9B98-184ECEC0784E}</Project>
+      <Name>TDVS.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

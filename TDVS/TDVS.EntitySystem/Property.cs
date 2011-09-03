@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
 
 namespace TDVS.EntitySystem
@@ -30,7 +28,7 @@ namespace TDVS.EntitySystem
 	public class Property<T> : IProperty
 	{
 		private T _value;
-		private List<IBinding> _bindings = new List<IBinding>();
+		private readonly List<IBinding> _bindings = new List<IBinding>();
 		private Action<T> _set;
 
 		/// <summary>
@@ -55,7 +53,7 @@ namespace TDVS.EntitySystem
 			{
 				IsInitializing = true;
 				_set = value;
-				if ( _value != null && !_value.Equals( default( T ) ) )
+				if ( !Equals( _value, default( T ) ) && !_value.Equals( default( T ) ) )
 				{
 					_set( _value );
 				}
@@ -87,7 +85,12 @@ namespace TDVS.EntitySystem
 			}
 			set
 			{
-
+				if ( Set != null )
+					Set( value );
+				else
+				{
+					_value = value;
+				}
 			}
 		}
 
@@ -142,7 +145,7 @@ namespace TDVS.EntitySystem
 		/// </returns>
 		public override string ToString()
 		{
-			return Value != null ? Value.ToString() : String.Empty;
+			return !Equals( Value, default( T ) ) ? Value.ToString() : String.Empty;
 		}
 	}
 }
