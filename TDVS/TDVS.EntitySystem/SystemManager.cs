@@ -42,7 +42,7 @@ namespace TDVS.EntitySystem
 			if ( !_systemsList.Contains( system ) )
 				_systemsList.Add( system );
 
-			system.SystemBit = system.SystemBit.And( SystemBitManager.GetBit<T>() );
+			system.SystemBit.Or( SystemBitManager.GetBit<T>() );
 
 			return system;
 		}

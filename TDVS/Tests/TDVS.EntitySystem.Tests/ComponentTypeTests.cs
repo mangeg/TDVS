@@ -4,6 +4,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TDVS.Common;
 
 namespace TDVS.EntitySystem.Tests
 {
@@ -26,13 +27,13 @@ namespace TDVS.EntitySystem.Tests
 			var t1 = new ComponentType();
 			var t2 = new ComponentType();
 
-			var b1 = new BitArray( EntitySystem.MAX_NR_COMPONENT_TYPES );
+			var b1 = new BitArrayExt( EntitySystem.MAX_NR_COMPONENT_TYPES );
 			b1.Set( t1.ID, true );
-			var b2 = new BitArray( EntitySystem.MAX_NR_COMPONENT_TYPES );
+			var b2 = new BitArrayExt( EntitySystem.MAX_NR_COMPONENT_TYPES );
 			b2.Set( t2.ID, true );
 
-			Assert.AreEqual( b1.And( t1.Bit ), b1 );
-			Assert.AreEqual( b2.And( t2.Bit ), b2 );
+			Assert.AreEqual( b1, t1.Bit );
+			Assert.AreEqual( b2, t2.Bit );
 		}
 	}
 }

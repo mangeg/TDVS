@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections;
+using TDVS.Common;
 
 namespace TDVS.EntitySystem
 {
@@ -49,7 +50,7 @@ namespace TDVS.EntitySystem
 		/// </summary>
 		/// <typeparam name="T">The type of component to get the <see cref="BitArray"/> for.</typeparam>
 		/// <returns>The <see cref="BitArray"/> for this component type</returns>
-		public static BitArray GetBit<T>() where T : IComponent
+		public static BitArrayExt GetBit<T>() where T : IComponent
 		{
 			return GetTypeFor<T>().Bit;
 		}

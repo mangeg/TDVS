@@ -1,8 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TDVS.EntitySystem.Tests
 {
@@ -111,24 +107,24 @@ namespace TDVS.EntitySystem.Tests
 		public void ensure_components_are_added_to_entity()
 		{
 			var entity = _mgr.Create();
-			var component = new TestComponent();
+			var component = new TestComponent1();
 
-			_mgr.AddComponent<TestComponent>( entity, component );
+			_mgr.AddComponent<TestComponent1>( entity, component );
 
-			Assert.AreEqual( _mgr.GetComponent<TestComponent>( entity ), component );
-			Assert.AreEqual( _mgr.GetComponent( entity, ComponentTypeManager.GetTypeFor<TestComponent>() ), component );
+			Assert.AreEqual( _mgr.GetComponent<TestComponent1>( entity ), component );
+			Assert.AreEqual( _mgr.GetComponent( entity, ComponentTypeManager.GetTypeFor<TestComponent1>() ), component );
 		}
 
 		[TestMethod]
 		public void ensure_components_are_removed_when_entity_is_deleted()
 		{
 			var entity = _mgr.Create();
-			var component = new TestComponent();
+			var component = new TestComponent1();
 
-			_mgr.AddComponent<TestComponent>( entity, component );
+			_mgr.AddComponent<TestComponent1>( entity, component );
 			_mgr.Delete( entity );
 
-			Assert.AreNotEqual( _mgr.GetComponent<TestComponent>( entity ), component );
+			Assert.AreNotEqual( _mgr.GetComponent<TestComponent1>( entity ), component );
 		}
 
 		[TestMethod]
@@ -167,7 +163,7 @@ namespace TDVS.EntitySystem.Tests
 				fired = true;
 			};
 			var entity = _mgr.Create();
-			_mgr.AddComponent( entity, new TestComponent() );
+			_mgr.AddComponent( entity, new TestComponent1() );
 
 			Assert.IsTrue( fired );
 		}
@@ -181,8 +177,8 @@ namespace TDVS.EntitySystem.Tests
 				fired = true;
 			};
 			var entity = _mgr.Create();
-			_mgr.AddComponent( entity, new TestComponent() );
-			_mgr.RemoveComponent( entity, ComponentTypeManager.GetTypeFor<TestComponent>() );
+			_mgr.AddComponent( entity, new TestComponent1() );
+			_mgr.RemoveComponent( entity, ComponentTypeManager.GetTypeFor<TestComponent1>() );
 
 			Assert.IsTrue( fired );
 		}

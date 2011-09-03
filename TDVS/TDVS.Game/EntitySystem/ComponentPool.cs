@@ -30,7 +30,7 @@ namespace TDVS.Game.EntitySystem
 
 		private void Populate( Type type, int count )
 		{
-			for ( int i = 0; i < count; i++ )
+			for ( var i = 0; i < count; i++ )
 			{
 				Return( ( IComponent )Activator.CreateInstance( type, true ) );
 			}
@@ -41,7 +41,7 @@ namespace TDVS.Game.EntitySystem
 			var type = typeof( T );
 			if ( _componetPool.ContainsKey( type ) )
 			{
-				IComponent component = _componetPool[ type ].PopSafe();
+				var component = _componetPool[ type ].PopSafe();
 				if ( Equals( component, default( T ) ) )
 				{
 					Populate( type, ( int )( _initialCount * 0.25 ) );

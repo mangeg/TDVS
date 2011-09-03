@@ -167,7 +167,10 @@ namespace TDVS.EntitySystem
 		/// <param name="e">The entity.</param>
 		public void Refersh( Entity e )
 		{
-
+			foreach(var system in _world.SystemManager.Systems)
+			{
+				system.EntityChanged( e );
+			}
 		}
 
 		/// <summary>

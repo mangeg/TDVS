@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml.Serialization;
 using System.Collections;
+using TDVS.Common;
 
 namespace TDVS.EntitySystem
 {
@@ -12,8 +13,8 @@ namespace TDVS.EntitySystem
 	{
 		private int _id;
 
-		private BitArray _typeBits = new BitArray( EntitySystem.MAX_NR_COMPONENT_TYPES );
-		private BitArray _systemBits = new BitArray( EntitySystem.MAX_NR_COMPONENT_TYPES );
+		private BitArrayExt _typeBits = new BitArrayExt( EntitySystem.MAX_NR_COMPONENT_TYPES );
+		private BitArrayExt _systemBits = new BitArrayExt( EntitySystem.MAX_NR_SYSTEM_TYPES );
 		
 		private EntityManager _entityManager;
 
@@ -33,7 +34,7 @@ namespace TDVS.EntitySystem
 		/// The type bits.
 		/// </value>
 		[XmlIgnore]
-		public BitArray TypeBits
+		public BitArrayExt TypeBits
 		{
 			get { return _typeBits; }
 			set { _typeBits = value; }
@@ -46,7 +47,7 @@ namespace TDVS.EntitySystem
 		/// The system bits.
 		/// </value>
 		[XmlIgnore]
-		public BitArray SystemBits
+		public BitArrayExt SystemBits
 		{
 			get { return _systemBits; }
 			set { _systemBits = value; }

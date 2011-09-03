@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using TDVS.Common;
 
 namespace TDVS.EntitySystem
 {
@@ -12,7 +13,7 @@ namespace TDVS.EntitySystem
 		/// <summary>
 		/// Gets the bit.
 		/// </summary>
-		public BitArray Bit { get; private set; }
+		public BitArrayExt Bit { get; private set; }
 
 		/// <summary>
 		/// Gets the ID.
@@ -29,8 +30,8 @@ namespace TDVS.EntitySystem
 
 		private void Init()
 		{
-			ID = _nextId++;			
-			Bit = new BitArray( EntitySystem.MAX_NR_COMPONENT_TYPES );
+			ID = _nextId++;
+			Bit = new BitArrayExt( EntitySystem.MAX_NR_COMPONENT_TYPES );
 			Bit.Set( ID, true );
 		}
 	}

@@ -6,11 +6,11 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A71F0126-15C6-41D0-9013-B0A51EF1D1A0}</ProjectGuid>
+    <ProjectGuid>{ACE539AE-CCBD-4E71-A89D-CCB182B93299}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TDVS.EntitySystem.Tests</RootNamespace>
-    <AssemblyName>TDVS.EntitySystem.Tests</AssemblyName>
+    <RootNamespace>TDVS.Common.Tests</RootNamespace>
+    <AssemblyName>TDVS.Common.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -45,21 +45,13 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EntitySystemTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="EntityManagerTests.cs" />
-    <Compile Include="TestComponent1.cs" />
-    <Compile Include="ComponentTypeTests.cs" />
-    <Compile Include="TestSystem1.cs" />
+    <Compile Include="BitArrayExtTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\TDVS.Common\TDVS.Common.csproj">
       <Project>{DB950256-DF8A-4167-9B98-184ECEC0784E}</Project>
       <Name>TDVS.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\TDVS.EntitySystem\TDVS.EntitySystem.csproj">
-      <Project>{ACDA4721-A292-4C7C-BAE8-05E0BE656730}</Project>
-      <Name>TDVS.EntitySystem</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

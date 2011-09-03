@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using TDVS.Common;
 using TDVS.Common.Extensions;
 using TDVS.Common.Input;
 using TDVS.Common.Utils;
@@ -28,6 +29,19 @@ namespace TDVS.Game
 
 		public TDVSGame()
 		{
+			var ext = new BitArrayExt( 32, false );
+			ext.Set( 0, true );
+			ext.Set( 1, true );
+			var ext2 = new BitArrayExt( 32, false );
+			ext2.Set( 1, true );
+
+			if ( ( ext & ext2 ) == ext2 )
+			{
+
+			}
+			
+			ext &= ext2;
+
 			Graphics = new GraphicsDeviceManager( this );
 			Content.RootDirectory = "Content";
 		}
@@ -60,7 +74,7 @@ namespace TDVS.Game
 			SettingsManager.ApplyVideoSettings();
 
 			_screenManager.AddScreen( new MainMenu() );
-			
+
 			base.Initialize();
 		}
 
@@ -86,7 +100,7 @@ namespace TDVS.Game
 		protected override void LoadContent()
 		{
 			base.LoadContent();
-			
+
 			_spriteBatch = new SpriteBatch( GraphicsDevice );
 			_font = Content.Load<SpriteFont>( @"Fonts\DefaultMenuFont" );
 		}
