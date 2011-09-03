@@ -1,41 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework.Input;
 
-namespace TDVS.Game
+namespace TDVS.Common.Input
 {
 	/// <summary>
-	/// Representing any form of input action that can be combined from serveral devices.
+	/// Representing any form of input action that can be combined from several devices.
 	/// </summary>
 	public class InputAction
 	{
-		List<Keys> _Keys;
-		List<MouseButtons> _MouseButtons;
-		List<Buttons> _Buttons;
-		bool _Trigger;
+		private readonly List<Keys> _keys;
+		private readonly List<MouseButtons> _mouseButtons;
+		private readonly List<Buttons> _buttons;
+		private readonly bool _trigger;
 
 		/// <summary>
 		/// Gets the keys.
 		/// </summary>
 		public IList<Keys> Keys
 		{
-			get { return _Keys; }
+			get { return _keys; }
 		}
 		/// <summary>
 		/// Gets the mouse buttons.
 		/// </summary>
 		public IList<MouseButtons> MouseButtons
 		{
-			get { return _MouseButtons; }
+			get { return _mouseButtons; }
 		}
 		/// <summary>
 		/// Gets the buttons.
 		/// </summary>
 		public IList<Buttons> Buttons
 		{
-			get { return _Buttons; }
+			get { return _buttons; }
 		}
 		/// <summary>
 		/// Gets a value indicating whether this <see cref="InputAction"/> is trigger.
@@ -45,7 +43,7 @@ namespace TDVS.Game
 		/// </value>
 		public bool Trigger
 		{
-			get { return _Trigger; }
+			get { return _trigger; }
 		}
 
 		/// <summary>
@@ -54,13 +52,13 @@ namespace TDVS.Game
 		/// <param name="keys">The keys.</param>
 		/// <param name="mouseButtons">The mouse buttons.</param>
 		/// <param name="trigger">if set to <c>true</c> only trigger actions will be tracked.</param>
-		public InputAction( Keys[] keys, MouseButtons[] mouseButtons, bool trigger )
+		public InputAction( IEnumerable<Keys> keys, IEnumerable<MouseButtons> mouseButtons, bool trigger )
 		{
-			this._Keys = keys != null ? keys.ToList() : new List<Keys>();
-			this._MouseButtons = mouseButtons != null ? mouseButtons.ToList() : new List<MouseButtons>();
-			this._Buttons = _Buttons != null ? _Buttons.ToList() : new List<Buttons>();
+			_keys = keys != null ? keys.ToList() : new List<Keys>();
+			_mouseButtons = mouseButtons != null ? mouseButtons.ToList() : new List<MouseButtons>();
+			_buttons = _buttons != null ? _buttons.ToList() : new List<Buttons>();
 
-			this._Trigger = trigger;
+			_trigger = trigger;
 		}
 
 		/// <summary>
@@ -69,9 +67,9 @@ namespace TDVS.Game
 		/// <returns><c>true</c> if any of the keys and actions was triggered.</returns>
 		public bool Evaluate()
 		{
-			foreach ( var key in _Keys )
+			foreach ( var key in _keys )
 			{
-				if ( _Trigger )
+				if ( _trigger )
 				{
 					if ( InputManager.IsKeyTriggered( key ) )
 						return true;
@@ -80,9 +78,9 @@ namespace TDVS.Game
 					if ( InputManager.IsKeyPressed( key ) )
 						return true;				
 			}
-			foreach ( var key in _MouseButtons )
+			foreach ( var key in _mouseButtons )
 			{
-				if ( _Trigger )
+				if ( _trigger )
 				{
 					if ( InputManager.IsMouseButtonTriggered( key ) )
 						return true;

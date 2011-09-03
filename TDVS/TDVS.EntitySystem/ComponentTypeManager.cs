@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Collections;
+using TDVS.Common;
 
 namespace TDVS.EntitySystem
 {
@@ -11,21 +10,21 @@ namespace TDVS.EntitySystem
 	/// </summary>
 	public static class ComponentTypeManager
 	{
-		private static Dictionary<Type, ComponentType> _componentTypes = new Dictionary<Type, ComponentType>();
+		private static readonly Dictionary<Type, ComponentType> _sSComponentTypes = new Dictionary<Type, ComponentType>();
 
 		/// <summary>
 		/// Gets the <see cref="ComponentType"/>.
 		/// </summary>
-		/// <typeparam name="T">The type of component to get the <see cref="CompontType"/> for.</typeparam>
+		/// <typeparam name="T">The type of component to get the <see cref="ComponentType"/> for.</typeparam>
 		/// <returns>The <see cref="ComponentType"/> for this IComponent</returns>
 		public static ComponentType GetTypeFor<T>() where T : IComponent
 		{
-			ComponentType type = null;
+			ComponentType type;
 			Type toFind = typeof( T );
-			if ( !_componentTypes.TryGetValue( toFind, out type ) )
+			if ( !_sSComponentTypes.TryGetValue( toFind, out type ) )
 			{
 				type = new ComponentType();
-				_componentTypes.Add( toFind, type );
+				_sSComponentTypes.Add( toFind, type );
 			}
 
 			return type;
@@ -37,11 +36,11 @@ namespace TDVS.EntitySystem
 		/// <returns>The <see cref="ComponentType"/> for this IComponent</returns>
 		public static ComponentType GetTypeFor( Type componentType )
 		{
-			ComponentType type = null;
-			if ( !_componentTypes.TryGetValue( componentType, out type ) )
+			ComponentType type;
+			if ( !_sSComponentTypes.TryGetValue( componentType, out type ) )
 			{
 				type = new ComponentType();
-				_componentTypes.Add( componentType, type );
+				_sSComponentTypes.Add( componentType, type );
 			}
 			return type;
 		}
@@ -51,7 +50,7 @@ namespace TDVS.EntitySystem
 		/// </summary>
 		/// <typeparam name="T">The type of component to get the <see cref="BitArray"/> for.</typeparam>
 		/// <returns>The <see cref="BitArray"/> for this component type</returns>
-		public static BitArray GetBit<T>() where T : IComponent
+		public static BitArrayExt GetBit<T>() where T : IComponent
 		{
 			return GetTypeFor<T>().Bit;
 		}

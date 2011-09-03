@@ -1,32 +1,24 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
+using TDVS.Common;
 
 namespace TDVS.EntitySystem
 {
 	/// <summary>
-	/// Class for making unique types for <see cref="Component"/>
+	/// Class for making unique types for <see cref="IComponent"/>
 	/// </summary>
 	public class ComponentType
 	{
-		private static int _nextId = 0;
-
-		private BitArray _bit;
-		private int _id;
+		private static int _nextId;
 
 		/// <summary>
 		/// Gets the bit.
 		/// </summary>
-		public BitArray Bit
-		{
-			get { return _bit; }
-		}
+		public BitArrayExt Bit { get; private set; }
+
 		/// <summary>
 		/// Gets the ID.
 		/// </summary>
-		public int ID
-		{
-			get { return _id; }
-		}
+		public int ID { get; private set; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ComponentType"/> class.
@@ -38,9 +30,9 @@ namespace TDVS.EntitySystem
 
 		private void Init()
 		{
-			_id = _nextId++;			
-			_bit = new BitArray( EntitySystem.MAX_COMPONENT_TYPE_BITS );
-			_bit.Set( _id, true );
+			ID = _nextId++;
+			Bit = new BitArrayExt( EntitySystem.MAX_NR_COMPONENT_TYPES );
+			Bit.Set( ID, true );
 		}
 	}
 }

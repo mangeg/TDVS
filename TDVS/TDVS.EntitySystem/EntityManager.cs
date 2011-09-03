@@ -1,13 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using TDVS.Common.Extensions;
 
 namespace TDVS.EntitySystem
 {
+	/// <summary>
+	/// Delegate for EntityCreated events.
+	/// </summary>
+	/// <param name="e">The entity.</param>
 	public delegate void EntityCreatedHandler( Entity e );
+	/// <summary>
+	/// Delegate for EntityDeleted events.
+	/// </summary>
+	/// <param name="e">The entity.</param>
 	public delegate void EntityDeletedHandler( Entity e );
+	/// <summary>
+	/// Delegate for ComponentAdded events.
+	/// </summary>
+	/// <param name="e">The entity.</param>
+	/// <param name="c">The component.</param>
 	public delegate void ComponentAddedHandler( Entity e, IComponent c );
+	/// <summary>
+	/// Delegate for ComponentRemoved events.
+	/// </summary>
+	/// <param name="e">The entity.</param>
+	/// <param name="c">The component.</param>
 	public delegate void ComponentRemovedHandler( Entity e, IComponent c );
 
 	/// <summary>
@@ -15,13 +31,13 @@ namespace TDVS.EntitySystem
 	/// </summary>
 	public class EntityManager : IManager
 	{
-		private World _world;
+		private readonly World _world;
 
-		private List<Entity> _allEnteties = new List<Entity>( 10 );
-		private List<int> _activeEnteties = new List<int>();
-		private List<int> _inactiveEnteties = new List<int>();
+		private readonly List<Entity> _allEnteties = new List<Entity>( 10 );
+		private readonly List<int> _activeEnteties = new List<int>();
+		private readonly List<int> _inactiveEnteties = new List<int>();
 
-		private Dictionary<int, Dictionary<int, IComponent>> _componentsForEntity =
+		private readonly Dictionary<int, Dictionary<int, IComponent>> _componentsForEntity =
 			new Dictionary<int, Dictionary<int, IComponent>>();
 
 		/// <summary>
@@ -88,12 +104,10 @@ namespace TDVS.EntitySystem
 		{
 			Entity e;
 
-			int id = -1;
+			int id;
 			if ( _inactiveEnteties.Count > 0 )
 			{
-				id = _inactiveEnteties[ _inactiveEnteties.Count - 1 ];
-				_inactiveEnteties.RemoveAt( _inactiveEnteties.Count - 1 );
-
+				id = _inactiveEnteties.Pop();
 				e = _allEnteties[ id ];
 			}
 			else
@@ -147,9 +161,16 @@ namespace TDVS.EntitySystem
 		{
 			return _activeEnteties.Contains( id );
 		}
+		/// <summary>
+		/// Refershes the specified entity.
+		/// </summary>
+		/// <param name="e">The entity.</param>
 		public void Refersh( Entity e )
 		{
-
+			foreach(var system in _world.SystemManager.Systems)
+			{
+				system.EntityChanged( e );
+			}
 		}
 
 		/// <summary>
@@ -159,7 +180,7 @@ namespace TDVS.EntitySystem
 		/// <param name="component">The component to add.</param>
 		public void AddComponent( Entity e, IComponent component )
 		{
-			Dictionary<int, IComponent> list = null;
+			Dictionary<int, IComponent> list;
 
 			ComponentType type = ComponentTypeManager.GetTypeFor( component.GetType() );
 			if ( !_componentsForEntity.ContainsKey( type.ID ) )

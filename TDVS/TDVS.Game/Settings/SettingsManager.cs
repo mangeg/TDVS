@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using System.Xml.Serialization;
 using System.IO;
 using System.Xml;
@@ -11,19 +8,20 @@ namespace TDVS.Game.Settings
 {
 	public class SettingsManager
 	{
-		static XmlSerializer _xmls;
-		static Settings _settings;
-		static TDVSGame _Game;
+		private static readonly XmlSerializer _sXmls;
+		private static TDVSGame _game;
+
+		public static Settings Settings { get; private set; }
 
 		static SettingsManager()
 		{
-			_xmls = new XmlSerializer( typeof( Settings ) );
+			_sXmls = new XmlSerializer( typeof( Settings ) );
 			Load();
 		}
 
 		public static void Initialize( TDVSGame game )
 		{
-			_Game = game;
+			_game = game;
 		}
 
 		public static void Load()
@@ -32,64 +30,58 @@ namespace TDVS.Game.Settings
 			{
 				using ( FileStream fs = File.OpenRead( "Settings.xml" ) )
 				{
-					_settings = _xmls.Deserialize( fs ) as Settings;
+					Settings = _sXmls.Deserialize( fs ) as Settings;
 				}
 			}
 			else
-				_settings = new Settings();
+				Settings = new Settings();
 		}
 		public static void Save()
 		{
-			using ( FileStream fs = File.Create( "Settings.xml" ) )
+			using ( var fs = File.Create( "Settings.xml" ) )
 			{
-				XmlWriterSettings xws = new XmlWriterSettings()
+				var xws = new XmlWriterSettings
 				{
-					Encoding = Encoding.UTF8,
-					Indent = true,
-					IndentChars = "\t",
-					
+				    Encoding = Encoding.UTF8,
+					Indent = true, 
+					IndentChars = "\t"
 				};
-				using ( XmlWriter xw = XmlWriter.Create( fs, xws ) )
+				using ( var xw = XmlWriter.Create( fs, xws ) )
 				{
-					_xmls.Serialize( xw, _settings );
+					_sXmls.Serialize( xw, Settings );
 				}
 			}
-		}
-
-		public static Settings Settings
-		{
-			get { return _settings; }
 		}
 
 		public static void ApplyVideoSettings()
 		{
-			HardwareCursor.ApplyCursor( _Game.Window.Handle,
+			HardwareCursor.ApplyCursor( _game.Window.Handle,
 				@"Content\Textures\HWCursor.png",
 				Settings.VideoSettings.MouseScale, new Point( 9, 3 ), new Color( Settings.VideoSettings.MouseColor ) );
 
-			_Game.IsMouseVisible = true;
-			_Game.IsFixedTimeStep = false;
-			_Game.Graphics.SynchronizeWithVerticalRetrace = Settings.VideoSettings.VSynchEnabled;
+			_game.IsMouseVisible = true;
+			_game.IsFixedTimeStep = false;
+			_game.Graphics.SynchronizeWithVerticalRetrace = Settings.VideoSettings.VSynchEnabled;
 
-			var S = SettingsManager.Settings;
-			if ( S.VideoSettings.FullscreenResolution.Width == 0 )
+			var s = Settings;
+			if ( s.VideoSettings.FullscreenResolution.Width == 0 )
 			{
-				S.VideoSettings.FullscreenResolution.Width = _Game.GraphicsDevice.DisplayMode.Width;
-				S.VideoSettings.FullscreenResolution.Height = _Game.GraphicsDevice.DisplayMode.Height;
+				s.VideoSettings.FullscreenResolution.Width = _game.GraphicsDevice.DisplayMode.Width;
+				s.VideoSettings.FullscreenResolution.Height = _game.GraphicsDevice.DisplayMode.Height;
 			}
 			
-			_Game.Graphics.IsFullScreen = S.VideoSettings.FullScreen;
-			if ( S.VideoSettings.FullScreen )
+			_game.Graphics.IsFullScreen = s.VideoSettings.FullScreen;
+			if ( s.VideoSettings.FullScreen )
 			{
-				_Game.Graphics.PreferredBackBufferWidth = S.VideoSettings.FullscreenResolution.Width;
-				_Game.Graphics.PreferredBackBufferHeight = S.VideoSettings.FullscreenResolution.Height;
+				_game.Graphics.PreferredBackBufferWidth = s.VideoSettings.FullscreenResolution.Width;
+				_game.Graphics.PreferredBackBufferHeight = s.VideoSettings.FullscreenResolution.Height;
 			}
 			else
 			{
-				_Game.Graphics.PreferredBackBufferWidth = S.VideoSettings.WindowedResolution.Width;
-				_Game.Graphics.PreferredBackBufferHeight = S.VideoSettings.WindowedResolution.Height;
+				_game.Graphics.PreferredBackBufferWidth = s.VideoSettings.WindowedResolution.Width;
+				_game.Graphics.PreferredBackBufferHeight = s.VideoSettings.WindowedResolution.Height;
 			}
-			_Game.Graphics.ApplyChanges();
+			_game.Graphics.ApplyChanges();
 		}
 	}
 }

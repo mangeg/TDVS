@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Drawing;
 using Microsoft.Xna.Framework;
 
-namespace TDVS.Game
+namespace TDVS.Common.Utils
 {
 	public static class FormsHelpers
 	{
@@ -43,7 +40,7 @@ namespace TDVS.Game
 
 		public static Vector4 RGBtoHSV( System.Drawing.Color color )
 		{
-			Vector4 res = new Vector4();
+			var res = new Vector4();
 			res.W = ( float )color.A / 255;
 			float r, g, b;
 			r = ( float )color.R / 255;
@@ -87,7 +84,7 @@ namespace TDVS.Game
 		}
 		public static System.Drawing.Color HSVtoRGB( Vector4 hsv )
 		{
-			System.Drawing.Color res = new System.Drawing.Color();
+			var res = new System.Drawing.Color();
 			int i;
 			float f, p, q, t;
 			if ( hsv.Y == 0 )
@@ -129,11 +126,10 @@ namespace TDVS.Game
 		}
 		public static void RGBtoHSV( float r, float g, float b, ref float h, ref float s, ref float v )
 		{
-			float min, max, delta;
-			min = Math.Min( Math.Min( r, g ), b );
-			max = Math.Max( Math.Max( r, g ), b );
+			var min = Math.Min( Math.Min( r, g ), b );
+			var max = Math.Max( Math.Max( r, g ), b );
 			v = max;				// v
-			delta = max - min;
+			var delta = max - min;
 
 			s = 0;
 			if ( max != 0 )
@@ -164,8 +160,6 @@ namespace TDVS.Game
 		}
 		public static void HSVtoRGB( ref float r, ref float g, ref float b, float h, float s, float v )
 		{
-			int i;
-			float f, p, q, t;
 			if ( s == 0 )
 			{
 				// achromatic (grey)
@@ -173,11 +167,11 @@ namespace TDVS.Game
 				return;
 			}
 			h /= 60;			// sector 0 to 5
-			i = ( int )Math.Floor( h );
-			f = h - i;			// factorial part of h
-			p = v * ( 1 - s );
-			q = v * ( 1 - s * f );
-			t = v * ( 1 - s * ( 1 - f ) );
+			var i = ( int )Math.Floor( h );
+			var f = h - i;
+			var p = v * ( 1 - s );
+			var q = v * ( 1 - s * f );
+			var t = v * ( 1 - s * ( 1 - f ) );
 			switch ( i )
 			{
 				case 0:

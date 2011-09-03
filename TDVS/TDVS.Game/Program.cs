@@ -1,5 +1,3 @@
-using System;
-
 namespace TDVS.Game
 {
 #if WINDOWS || XBOX
@@ -8,9 +6,9 @@ namespace TDVS.Game
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
-		static void Main( string[] args )
+		static void Main()
 		{
-			using ( TDVSGame game = new TDVSGame() )
+			using ( var game = new TDVSGame() )
 			{
 				game.Run();
 			}

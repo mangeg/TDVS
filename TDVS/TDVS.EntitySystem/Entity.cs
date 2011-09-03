@@ -1,22 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
 using System.Collections;
+using TDVS.Common;
 
 namespace TDVS.EntitySystem
 {
+	/// <summary>
+	/// The basic entity class for all game entities.
+	/// </summary>
 	[Serializable]
 	public class Entity
 	{
 		private int _id;
 
-		private BitArray _typeBits = new BitArray( EntitySystem.MAX_COMPONENT_TYPE_BITS );
-		private BitArray _systemBits = new BitArray( EntitySystem.MAX_COMPONENT_TYPE_BITS );
-
+		private BitArrayExt _typeBits = new BitArrayExt( EntitySystem.MAX_NR_COMPONENT_TYPES );
+		private BitArrayExt _systemBits = new BitArrayExt( EntitySystem.MAX_NR_SYSTEM_TYPES );
+		
 		private EntityManager _entityManager;
-		private World _world;
 
 		/// <summary>
 		/// Gets the unique ID for this <see cref="Entity"/>.
@@ -34,11 +34,12 @@ namespace TDVS.EntitySystem
 		/// The type bits.
 		/// </value>
 		[XmlIgnore]
-		public BitArray TypeBits
+		public BitArrayExt TypeBits
 		{
 			get { return _typeBits; }
 			set { _typeBits = value; }
 		}
+
 		/// <summary>
 		/// Gets or sets the system bits.
 		/// </summary>
@@ -46,11 +47,12 @@ namespace TDVS.EntitySystem
 		/// The system bits.
 		/// </value>
 		[XmlIgnore]
-		public BitArray SystemBits
+		public BitArrayExt SystemBits
 		{
 			get { return _systemBits; }
 			set { _systemBits = value; }
 		}
+
 		/// <summary>
 		/// Sets the world.
 		/// </summary>
@@ -60,8 +62,9 @@ namespace TDVS.EntitySystem
 		[XmlIgnore]
 		internal World World
 		{
-			set { _world = value; }
+			set { if ( value == null ) throw new ArgumentNullException( "value" ); }
 		}
+
 		/// <summary>
 		/// Sets the entity manager.
 		/// </summary>
@@ -85,13 +88,11 @@ namespace TDVS.EntitySystem
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Entity"/> class.
 		/// </summary>
-		/// <param name="manager">The manager.</param>
 		/// <param name="world">The world.</param>
+		/// <param name="id">The id.</param>
 		public Entity( World world, int id )
-			: base()
 		{
 			_entityManager = world.EntityManager;
-			_world = world;
 			_id = id;
 		}
 
@@ -115,10 +116,16 @@ namespace TDVS.EntitySystem
 			return String.Format( "Entity[{0}]", _id );
 		}
 
+		/// <summary>
+		/// Refreshes this instance.
+		/// </summary>
 		public void Refresh()
 		{
-
+			_entityManager.Refersh( this );
 		}
+		/// <summary>
+		/// Deletes this instance.
+		/// </summary>
 		public void Delete()
 		{
 			_entityManager.Delete( this );

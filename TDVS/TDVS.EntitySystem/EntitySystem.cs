@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections;
+using TDVS.Common;
+using TDVS.Common.Extensions;
 
 namespace TDVS.EntitySystem
 {
@@ -11,16 +13,37 @@ namespace TDVS.EntitySystem
 	/// </summary>
 	public abstract class EntitySystem
 	{
-		public static readonly int MAX_COMPONENT_TYPE_BITS = 128;
-		public static readonly int MAX_SYSTEM_TYPE_BITS = 64;
+		/// <summary>
+		/// Sets the max number of component types allowed.
+		/// </summary>
+		public static readonly int MAX_NR_COMPONENT_TYPES = 128;
+		/// <summary>
+		/// Sets the max number of entity system types.
+		/// </summary>
+		public static readonly int MAX_NR_SYSTEM_TYPES = 64;
 
+		/// <summary>
+		/// Enabled flag
+		/// </summary>
 		protected bool _enabled;
 
-		protected BitArray _systemBits = new BitArray( EntitySystem.MAX_SYSTEM_TYPE_BITS );
-		protected BitArray _typeBits = new BitArray( EntitySystem.MAX_COMPONENT_TYPE_BITS );
+		/// <summary>
+		/// System bits for this type.
+		/// </summary>
+		protected BitArrayExt _systemBits = new BitArrayExt( EntitySystem.MAX_NR_SYSTEM_TYPES );
+		/// <summary>
+		/// Type bits for this type.
+		/// </summary>
+		protected BitArrayExt _typeBits = new BitArrayExt( EntitySystem.MAX_NR_COMPONENT_TYPES );
 
+		/// <summary>
+		/// All entities bound to this system.
+		/// </summary>
 		protected Dictionary<int, Entity> _entities = new Dictionary<int, Entity>();
 
+		/// <summary>
+		/// Reference to the world object.
+		/// </summary>
 		protected World _world;
 
 		/// <summary>
@@ -29,7 +52,7 @@ namespace TDVS.EntitySystem
 		/// <value>
 		/// The system bit.
 		/// </value>
-		public BitArray SystemBit
+		public BitArrayExt SystemBit
 		{
 			get { return _systemBits; }
 			set { _systemBits = value; }
@@ -40,7 +63,7 @@ namespace TDVS.EntitySystem
 		/// <value>
 		/// The type bit.
 		/// </value>
-		public BitArray TypeBit
+		public BitArrayExt TypeBit
 		{
 			get { return _typeBits; }
 			set { _typeBits = value; }
@@ -68,20 +91,18 @@ namespace TDVS.EntitySystem
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EntitySystem"/> class.
 		/// </summary>
-		public EntitySystem()
+		protected EntitySystem()
 		{
 		}
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EntitySystem"/> class.
 		/// </summary>
 		/// <param name="types">The types (components) that this system handles.</param>
-		public EntitySystem( params Type[] types )
+		protected EntitySystem( params Type[] types )
 		{
-			for ( int i = 0; i < types.Length; i++ )
+			foreach ( var ctype in types.Select( ComponentTypeManager.GetTypeFor ) )
 			{
-				var type = types[ i ];
-				ComponentType ctype = ComponentTypeManager.GetTypeFor( type );
-				_typeBits = _typeBits.Or( ctype.Bit );
+				_typeBits.Or( ctype.Bit );
 			}
 		}
 
@@ -112,7 +133,7 @@ namespace TDVS.EntitySystem
 		/// <param name="e">The etity to add.</param>
 		public void AddEntity( Entity e )
 		{
-			e.SystemBits = e.SystemBits.Or( _systemBits );
+			e.SystemBits.Or( _systemBits );
 			_entities.Add( e.ID, e );
 			EntityAdded( e );
 		}
@@ -122,7 +143,7 @@ namespace TDVS.EntitySystem
 		/// <param name="e">The entity to remove.</param>
 		public void RemoveEntity( Entity e )
 		{
-			e.SystemBits = e.SystemBits.And( _systemBits.Not() );
+			e.SystemBits.And( _systemBits.Not() );
 			if ( _entities.ContainsKey( e.ID ) )
 				_entities.Remove( e.ID );
 			EntityRemoved( e );
@@ -133,8 +154,8 @@ namespace TDVS.EntitySystem
 		/// <param name="e">The entity that have changed.</param>
 		public void EntityChanged( Entity e )
 		{
-			bool contains = _systemBits.And( e.SystemBits ) == _systemBits;
-			bool interest = _typeBits.And( e.TypeBits ) == _typeBits;
+			var contains = ( _systemBits & e.SystemBits ) == _systemBits;
+			var interest = ( _typeBits & e.TypeBits ) == e.TypeBits;
 
 			if ( interest && !contains )
 			{
@@ -158,7 +179,7 @@ namespace TDVS.EntitySystem
 		/// <summary>
 		/// Processes entities.
 		/// </summary>
-		/// <param name="enteties">The entities.</param>
+		/// <param name="entities">The entities.</param>
 		public virtual void ProcessEntities( Dictionary<int, Entity> entities ) { }
 
 		/// <summary>
@@ -193,5 +214,18 @@ namespace TDVS.EntitySystem
 		/// </summary>
 		/// <param name="e">The entity that was removed.</param>
 		public virtual void EntityRemoved( Entity e ) { }
+
+		/// <summary>
+		/// Gets a merged array of types.
+		/// </summary>
+		/// <param name="reqType">Type of the required type.</param>
+		/// <param name="types">The other types.</param>
+		/// <returns></returns>
+		public static Type[] GetTypes( Type reqType, params Type[] types )
+		{
+			var list = types.ToList();
+			list.Insert( 0, reqType );
+			return list.ToArray();
+		}
 	}
 }

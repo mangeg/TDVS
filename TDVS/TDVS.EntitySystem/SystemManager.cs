@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace TDVS.EntitySystem
 {
+	/// <summary>
+	/// Manager for <see cref="EntitySystem"/> instances.
+	/// </summary>
 	public class SystemManager
 	{
-		private World _world;
-		private Dictionary<Type, EntitySystem> _systems = new Dictionary<Type, EntitySystem>();
-		private List<EntitySystem> _systemsList = new List<EntitySystem>();
+		private readonly World _world;
+		private readonly Dictionary<Type, EntitySystem> _systems = new Dictionary<Type, EntitySystem>();
+		private readonly List<EntitySystem> _systemsList = new List<EntitySystem>();
 
 		/// <summary>
 		/// Gets a list of all currently set systems.
@@ -41,8 +42,7 @@ namespace TDVS.EntitySystem
 			if ( !_systemsList.Contains( system ) )
 				_systemsList.Add( system );
 
-			// TODO: Create the manager for system bits.
-			//system.SystemBit = system.SystemBit.And()
+			system.SystemBit.Or( SystemBitManager.GetBit<T>() );
 
 			return system;
 		}
@@ -63,9 +63,9 @@ namespace TDVS.EntitySystem
 		/// </summary>
 		public void InitializeAll()
 		{
-			for ( int i = 0; i < _systemsList.Count; i++ )
+			foreach (var t in _systemsList)
 			{
-				_systemsList[ i ].Initialize();				
+				t.Initialize();
 			}
 		}
 	}
