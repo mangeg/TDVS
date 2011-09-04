@@ -11,3 +11,5 @@ http://t-machine.org/index.php/2007/09/03/entity-systems-are-the-future-of-mmog-
 Dependancy Injection:
 ------------------------------
 http://www.ic.uff.br/~mzamith/dependency-sbgames.pdf
+
+http://xnaresources.com/

@@ -19,7 +19,7 @@ namespace NLogLayoutViewer
 	{
 		private readonly MemoryTarget _target;
 		private Settings _settings;
-		private XmlSerializer _xmls;
+		private readonly XmlSerializer _xmls;
 
 		public String FormatText
 		{

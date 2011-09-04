@@ -18,7 +18,7 @@ namespace TDVS.Server
 
         public void Initialize(int port, int maxConnections)
         {
-            Configuration = new NetPeerConfiguration(Common.Settings.APPLICATION_NAME)
+            Configuration = new NetPeerConfiguration(Common.Settings.Settings.APPLICATION_NAME)
                                 {
                                     Port = port,
                                     MaximumConnections = maxConnections

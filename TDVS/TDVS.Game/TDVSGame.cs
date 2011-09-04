@@ -1,24 +1,22 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using NLog;
-using TDVS.Common;
 using TDVS.Common.Extensions;
 using TDVS.Common.Input;
+using TDVS.Common.Settings;
 using TDVS.Common.Utils;
 using TDVS.EntitySystem;
-using TDVS.Game.EntitySystems;
 using TDVS.Game.EntitySystems.Components;
-using TDVS.Game.Screen;
-using TDVS.Game.Screen.Menues;
-using TDVS.Game.Settings;
 using TDVS.Game.Systems;
-using LogManager = TDVS.Common.Logging.LogManager;
+using SettingsManager = TDVS.Game.Settings.SettingsManager;
 
 namespace TDVS.Game
 {
+	public class TestSettings : SettingsBase
+	{
+		public String TheSetting { get; set; }
+	}
 	/// <summary>
 	/// This is the main type for your game
 	/// </summary>
