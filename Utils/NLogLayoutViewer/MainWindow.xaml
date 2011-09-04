@@ -1,0 +1,24 @@
+﻿<Window x:Class="NLogLayoutViewer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="NLog Layout Viewer" Height="1000" Width="1500"
+        DataContext="{Binding}" FontFamily="Consolas">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <TextBox Grid.Column="0"
+                 AcceptsTab="True"
+                 AcceptsReturn="True"
+                 Name="txtUserInput"
+                 Text="{Binding FormatText, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="1" 
+                 IsReadOnly="False" 
+                 Text="{Binding Result}" 
+                 AcceptsTab="True"
+                 TextWrapping="Wrap"
+                 AcceptsReturn="True"
+                 Name="txtResult"/>
+    </Grid>
+</Window>
