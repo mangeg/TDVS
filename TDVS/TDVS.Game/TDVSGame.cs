@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using NLog;
 using TDVS.Common;
 using TDVS.Common.Extensions;
 using TDVS.Common.Input;
@@ -13,6 +15,7 @@ using TDVS.Game.Screen;
 using TDVS.Game.Screen.Menues;
 using TDVS.Game.Settings;
 using TDVS.Game.Systems;
+using LogManager = TDVS.Common.Logging.LogManager;
 
 namespace TDVS.Game
 {
@@ -135,9 +138,9 @@ namespace TDVS.Game
 
 			UIRenderSystem.Process();
 
-			_spriteBatch.DrawString( _font, "FPS: " + ( FpsMeter.sFPS ), new Vector2( 10, 10 ), 
+			_spriteBatch.DrawString( _font, "FPS: " + ( FpsMeter.sFPS ), new Vector2( 10, 10 ),
 				Color.Green, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 1 );
-			_spriteBatch.DrawString( _font, "MS/f: " + ( gameTime.ElapsedGameTime.TotalMilliseconds ), 
+			_spriteBatch.DrawString( _font, "MS/f: " + ( gameTime.ElapsedGameTime.TotalMilliseconds ),
 				new Vector2( 10, 10 + _font.LineSpacing * 0.8f ), Color.Green, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 1 );
 
 			_spriteBatch.End();

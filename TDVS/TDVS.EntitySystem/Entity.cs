@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 using System.Collections;
 using TDVS.Common;
@@ -103,6 +104,33 @@ namespace TDVS.EntitySystem
 		{
 			_typeBits.SetAll( false );
 			_systemBits.SetAll( false );			
+		}
+		/// <summary>
+		/// Adds the component to the entity.
+		/// </summary>
+		/// <param name="component">The component.</param>
+		/// <returns>The <see cref="IComponent"/> that was passed in.</returns>
+		public IComponent AddComponent( IComponent component )
+		{
+			return _entityManager.AddComponent( this, component );
+		}
+		/// <summary>
+		/// Gets a component of specific type.
+		/// </summary>
+		/// <typeparam name="T">Type of component</typeparam>
+		/// <returns>The component if found.</returns>
+		public T GetComponent<T>() where T : IComponent
+		{
+			return _entityManager.GetComponent<T>( this );
+		}
+		/// <summary>
+		/// Gets all the components of the specific type.
+		/// </summary>
+		/// <typeparam name="T">The type of components to get.</typeparam>
+		/// <returns><see cref="IEnumerable{T}"/> of all the components of the specific type.</returns>
+		public IEnumerable<T> GetComponents<T>() where T : IComponent
+		{
+			return _entityManager.GetComponents<T>( this );
 		}
 
 		/// <summary>
