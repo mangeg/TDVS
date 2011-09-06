@@ -13,6 +13,7 @@ using TDVS.Game.Screen;
 using TDVS.Game.Screen.Menues;
 using TDVS.Game.Settings;
 using TDVS.Game.Systems;
+using TDVS.Common.TileMap;
 
 namespace TDVS.Game
 {
@@ -27,10 +28,14 @@ namespace TDVS.Game
 		//		private ScreenManager _screenManager;
 		private ComponentPool _pool;
 
+	    private TileMap _tilemap;
+	    private Texture2D _tileset;
+
+
 		public EntitySystem.EntitySystem UIRenderSystem { get; set; }
 		public EntitySystem.EntitySystem MovementSystem2D { get; set; }
 		public World World { get; private set; }
-
+        
 		public TDVSGame()
 		{
 			Graphics = new GraphicsDeviceManager( this );
@@ -49,6 +54,8 @@ namespace TDVS.Game
 			World.EntityManager.ComponentRemoved += ComponentRemoved;
 			_pool = new ComponentPool( typeof( IComponent ).GetDerivedTypes().ToArray() );
 			_pool.Initialize();
+
+
 
 			/*_screenManager = new ScreenManager( this );
 			Components.Add( _screenManager );*/
@@ -89,6 +96,9 @@ namespace TDVS.Game
 
 			_spriteBatch = new SpriteBatch( GraphicsDevice );
 			_font = Content.Load<SpriteFont>( @"Fonts\DefaultMenuFont" );
+
+		    _tileset = Content.Load<Texture2D>( @"Textures\tilemap" );
+		    _tilemap = new TileMap( _tileset );
 
 			var systemManager = World.SystemManager;
 			UIRenderSystem = systemManager.SetSystem( new UIRenderSystem( _spriteBatch, Content, typeof( Transform2D ) ) );
@@ -139,6 +149,8 @@ namespace TDVS.Game
 				Color.Green, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 1 );
 			_spriteBatch.DrawString( _font, "MS/f: " + ( gameTime.ElapsedGameTime.TotalMilliseconds ), 
 				new Vector2( 10, 10 + _font.LineSpacing * 0.8f ), Color.Green, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 1 );
+
+            _tilemap.Draw( _spriteBatch );
 
 			_spriteBatch.End();
 
