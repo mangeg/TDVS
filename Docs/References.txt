@@ -14,11 +14,12 @@ http://www.ic.uff.br/~mzamith/dependency-sbgames.pdf
 
 http://xnaresources.com/
 
-2D Camer:
+2D Camera:
 ------------------------------
 http://torshall.se/?p=272
 http://www.paradeofrain.com/tutorials/xna-camera-2d/
 http://gamecamp.no/blogs/tutorials/archive/2008/01/29/creating-a-simple-xna-camera-class.aspx
+http://www.david-amador.com/2009/10/xna-camera-2d-with-zoom-and-rotation/
 
 
 Videos:
