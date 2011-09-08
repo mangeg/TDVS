@@ -13,3 +13,14 @@ Dependancy Injection:
 http://www.ic.uff.br/~mzamith/dependency-sbgames.pdf
 
 http://xnaresources.com/
+
+2D Camer:
+------------------------------
+http://torshall.se/?p=272
+http://www.paradeofrain.com/tutorials/xna-camera-2d/
+http://gamecamp.no/blogs/tutorials/archive/2008/01/29/creating-a-simple-xna-camera-class.aspx
+
+
+Videos:
+------------------------------
+http://www.screencast.com/users/sh8zen/folders/Xna
