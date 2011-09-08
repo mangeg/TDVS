@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using TDVS.Common.Input;
 using TDVS.Common.Resources;
+using TDVS.Common.Settings;
 using TDVS.Common.Utils;
 using TDVS.EntitySystem;
 using TDVS.Game.Components;
@@ -21,8 +22,8 @@ namespace TDVS.Game
 		private EntitySystem.EntitySystem UISceneGraphUpdateSystem { get; set; }
 		private EntitySystem.EntitySystem UISceneGraphRenderSystem { get; set; }
 
-	    private Camera2DUpdateSystem _cameraSystem;
-	    private Entity _cameraEntity;
+		private Camera2DUpdateSystem _cameraSystem;
+		private Entity _cameraEntity;
 
 		public World( Microsoft.Xna.Framework.Game game )
 		{
@@ -40,7 +41,7 @@ namespace TDVS.Game
 
 			UISceneGraphUpdateSystem = SystemManager.SetSystem( new UISceneGraphUpdateSystem() );
 			UISceneGraphRenderSystem = SystemManager.SetSystem( new UISceneGraphRenderSystem( SpriteBatch, _device ) );
-            _cameraSystem = SystemManager.SetSystem(new Camera2DUpdateSystem());
+			_cameraSystem = SystemManager.SetSystem( new Camera2DUpdateSystem() );
 
 			var root = EntityManager.Create();
 			root.SetTag( "UIROOT" );
@@ -96,16 +97,16 @@ namespace TDVS.Game
 			rootNode.Children.Add( e );
 			e.Refresh();
 
-		    e = EntityManager.Create( );
-		    e.AddComponent( new SceneNodeComponent( ) {Parent = root} );
-		    var camera = (Camera2DComponent)e.AddComponent( new Camera2DComponent( ) );
-		    var windowedResolution = TDVS.Common.Settings.SettingsManager.Get<GameSettings>( ).VideoSettings.WindowedResolution;
-            camera.ViewPortSize = new Point(windowedResolution.Width, windowedResolution.Height);
-            camera.WorldRectangle = new Rectangle(0, 0, 16000, 16000);
-		    _cameraEntity = e;
-		    _cameraSystem = SystemManager.GetSystem<Camera2DUpdateSystem>( );
+			e = EntityManager.Create();
+			e.AddComponent( new SceneNodeComponent() { Parent = root } );
+			var camera = ( Camera2DComponent )e.AddComponent( new Camera2DComponent() );
+			var windowedResolution = SettingsManager.Get<GameSettings>().VideoSettings.WindowedResolution;
+			camera.ViewPortSize = new Point( windowedResolution.Width, windowedResolution.Height );
+			camera.WorldRectangle = new Rectangle( 0, 0, 16000, 16000 );
+			_cameraEntity = e;
+			_cameraSystem = SystemManager.GetSystem<Camera2DUpdateSystem>();
 
-            e.Refresh(  );
+			e.Refresh();
 		}
 
 		public override void UnloadResources()
@@ -117,21 +118,19 @@ namespace TDVS.Game
 			InputManager.Update();
 			FpsMeter.SUpdate( gameTime );
 			UISceneGraphUpdateSystem.Process();
-
-            
 		}
 
 		public override void Draw( GameTime gameTime )
 		{
 
 			_device.Clear( Color.DarkBlue );
-			SpriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, _cameraSystem.Transform( _cameraEntity ));
+			SpriteBatch.Begin( SpriteSortMode.BackToFront, null, null, null, null, null, _cameraSystem.Transform( _cameraEntity ) );
 
 			UISceneGraphRenderSystem.Process();
 
-			SpriteBatch.DrawString( ResourceManager.Get<SpriteFont>( @"Fonts\DefaultBold" ), 
+			SpriteBatch.DrawString( ResourceManager.Get<SpriteFont>( @"Fonts\DefaultBold" ),
 				"FPS: " + ( FpsMeter.sFPS ), new Vector2( 10, 10 ), Color.Green, 0, Vector2.Zero, 1f, SpriteEffects.None, 1 );
-			SpriteBatch.DrawString( ResourceManager.Get<SpriteFont>( @"Fonts\DefaultBold" ), 
+			SpriteBatch.DrawString( ResourceManager.Get<SpriteFont>( @"Fonts\DefaultBold" ),
 				"MS/f: " + ( gameTime.ElapsedGameTime.TotalMilliseconds ), new Vector2( 10, 10 + ResourceManager.Get<SpriteFont>( @"Fonts\DefaultBold" ).LineSpacing * 0.8f ), Color.Green, 0, Vector2.Zero, 1f, SpriteEffects.None, 1 );
 
 

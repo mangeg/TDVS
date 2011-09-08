@@ -28,9 +28,10 @@ namespace TDVS.Common.Input
 			Update();
 		}
 
-		#region Keyboard
 		private static KeyboardState _currentKeyboardState;
 		private static KeyboardState _prevKeyboardState;
+		private static MouseState _currentMouseState;
+		private static MouseState _prevMouseState;
 
 		/// <summary>
 		/// Gets the state of the current keyboard.
@@ -76,12 +77,7 @@ namespace TDVS.Common.Input
 			return _currentKeyboardState.IsKeyDown( key ) &&
 				!_prevKeyboardState.IsKeyDown( key );
 		}
-		#endregion
-
-		#region Mouse
-
-		private static MouseState _currentMouseState;
-		private static MouseState _prevMouseState;
+		
 
 		/// <summary>
 		/// Gets the current state of the mouse.
@@ -207,8 +203,6 @@ namespace TDVS.Common.Input
 				return new Vector2( dX, dY );
 			}
 		}
-
-		#endregion
 
 		/// <summary>
 		/// Updates this instance and fetch new states for input devices.

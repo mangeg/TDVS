@@ -33,10 +33,10 @@ namespace TDVS.Game.Systems.UI
 				Process( child );
 			}
 
-			Update( e, node );
+			Render( e, node );
 		}
 
-		private void Update( Entity e, SceneNodeComponent node )
+		private void Render( Entity e, SceneNodeComponent node )
 		{
 			var transform = e.GetComponent<Transform2DComponent>();
 			var sprite = e.GetComponent<SpriteComponent>();
@@ -80,7 +80,7 @@ namespace TDVS.Game.Systems.UI
 			var iY = ( int )y;
 			var h = border.Height;
 			var w = border.Width;
-			var trd = size / 3;
+			var trd = ( int )( size * 0.33333333f );
 			//var rest = size % 3;
 			var section = ( int )( trd * scale );
 			//var origin = new Vector2( w / 2, h / 2 );
