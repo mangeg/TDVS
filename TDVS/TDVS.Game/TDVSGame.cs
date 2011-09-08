@@ -6,8 +6,6 @@ using TDVS.Common.Resources;
 using TDVS.Common.Settings;
 using TDVS.EntitySystem;
 using TDVS.Game.Settings;
-using TDVS.Game.Systems;
-using Microsoft.Xna.Framework.Input;
 
 namespace TDVS.Game
 {
@@ -18,9 +16,6 @@ namespace TDVS.Game
 	{
 		public GraphicsDeviceManager Graphics;
 		private ComponentPool _pool;
-
-	    private TDVS.TileMap.TileMap _tilemap;
-	    private Texture2D _tileset;
 		public World World { get; private set; }
         
 		public TDVSGame()
@@ -61,11 +56,6 @@ namespace TDVS.Game
 		{
 			base.LoadContent();
 			World.LoadResource();
-		    _tileset = Content.Load<Texture2D>( @"Textures\tilemap" );
-		    _tilemap = new TDVS.TileMap.TileMap( _tileset );
-		    Camera.Camera.Initialize( new Point( 1600, 1600 ),
-		                              new Point( SettingsManager.Settings.VideoSettings.WindowedResolution.Width,
-		                                         SettingsManager.Settings.VideoSettings.WindowedResolution.Height ) );
 		}
 		/// <summary>
 		/// UnloadContent will be called once per game and is the place to unload
@@ -83,19 +73,6 @@ namespace TDVS.Game
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Update( GameTime gameTime )
 		{
-		    var k = Keyboard.GetState( );
-            if (k.IsKeyDown(Keys.W))
-                Camera.Camera.Move(new Vector2(0.0f, -1.0f));
-            if (k.IsKeyDown(Keys.A))
-                Camera.Camera.Move(new Vector2(-1.0f, 0.0f));
-            if (k.IsKeyDown(Keys.S))
-                Camera.Camera.Move(new Vector2(0.0f, 1.0f));
-            if (k.IsKeyDown(Keys.D))
-                Camera.Camera.Move(new Vector2(1.0f, 0.0f));
-
-
-            Console.WriteLine(Camera.Camera.Position.X + ", " + Camera.Camera.Position.Y);
-            _tilemap.Update( gameTime, Camera.Camera.Position, Camera.Camera.ViewPortSize );
 			base.Update( gameTime );
 			World.Update( gameTime );
 		}
@@ -105,9 +82,6 @@ namespace TDVS.Game
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Draw( GameTime gameTime )
 		{
-			_spriteBatch.Begin();
-            _tilemap.Draw( _spriteBatch );
-			_spriteBatch.End();
 			base.Draw( gameTime );
 			World.Draw( gameTime );
 		}

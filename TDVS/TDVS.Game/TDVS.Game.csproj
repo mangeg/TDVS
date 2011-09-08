@@ -138,6 +138,7 @@
   <ItemGroup>
     <Compile Include="Camera\Camera.cs" />
     <Compile Include="ComponentPool.cs" />
+    <Compile Include="Components\Camera2DComponent.cs" />
     <Compile Include="Components\ColorComponent.cs" />
     <Compile Include="Components\LocalTransform2DComponent.cs" />
     <Compile Include="Components\SceneNodeComponent.cs" />
@@ -159,6 +160,8 @@
     <Compile Include="Screen\MenuScreen.cs" />
     <Compile Include="Screen\ScreenManager.cs" />
     <Compile Include="Settings\GameSettings.cs" />
+    <Compile Include="Systems\Camera\Camera2DUpdateSystem.cs" />
+    <Compile Include="Systems\Tilemap\TilemapRenderSystem.cs" />
     <Compile Include="Systems\UI\UISceneGraphRenderSystem.cs" />
     <Compile Include="Systems\UI\UISceneGraphUpdateSystem.cs" />
     <Compile Include="TDVSGame.cs" />

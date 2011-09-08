@@ -165,6 +165,7 @@
   <ItemGroup>
     <Content Include="NLogFormat.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
