@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using NLog;
 using TDVS.Common;
 using TDVS.Common.Extensions;
 using TDVS.Common.Input;
@@ -13,7 +15,7 @@ using TDVS.Game.Screen;
 using TDVS.Game.Screen.Menues;
 using TDVS.Game.Settings;
 using TDVS.Game.Systems;
-using TDVS.Common.TileMap;
+using Microsoft.Xna.Framework.Input;
 
 namespace TDVS.Game
 {
@@ -28,7 +30,7 @@ namespace TDVS.Game
 		//		private ScreenManager _screenManager;
 		private ComponentPool _pool;
 
-	    private TileMap _tilemap;
+	    private TDVS.TileMap.TileMap _tilemap;
 	    private Texture2D _tileset;
 
 
@@ -98,7 +100,10 @@ namespace TDVS.Game
 			_font = Content.Load<SpriteFont>( @"Fonts\DefaultMenuFont" );
 
 		    _tileset = Content.Load<Texture2D>( @"Textures\tilemap" );
-		    _tilemap = new TileMap( _tileset );
+		    _tilemap = new TDVS.TileMap.TileMap( _tileset );
+		    Camera.Camera.Initialize( new Point( 1600, 1600 ),
+		                              new Point( SettingsManager.Settings.VideoSettings.WindowedResolution.Width,
+		                                         SettingsManager.Settings.VideoSettings.WindowedResolution.Height ) );
 
 			var systemManager = World.SystemManager;
 			UIRenderSystem = systemManager.SetSystem( new UIRenderSystem( _spriteBatch, Content, typeof( Transform2D ) ) );
@@ -127,6 +132,19 @@ namespace TDVS.Game
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Update( GameTime gameTime )
 		{
+		    var k = Keyboard.GetState( );
+            if (k.IsKeyDown(Keys.W))
+                Camera.Camera.Move(new Vector2(0.0f, -1.0f));
+            if (k.IsKeyDown(Keys.A))
+                Camera.Camera.Move(new Vector2(-1.0f, 0.0f));
+            if (k.IsKeyDown(Keys.S))
+                Camera.Camera.Move(new Vector2(0.0f, 1.0f));
+            if (k.IsKeyDown(Keys.D))
+                Camera.Camera.Move(new Vector2(1.0f, 0.0f));
+
+
+            Console.WriteLine(Camera.Camera.Position.X + ", " + Camera.Camera.Position.Y);
+            _tilemap.Update( gameTime, Camera.Camera.Position, Camera.Camera.ViewPortSize );
 			InputManager.Update();
 			MovementSystem2D.Process();
 			base.Update( gameTime );
@@ -145,9 +163,9 @@ namespace TDVS.Game
 
 			UIRenderSystem.Process();
 
-			_spriteBatch.DrawString( _font, "FPS: " + ( FpsMeter.sFPS ), new Vector2( 10, 10 ), 
+			_spriteBatch.DrawString( _font, "FPS: " + ( FpsMeter.sFPS ), new Vector2( 10, 10 ),
 				Color.Green, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 1 );
-			_spriteBatch.DrawString( _font, "MS/f: " + ( gameTime.ElapsedGameTime.TotalMilliseconds ), 
+			_spriteBatch.DrawString( _font, "MS/f: " + ( gameTime.ElapsedGameTime.TotalMilliseconds ),
 				new Vector2( 10, 10 + _font.LineSpacing * 0.8f ), Color.Green, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 1 );
 
             _tilemap.Draw( _spriteBatch );

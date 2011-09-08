@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TDVS.EntitySystem.Tests
 {
@@ -11,7 +12,7 @@ namespace TDVS.EntitySystem.Tests
 		public EntityManagerTests()
 		{
 			_world = new World();
-			_mgr = new EntityManager( _world );
+			_mgr = _world.EntityManager;
 		}
 
 		[TestMethod]
@@ -109,10 +110,23 @@ namespace TDVS.EntitySystem.Tests
 			var entity = _mgr.Create();
 			var component = new TestComponent1();
 
-			_mgr.AddComponent<TestComponent1>( entity, component );
+			_mgr.AddComponent( entity, component );
 
 			Assert.AreEqual( _mgr.GetComponent<TestComponent1>( entity ), component );
 			Assert.AreEqual( _mgr.GetComponent( entity, ComponentTypeManager.GetTypeFor<TestComponent1>() ), component );
+		}
+
+		[TestMethod]
+		public void ensure_mutiple_of_same_type_of_component_can_be_added()
+		{
+			var entity = _mgr.Create();
+
+			entity.AddComponent( new TestComponent1() );
+			entity.AddComponent( new TestComponent1() );
+			entity.AddComponent( new TestComponent2() );
+
+			Assert.AreEqual( entity.GetComponents<TestComponent1>().Count(), 2 );
+			Assert.AreEqual( entity.GetComponents<TestComponent2>().Count(), 1 );
 		}
 
 		[TestMethod]
@@ -121,7 +135,7 @@ namespace TDVS.EntitySystem.Tests
 			var entity = _mgr.Create();
 			var component = new TestComponent1();
 
-			_mgr.AddComponent<TestComponent1>( entity, component );
+			_mgr.AddComponent( entity, component );
 			_mgr.Delete( entity );
 
 			Assert.AreNotEqual( _mgr.GetComponent<TestComponent1>( entity ), component );

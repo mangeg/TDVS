@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using TDVS.Common.Extensions;
 
 namespace TDVS.EntitySystem
@@ -37,8 +38,8 @@ namespace TDVS.EntitySystem
 		private readonly List<int> _activeEnteties = new List<int>();
 		private readonly List<int> _inactiveEnteties = new List<int>();
 
-		private readonly Dictionary<int, Dictionary<int, IComponent>> _componentsForEntity =
-			new Dictionary<int, Dictionary<int, IComponent>>();
+		private readonly Dictionary<int, Dictionary<int, IList<IComponent>>> _componentsForEntity =
+			new Dictionary<int, Dictionary<int, IList<IComponent>>>();
 
 		/// <summary>
 		/// Occurs when an <see cref="Entity"/> is created/activated.
@@ -115,6 +116,7 @@ namespace TDVS.EntitySystem
 				id = _allEnteties.Count;
 				e = new Entity( _world, id );
 				_allEnteties.Add( e );
+				_componentsForEntity.Add( e.ID, new Dictionary<int, IList<IComponent>>() );
 			}
 
 			_activeEnteties.Add( id );
@@ -167,7 +169,7 @@ namespace TDVS.EntitySystem
 		/// <param name="e">The entity.</param>
 		public void Refersh( Entity e )
 		{
-			foreach(var system in _world.SystemManager.Systems)
+			foreach ( var system in _world.SystemManager.Systems )
 			{
 				system.EntityChanged( e );
 			}
@@ -178,35 +180,21 @@ namespace TDVS.EntitySystem
 		/// </summary>
 		/// <param name="e">The entity to add the component to.</param>
 		/// <param name="component">The component to add.</param>
-		public void AddComponent( Entity e, IComponent component )
+		/// <returns>The <see cref="IComponent"/> that was passed in.</returns>
+		public IComponent AddComponent( Entity e, IComponent component )
 		{
-			Dictionary<int, IComponent> list;
-
-			ComponentType type = ComponentTypeManager.GetTypeFor( component.GetType() );
-			if ( !_componentsForEntity.ContainsKey( type.ID ) )
+			var type = ComponentTypeManager.GetTypeFor( component.GetType() );
+			if ( !_componentsForEntity[ e.ID ].ContainsKey( type.ID ) )
 			{
-				list = new Dictionary<int, IComponent>();
-				_componentsForEntity.Add( type.ID, list );
-			}
-			else
-			{
-				list = _componentsForEntity[ type.ID ];
+				_componentsForEntity[ e.ID ].Add( type.ID, new List<IComponent>() );
 			}
 
-			list.Add( e.ID, component );
-			e.TypeBits = e.TypeBits.Or( type.Bit );
+			_componentsForEntity[ e.ID ][ type.ID ].Add( component );
+			e.TypeBits.Or( type.Bit );
 			if ( ComponentAdded != null )
 				ComponentAdded( e, component );
-		}
-		/// <summary>
-		/// Adds the component.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="e">The e.</param>
-		/// <param name="component">The component.</param>
-		public void AddComponent<T>( Entity e, IComponent component ) where T : IComponent
-		{
-			AddComponent( e, component );
+
+			return component;
 		}
 		/// <summary>
 		/// Removes the component.
@@ -215,17 +203,26 @@ namespace TDVS.EntitySystem
 		/// <param name="type">The type of component to remove.</param>
 		public void RemoveComponent( Entity e, ComponentType type )
 		{
-			if ( _componentsForEntity.ContainsKey( type.ID ) )
+			// Have we ever registered a component of this type for this entity?
+			if ( _componentsForEntity[ e.ID ].ContainsKey( type.ID ) )
 			{
-				if ( _componentsForEntity[ type.ID ].ContainsKey( e.ID ) )
+				// Do we currently have any component of this type registred.
+				if ( _componentsForEntity[ e.ID ][ type.ID ].Count > 0 )
 				{
-					var component = _componentsForEntity[ type.ID ][ e.ID ];
-					_componentsForEntity[ type.ID ].Remove( e.ID );
-					e.TypeBits = e.TypeBits.And( type.Bit.Not() );
+					// Fire event
 					if ( ComponentRemoved != null )
-						ComponentRemoved( e, component );
+					{
+						foreach ( var component in _componentsForEntity[ e.ID ][ type.ID ] )
+						{
+							ComponentRemoved( e, component );
+						}
+					}
+					// Remove all of them
+					_componentsForEntity[ e.ID ][ type.ID ].Clear();
 				}
 			}
+			// Remove type bits
+			e.TypeBits.And( type.Bit.Not() );
 		}
 		/// <summary>
 		/// Removes all components.
@@ -233,17 +230,12 @@ namespace TDVS.EntitySystem
 		/// <param name="e">The entity to remove all components from.</param>
 		public void RemoveAllComponents( Entity e )
 		{
-			foreach ( var item in _componentsForEntity )
+			foreach ( var componentType in _componentsForEntity[ e.ID ] )
 			{
-				if ( item.Value.ContainsKey( e.ID ) )
-				{
-					var component = item.Value[ e.ID ];
-					item.Value.Remove( e.ID );
-					if ( ComponentRemoved != null )
-						ComponentRemoved( e, component );
-				}
+				RemoveComponent( e, ComponentTypeManager.GetTypeFor( componentType.Key ) );
 			}
 		}
+
 		/// <summary>
 		/// Gets the component.
 		/// </summary>
@@ -252,12 +244,9 @@ namespace TDVS.EntitySystem
 		/// <returns>The <see cref="IComponent"/> if found; else <c>null</c>.</returns>
 		public IComponent GetComponent( Entity e, ComponentType type )
 		{
-			if ( _componentsForEntity.ContainsKey( type.ID ) )
+			if ( _componentsForEntity[ e.ID ].ContainsKey( type.ID ) )
 			{
-				if ( _componentsForEntity[ type.ID ].ContainsKey( e.ID ) )
-				{
-					return _componentsForEntity[ type.ID ][ e.ID ];
-				}
+				return _componentsForEntity[ e.ID ][ type.ID ].FirstOrDefault();
 			}
 
 			return null;
@@ -271,7 +260,22 @@ namespace TDVS.EntitySystem
 		public T GetComponent<T>( Entity e ) where T : IComponent
 		{
 			var type = ComponentTypeManager.GetTypeFor<T>();
-			return (T)GetComponent( e, type );
+			return ( T )GetComponent( e, type );
+		}
+		/// <summary>
+		/// Gets all the components of the specific type.
+		/// </summary>
+		/// <typeparam name="T">The type of components to get.</typeparam>
+		/// <param name="entity">The entity to find the components for.</param>
+		/// <returns>List of all components found.</returns>
+		public IEnumerable<T> GetComponents<T>( Entity entity ) where T : IComponent
+		{
+			var type = ComponentTypeManager.GetTypeFor<T>();
+			if ( _componentsForEntity[ entity.ID ].ContainsKey( type.ID ) )
+			{
+				return _componentsForEntity[ entity.ID ][ type.ID ].Cast<T>();
+			}
+			return null;
 		}
 	}
 }

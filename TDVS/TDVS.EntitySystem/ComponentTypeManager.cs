@@ -10,7 +10,8 @@ namespace TDVS.EntitySystem
 	/// </summary>
 	public static class ComponentTypeManager
 	{
-		private static readonly Dictionary<Type, ComponentType> _sSComponentTypes = new Dictionary<Type, ComponentType>();
+		private static readonly Dictionary<Type, ComponentType> _sComponentTypes = new Dictionary<Type, ComponentType>();
+		private static readonly Dictionary<int, ComponentType> _sComponentTypesByID = new Dictionary<int, ComponentType>();
 
 		/// <summary>
 		/// Gets the <see cref="ComponentType"/>.
@@ -19,15 +20,7 @@ namespace TDVS.EntitySystem
 		/// <returns>The <see cref="ComponentType"/> for this IComponent</returns>
 		public static ComponentType GetTypeFor<T>() where T : IComponent
 		{
-			ComponentType type;
-			Type toFind = typeof( T );
-			if ( !_sSComponentTypes.TryGetValue( toFind, out type ) )
-			{
-				type = new ComponentType();
-				_sSComponentTypes.Add( toFind, type );
-			}
-
-			return type;
+			return GetTypeFor( typeof( T ) );
 		}
 		/// <summary>
 		/// Gets the <see cref="ComponentType"/>.
@@ -37,11 +30,23 @@ namespace TDVS.EntitySystem
 		public static ComponentType GetTypeFor( Type componentType )
 		{
 			ComponentType type;
-			if ( !_sSComponentTypes.TryGetValue( componentType, out type ) )
+			if ( !_sComponentTypes.TryGetValue( componentType, out type ) )
 			{
 				type = new ComponentType();
-				_sSComponentTypes.Add( componentType, type );
+				_sComponentTypes.Add( componentType, type );
+				_sComponentTypesByID.Add( type.ID, type );
 			}
+			return type;
+		}
+		/// <summary>
+		/// Gets the <see cref="ComponentType"/> for a specific ID.
+		/// </summary>
+		/// <param name="id">The ID.</param>
+		/// <returns>The <see cref="ComponentType"/> if found; else <c>null</c>.</returns>
+		public static ComponentType GetTypeFor( int id )
+		{
+			ComponentType type;
+			_sComponentTypesByID.TryGetValue( id, out type );
 			return type;
 		}
 

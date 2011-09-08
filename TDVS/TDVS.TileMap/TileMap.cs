@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-namespace TDVS.Common.TileMap
+namespace TDVS.TileMap
 {
     public class TileMap
     {
@@ -19,6 +19,9 @@ namespace TDVS.Common.TileMap
 
         private Point _tileSize = new Point(64, 64);
         private Point _worldSize = new Point(128, 128); // Size in tiles.
+
+        private Vector2 _cameraPosition = Vector2.Zero;
+        private Point _viewPortSize = Point.Zero;
 
         public TileMap(Texture2D tileset)
         {
@@ -34,16 +37,25 @@ namespace TDVS.Common.TileMap
         }
 
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, Vector2 cameraPosition, Point viewPortSize)
         {
-            
+            _cameraPosition = cameraPosition;
+            _viewPortSize = viewPortSize;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            for(var y = 0; y < _worldSize.Y; y++)
+            var startX = ( int ) _cameraPosition.X/_tileSize.X;
+            var stopX = ( int ) (_cameraPosition.X + _viewPortSize.X) / _tileSize.X;
+
+            var startY = ( int ) _cameraPosition.Y/_tileSize.Y;
+            var stopY = ( int ) (_cameraPosition.Y + _viewPortSize.Y) / _tileSize.Y;
+
+            Console.WriteLine("StartX: " + startX + ", StartY " + startY);
+            Console.WriteLine("StopX: " + stopX+ ", StopY " + stopY);
+            for(var y = startY; y <= stopY; y++)
             {
-                for(var x = 0; x < _worldSize.X; x++)
+                for(var x = startX; x <= stopX; x++)
                 {
                     var tileNo = _map[ y, x ];
 
@@ -52,6 +64,10 @@ namespace TDVS.Common.TileMap
 
                     var sourceRectangle = new Rectangle( x*_tileSize.X, y*_tileSize.Y, _tileSize.X, _tileSize.Y );
                     var destinationRectangle = new Rectangle( tileX*_tileSize.X, tileY*_tileSize.Y, _tileSize.X, _tileSize.Y );
+
+                    sourceRectangle = new Rectangle( sourceRectangle.Left - ( int ) _cameraPosition.X,
+                                                     sourceRectangle.Top - ( int ) _cameraPosition.Y,
+                                                     sourceRectangle.Width, sourceRectangle.Height );
 
                     spriteBatch.Draw( _tileset, sourceRectangle, destinationRectangle, Color.White );
                 }

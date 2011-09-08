@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<nlog xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			autoReload="true">
+  <targets>
+    <target name="file" xsi:type="AsyncWrapper" queueLimit="5000" overflowAction="Discard">
+      <target xsi:type="File"
+							name="mainFile"
+							concurrentWrites="true"
+							concurrentWriteAttempts="5"
+							fileName="${basedir}\${date:format=yy-MM-dd}-${logger}.log"
+							header="${newline}${pad:padding=60:padCharacter=~:fixedLength=true:inner=}
+							${newline}${pad:padding=60:padCharacter=-:fixedLength=true:inner= Logging started ${longdate} --}
+							${newline}${pad:padding=60:padCharacter=~:fixedLength=true:inner=}${newline}${newline}"
+							layout="
+${time}: ${level:uppercase=true} - ${message}
+${onexception:inner=${newline}${pad:padding=80:padCharacter=*:inner=}${newline}
+${pad:padding=10:inner=Method > :padCharacter= }
+${exception:format=Method}${newline}
+${pad:padding=10:inner=Type > :padCharacter= }
+${exception:format=Type}${newline}
+${pad:padding=10: inner=Message > :padCharacter= }
+${exception:format=Message }${newline}
+${pad:padding=10:inner=Stack > :padCharacter= }
+${exception:format=StackTrace}${newline}
+Inner Exception${newline}
+${pad:padding=10:inner=Type > :padCharacter= }
+${exception:format=:innerFormat=Type,:maxInnerExceptionLevel=5:innerExceptionSeparator=}${newline}
+${pad:padding=10:inner=Message > :padCharacter= }
+${exception:format=:innerFormat=Message,:maxInnerExceptionLevel=5:innerExceptionSeparator=}${newline}
+${pad:padding=10:inner=Method > :padCharacter= }
+${exception:format=:innerFormat=Method,:maxInnerExceptionLevel=5:innerExceptionSeparator=}${newline}
+${pad:padding=80:padCharacter=*:inner=}}"
+							footer="---------------------${newline}"              
+							archiveAboveSize="10485760"
+							archiveFileName="${basedir}\${date:format=yy-MM-dd}-${logger}-Archive{##}.log"
+							archiveNumbering="Rolling"
+							maxArchiveFiles="10">
+      </target>
+    </target>
+  </targets>
+
+  <rules>
+    <logger name="*" minlevel="Debug" writeTo="file" />
+  </rules>
+</nlog>

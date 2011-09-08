@@ -24,6 +24,11 @@ namespace TDVS.EntitySystem
 			return GetBit( typeof( T ) );
 		}
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
 		public static BitArrayExt GetBit( Type type )
 		{
 			BitArrayExt res;
