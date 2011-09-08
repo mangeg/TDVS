@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace TDVS.EntitySystem
 {
@@ -8,23 +7,23 @@ namespace TDVS.EntitySystem
 	/// </summary>
 	public abstract class TagSystem : EntitySystem
 	{
-		private readonly String _group;
+		private readonly String _tag;
 
 		/// <summary>
-		/// Gets the group.
+		/// Gets the Tag.
 		/// </summary>
-		public String Group
+		public String Tag
 		{
-			get { return _group; }
+			get { return _tag; }
 		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TagSystem"/> class.
 		/// </summary>
-		/// <param name="group">The group.</param>
-		protected TagSystem( String group )
+		/// <param name="tag">The Tag.</param>
+		protected TagSystem( String tag )
 		{
-			_group = group;
+			_tag = tag;
 		}
 
 		/// <summary>
@@ -33,16 +32,20 @@ namespace TDVS.EntitySystem
 		/// <param name="e">The entity.</param>
 		public abstract void Process( Entity e );
 		/// <summary>
-		/// Processes entities.
+		/// Processes all entities for this system.
+		/// Override to change behavior.
 		/// </summary>
-		/// <param name="entities"></param>
-		public override void ProcessEntities( Dictionary<int, Entity> entities )
+		public override void Process()
 		{
-			var e = _world.TagManager.GetEntity( _group );
+			if ( !CheckProcessing() ) return;
+
+			Begin();
+			var e = _worldBase.TagManager.GetEntity( _tag );
 			if ( e != null )
 			{
 				Process( e );
 			}
+			End();
 		}
 	}
 }

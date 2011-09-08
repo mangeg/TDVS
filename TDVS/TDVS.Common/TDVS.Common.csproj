@@ -103,6 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bag.cs" />
+    <Compile Include="Extensions\XnaStructExtensions.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="BitArrayExt.cs" />
     <Compile Include="Extensions\BitArrayExtensions.cs" />
@@ -110,13 +111,22 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Logging\LogManager.cs" />
+    <Compile Include="Resources\ResourceID.cs" />
+    <Compile Include="Resources\ResourceManager.cs" />
+    <Compile Include="Settings\GameSettingsBase.cs" />
+    <Compile Include="Settings\Resolution.cs" />
+    <Compile Include="Settings\SettingsBase.cs" />
+    <Compile Include="Settings\SettingsManager.cs" />
+    <Compile Include="Settings\Targets\ITarget.cs" />
+    <Compile Include="Settings\Targets\XmlTarget.cs" />
+    <Compile Include="Settings\VideoSettings.cs" />
     <Compile Include="Utils\Cursor.cs" />
     <Compile Include="Utils\FormsHelpers.cs" />
     <Compile Include="Utils\FpsMeter.cs" />
     <Compile Include="Input\InputAction.cs" />
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="Serialization.cs" />
-    <Compile Include="Settings.cs" />
+    <Compile Include="Settings\Settings.cs" />
     <Compile Include="Network\PlayerState.cs" />
     <Compile Include="Network\Packets\BasePacket.cs" />
     <Compile Include="Network\PacketType.cs" />
@@ -161,6 +171,7 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

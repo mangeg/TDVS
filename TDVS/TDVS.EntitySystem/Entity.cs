@@ -18,6 +18,7 @@ namespace TDVS.EntitySystem
 		private BitArrayExt _systemBits = new BitArrayExt( EntitySystem.MAX_NR_SYSTEM_TYPES );
 		
 		private EntityManager _entityManager;
+		private WorldBase _world;
 
 		/// <summary>
 		/// Gets the unique ID for this <see cref="Entity"/>.
@@ -55,13 +56,13 @@ namespace TDVS.EntitySystem
 		}
 
 		/// <summary>
-		/// Sets the world.
+		/// Sets the WorldBase.
 		/// </summary>
 		/// <value>
-		/// The world.
+		/// The WorldBase.
 		/// </value>
 		[XmlIgnore]
-		internal World World
+		internal WorldBase WorldBase
 		{
 			set { if ( value == null ) throw new ArgumentNullException( "value" ); }
 		}
@@ -89,11 +90,12 @@ namespace TDVS.EntitySystem
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Entity"/> class.
 		/// </summary>
-		/// <param name="world">The world.</param>
+		/// <param name="worldBase">The WorldBase.</param>
 		/// <param name="id">The id.</param>
-		public Entity( World world, int id )
+		public Entity( WorldBase worldBase, int id )
 		{
-			_entityManager = world.EntityManager;
+			_world = worldBase;
+			_entityManager = worldBase.EntityManager;
 			_id = id;
 		}
 
@@ -157,6 +159,14 @@ namespace TDVS.EntitySystem
 		public void Delete()
 		{
 			_entityManager.Delete( this );
+		}
+		/// <summary>
+		/// Sets the tag for this entity.
+		/// </summary>
+		/// <param name="tag">The tag.</param>
+		public void SetTag(string tag)
+		{
+			_world.TagManager.Register( tag, this );
 		}
 	}
 }

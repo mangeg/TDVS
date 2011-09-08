@@ -138,8 +138,14 @@
   <ItemGroup>
     <Compile Include="Camera\Camera.cs" />
     <Compile Include="ComponentPool.cs" />
-    <Compile Include="EntitySystems\Components\Transform2D.cs" />
-    <Compile Include="EntitySystems\Components\Velocity.cs" />
+    <Compile Include="Components\ColorComponent.cs" />
+    <Compile Include="Components\LocalTransform2DComponent.cs" />
+    <Compile Include="Components\SceneNodeComponent.cs" />
+    <Compile Include="Components\SpriteComponent.cs" />
+    <Compile Include="Components\Transform2DComponent.cs" />
+    <Compile Include="Components\UI\UIBorderComponent.cs" />
+    <Compile Include="Components\UI\UIText.cs" />
+    <Compile Include="Components\Velocity2DComponent.cs" />
     <Compile Include="HardwareCursor.cs" />
     <Compile Include="Network\Client\Core.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -152,11 +158,11 @@
     <Compile Include="Screen\Menues\VideoMenu.cs" />
     <Compile Include="Screen\MenuScreen.cs" />
     <Compile Include="Screen\ScreenManager.cs" />
-    <Compile Include="Settings\Settings.cs" />
-    <Compile Include="Settings\SettingsManager.cs" />
-    <Compile Include="Systems\MovementSystem2D.cs" />
-    <Compile Include="Systems\UIRenderSystem.cs" />
+    <Compile Include="Settings\GameSettings.cs" />
+    <Compile Include="Systems\UI\UISceneGraphRenderSystem.cs" />
+    <Compile Include="Systems\UI\UISceneGraphUpdateSystem.cs" />
     <Compile Include="TDVSGame.cs" />
+    <Compile Include="World.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

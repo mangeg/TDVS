@@ -32,7 +32,7 @@ namespace TDVS.EntitySystem
 	/// </summary>
 	public class EntityManager : IManager
 	{
-		private readonly World _world;
+		private readonly WorldBase _worldBase;
 
 		private readonly List<Entity> _allEnteties = new List<Entity>( 10 );
 		private readonly List<int> _activeEnteties = new List<int>();
@@ -81,20 +81,20 @@ namespace TDVS.EntitySystem
 		}
 
 		/// <summary>
-		/// Gets the world.
+		/// Gets the WorldBase.
 		/// </summary>
-		public World World
+		public WorldBase WorldBase
 		{
-			get { return _world; }
+			get { return _worldBase; }
 		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EntityManager"/> class.
 		/// </summary>
-		/// <param name="world">The world.</param>
-		public EntityManager( World world )
+		/// <param name="worldBase">The WorldBase.</param>
+		public EntityManager( WorldBase worldBase )
 		{
-			_world = world;
+			_worldBase = worldBase;
 		}
 
 		/// <summary>
@@ -114,7 +114,7 @@ namespace TDVS.EntitySystem
 			else
 			{
 				id = _allEnteties.Count;
-				e = new Entity( _world, id );
+				e = new Entity( _worldBase, id );
 				_allEnteties.Add( e );
 				_componentsForEntity.Add( e.ID, new Dictionary<int, IList<IComponent>>() );
 			}
@@ -169,7 +169,7 @@ namespace TDVS.EntitySystem
 		/// <param name="e">The entity.</param>
 		public void Refersh( Entity e )
 		{
-			foreach ( var system in _world.SystemManager.Systems )
+			foreach ( var system in _worldBase.SystemManager.Systems )
 			{
 				system.EntityChanged( e );
 			}

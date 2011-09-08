@@ -42,9 +42,9 @@ namespace TDVS.EntitySystem
 		protected Dictionary<int, Entity> _entities = new Dictionary<int, Entity>();
 
 		/// <summary>
-		/// Reference to the world object.
+		/// Reference to the WorldBase object.
 		/// </summary>
-		protected World _world;
+		protected WorldBase _worldBase;
 
 		/// <summary>
 		/// Gets or sets the system bit.
@@ -80,12 +80,12 @@ namespace TDVS.EntitySystem
 			set { _enabled = value; }
 		}
 		/// <summary>
-		/// Gets the world.
+		/// Gets the WorldBase.
 		/// </summary>
-		public World World
+		public WorldBase WorldBase
 		{
-			get { return _world; }
-			internal set { _world = value; }
+			get { return _worldBase; }
+			internal set { _worldBase = value; }
 		}
 
 		/// <summary>
@@ -196,12 +196,11 @@ namespace TDVS.EntitySystem
 		/// </summary>
 		public virtual void Process()
 		{
-			if ( CheckProcessing() )
-			{
-				Begin();
-				ProcessEntities( _entities );
-				End();
-			}
+			if ( !CheckProcessing() ) return;
+
+			Begin();
+			ProcessEntities( _entities );
+			End();
 		}
 
 		/// <summary>

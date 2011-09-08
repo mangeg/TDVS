@@ -101,6 +101,7 @@
     <Compile Include="EntityManager.cs" />
     <Compile Include="EntityProcessingSystem.cs" />
     <Compile Include="EntitySystem.cs" />
+    <Compile Include="EntitySystemException.cs" />
     <Compile Include="GroupManager.cs" />
     <Compile Include="GroupSystem.cs" />
     <Compile Include="IComponent.cs" />
@@ -111,7 +112,7 @@
     <Compile Include="SystemManager.cs" />
     <Compile Include="TagManager.cs" />
     <Compile Include="TagSystem.cs" />
-    <Compile Include="World.cs" />
+    <Compile Include="WorldBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TDVS.Common\TDVS.Common.csproj">

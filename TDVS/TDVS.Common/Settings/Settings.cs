@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-namespace TDVS.Common
+namespace TDVS.Common.Settings
 {
     public static class Settings
     {

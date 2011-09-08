@@ -40,7 +40,7 @@ namespace TDVS.EntitySystem
 		/// <param name="entities"></param>
 		public override void ProcessEntities( Dictionary<int, Entity> entities )
 		{
-			var list = _world.GroupManager.GetEntities( _group );
+			var list = _worldBase.GroupManager.GetEntities( _group );
 			foreach ( var item in list )
 			{
 				Process( item );

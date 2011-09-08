@@ -20,7 +20,7 @@ namespace TDVS.Game.Network.Client
         {
             GameWorldState = new List<PlayerState>();
 
-            Configuration = new NetPeerConfiguration(Common.Settings.APPLICATION_NAME);
+            Configuration = new NetPeerConfiguration(Common.Settings.Settings.APPLICATION_NAME);
             Client = new NetClient(Configuration);
 
             _OutGoingMessage = Client.CreateMessage();
