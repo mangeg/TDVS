@@ -1,41 +1,30 @@
 using System;
 using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using TDVS.Common.Extensions;
-using TDVS.Common.Input;
+using TDVS.Common.Resources;
 using TDVS.Common.Settings;
-using TDVS.Common.Utils;
 using TDVS.EntitySystem;
-using TDVS.Game.EntitySystems.Components;
-using TDVS.Game.Systems;
-using SettingsManager = TDVS.Game.Settings.SettingsManager;
+using TDVS.Game.Settings;
 
 namespace TDVS.Game
 {
-	public class TestSettings : SettingsBase
-	{
-		public String TheSetting { get; set; }
-	}
 	/// <summary>
 	/// This is the main type for your game
 	/// </summary>
 	public class TDVSGame : Microsoft.Xna.Framework.Game
 	{
 		public GraphicsDeviceManager Graphics;
-		private SpriteBatch _spriteBatch;
-		private SpriteFont _font;
-		//		private ScreenManager _screenManager;
 		private ComponentPool _pool;
 
-		public EntitySystem.EntitySystem UIRenderSystem { get; set; }
-		public EntitySystem.EntitySystem MovementSystem2D { get; set; }
 		public World World { get; private set; }
 
 		public TDVSGame()
 		{
 			Graphics = new GraphicsDeviceManager( this );
 			Content.RootDirectory = "Content";
+
+			ResourceManager.Initialize( Content ); 
 		}
 
 		/// <summary>
@@ -46,40 +35,20 @@ namespace TDVS.Game
 		/// </summary>
 		protected override void Initialize()
 		{
-			World = new World();
+			World = new World( this );
 			World.EntityManager.ComponentRemoved += ComponentRemoved;
+
 			_pool = new ComponentPool( typeof( IComponent ).GetDerivedTypes().ToArray() );
 			_pool.Initialize();
-
-			/*_screenManager = new ScreenManager( this );
-			Components.Add( _screenManager );*/
 
 			Window.AllowUserResizing = true;
 			Window.ClientSizeChanged += WindowClientSizeChanged;
 
-			SettingsManager.Initialize( this );
-			SettingsManager.ApplyVideoSettings();
-
-			//			_screenManager.AddScreen( new MainMenu() );
-
 			base.Initialize();
-		}
+			World.Initialize();
 
-		void ComponentRemoved( Entity e, IComponent c )
-		{
-			_pool.Return( c );
+			SettingsManager.Get<GameSettings>().ApplyVideoSettings( this );
 		}
-
-		void WindowClientSizeChanged( object sender, EventArgs e )
-		{
-			var s = SettingsManager.Settings;
-			if ( !s.VideoSettings.FullScreen )
-			{
-				s.VideoSettings.WindowedResolution.Width = Window.ClientBounds.Width;
-				s.VideoSettings.WindowedResolution.Height = Window.ClientBounds.Height;
-			}
-		}
-
 		/// <summary>
 		/// LoadContent will be called once per game and is the place to load
 		/// all of your content.
@@ -87,20 +56,8 @@ namespace TDVS.Game
 		protected override void LoadContent()
 		{
 			base.LoadContent();
-
-			_spriteBatch = new SpriteBatch( GraphicsDevice );
-			_font = Content.Load<SpriteFont>( @"Fonts\DefaultMenuFont" );
-
-			var systemManager = World.SystemManager;
-			UIRenderSystem = systemManager.SetSystem( new UIRenderSystem( _spriteBatch, Content, typeof( Transform2D ) ) );
-			MovementSystem2D = systemManager.SetSystem( new MovementSystem2D() );
-
-			var e = World.EntityManager.Create();
-			World.EntityManager.AddComponent( e, new Transform2D() );
-			World.EntityManager.AddComponent( e, new Velocity2D() { Direction = new Vector2( 1, 1 ), Speed = 100 } );
-			e.Refresh();
+			World.LoadResource();
 		}
-
 		/// <summary>
 		/// UnloadContent will be called once per game and is the place to unload
 		/// all content.
@@ -108,42 +65,42 @@ namespace TDVS.Game
 		/// 
 		protected override void UnloadContent()
 		{
-			SettingsManager.Save();
+			World.UnloadResources();
 		}
-
 		/// <summary>
-		/// Allows the game to run logic such as updating the world,
+		/// Allows the game to run logic such as updating the World,
 		/// checking for collisions, gathering input, and playing audio.
 		/// </summary>
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Update( GameTime gameTime )
 		{
-			InputManager.Update();
-			MovementSystem2D.Process();
 			base.Update( gameTime );
+			World.Update( gameTime );
 		}
-
 		/// <summary>
 		/// This is called when the game should draw itself.
 		/// </summary>
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Draw( GameTime gameTime )
 		{
-			GraphicsDevice.Clear( Color.DarkBlue );
-			FpsMeter.SUpdate( gameTime );
-
-			_spriteBatch.Begin();
-
-			UIRenderSystem.Process();
-
-			_spriteBatch.DrawString( _font, "FPS: " + ( FpsMeter.sFPS ), new Vector2( 10, 10 ),
-				Color.Green, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 1 );
-			_spriteBatch.DrawString( _font, "MS/f: " + ( gameTime.ElapsedGameTime.TotalMilliseconds ),
-				new Vector2( 10, 10 + _font.LineSpacing * 0.8f ), Color.Green, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 1 );
-
-			_spriteBatch.End();
-
 			base.Draw( gameTime );
+			World.Draw( gameTime );
+		}
+
+		void ComponentRemoved( Entity e, IComponent c )
+		{
+			_pool.Return( c );
+		}
+		void WindowClientSizeChanged( object sender, EventArgs e )
+		{
+			/*
+			var s = SettingsManager.GameSettings;
+			if ( !s.VideoSettings.FullScreen )
+			{
+				s.VideoSettings.WindowedResolution.Width = Window.ClientBounds.Width;
+				s.VideoSettings.WindowedResolution.Height = Window.ClientBounds.Height;
+			}
+			 */
 		}
 	}
 }

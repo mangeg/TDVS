@@ -6,13 +6,13 @@ namespace TDVS.EntitySystem.Tests
 	[TestClass]
 	public class EntityManagerTests
 	{
-		private World _world;
+		private WorldBase _worldBase;
 		private EntityManager _mgr;
 
 		public EntityManagerTests()
 		{
-			_world = new World();
-			_mgr = _world.EntityManager;
+			_worldBase = new WorldBase();
+			_mgr = _worldBase.EntityManager;
 		}
 
 		[TestMethod]

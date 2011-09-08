@@ -103,6 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bag.cs" />
+    <Compile Include="Extensions\XnaStructExtensions.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="BitArrayExt.cs" />
     <Compile Include="Extensions\BitArrayExtensions.cs" />
@@ -110,6 +111,8 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Logging\LogManager.cs" />
+    <Compile Include="Resources\ResourceID.cs" />
+    <Compile Include="Resources\ResourceManager.cs" />
     <Compile Include="Settings\GameSettingsBase.cs" />
     <Compile Include="Settings\Resolution.cs" />
     <Compile Include="Settings\SettingsBase.cs" />

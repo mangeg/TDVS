@@ -13,6 +13,8 @@ namespace TDVS.Common.Settings.Targets
 	{
 		private readonly XmlSerializer _xmls;
 		private object _value;
+		private String _fileName;
+		private String _folderPath;
 
 		/// <summary>
 		/// Gets or sets the value.
@@ -25,7 +27,18 @@ namespace TDVS.Common.Settings.Targets
 			get { return _value; }
 			set { _value = value; }
 		}
-		public String FileName { get; set; }
+		public String FileName
+		{
+			get { return _fileName; }
+			set
+			{
+				if ( String.IsNullOrEmpty( value ) )
+					throw new ArgumentNullException( "FileName", "FileName cannot be empty or null" );
+				_fileName = Path.GetFullPath( value );
+				_folderPath = Path.GetDirectoryName( _fileName );
+			}
+		}
+		public bool CreatePathIfMissing { get; set; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="XmlTarget&lt;T&gt;"/> class.
@@ -61,6 +74,9 @@ namespace TDVS.Common.Settings.Targets
 		/// </summary>
 		void ITarget.Save()
 		{
+			if ( !Directory.Exists( _folderPath ) && CreatePathIfMissing )
+				Directory.CreateDirectory( _folderPath );
+
 			var s = new XmlWriterSettings { Indent = true, IndentChars = "\t" };
 			using ( var fs = new FileStream( FileName, FileMode.Create, FileAccess.Write ) )
 			{

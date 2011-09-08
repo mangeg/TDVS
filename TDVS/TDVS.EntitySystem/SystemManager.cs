@@ -8,7 +8,7 @@ namespace TDVS.EntitySystem
 	/// </summary>
 	public class SystemManager
 	{
-		private readonly World _world;
+		private readonly WorldBase _worldBase;
 		private readonly Dictionary<Type, EntitySystem> _systems = new Dictionary<Type, EntitySystem>();
 		private readonly List<EntitySystem> _systemsList = new List<EntitySystem>();
 
@@ -23,10 +23,10 @@ namespace TDVS.EntitySystem
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SystemManager"/> class.
 		/// </summary>
-		/// <param name="world">The world.</param>
-		public SystemManager( World world )
+		/// <param name="worldBase">The WorldBase.</param>
+		public SystemManager( WorldBase worldBase )
 		{
-			_world = world;
+			_worldBase = worldBase;
 		}
 
 		/// <summary>
@@ -37,7 +37,7 @@ namespace TDVS.EntitySystem
 		/// <returns>The system</returns>
 		public T SetSystem<T>( T system ) where T : EntitySystem
 		{
-			system.World = _world;
+			system.WorldBase = _worldBase;
 			_systems.Add( typeof( T ), system );
 			if ( !_systemsList.Contains( system ) )
 				_systemsList.Add( system );

@@ -27,7 +27,6 @@ namespace TDVS.Game
 				Populate( type, _initialCount );
 			}
 		}
-
 		private void Populate( Type type, int count )
 		{
 			for ( var i = 0; i < count; i++ )
@@ -35,7 +34,6 @@ namespace TDVS.Game
 				Return( ( IComponent )Activator.CreateInstance( type, true ) );
 			}
 		}
-
 		public T Take<T>() where T : IComponent
 		{
 			var type = typeof( T );
@@ -55,7 +53,6 @@ namespace TDVS.Game
 
 			return default( T );
 		}
-
 		public void Return( IComponent c )
 		{
 			var type = c.GetType();

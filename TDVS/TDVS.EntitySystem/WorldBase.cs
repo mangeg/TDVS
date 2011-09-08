@@ -1,11 +1,12 @@
 ﻿using System;
+using Microsoft.Xna.Framework;
 
 namespace TDVS.EntitySystem
 {
 	/// <summary>
-	/// Represent the world for the component based entity system.
+	/// Represent the WorldBase for the component based entity system.
 	/// </summary>
-	public class World
+	public class WorldBase
 	{
 		private readonly EntityManager _entityManager;
 		private readonly SystemManager _systemsManager;
@@ -42,9 +43,9 @@ namespace TDVS.EntitySystem
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="World"/> class.
+		/// Initializes a new instance of the <see cref="WorldBase"/> class.
 		/// </summary>
-		public World()
+		public WorldBase()
 		{
 			_entityManager = new EntityManager( this );
 			_systemsManager = new SystemManager( this );
@@ -71,5 +72,28 @@ namespace TDVS.EntitySystem
 			_tagManager.Register( tag, e );
 			return e;
 		}
+
+		/// <summary>
+		/// Initializes the world.
+		/// </summary>
+		public virtual void Initialize() { }
+		/// <summary>
+		/// Load resources.
+		/// </summary>
+		public virtual void LoadResource() { }
+		/// <summary>
+		/// Unload resources.
+		/// </summary>
+		public virtual void UnloadResources() { }
+		/// <summary>
+		/// Updates the world.
+		/// </summary>
+		/// <param name="gameTime">The game time.</param>
+		public virtual void Update( GameTime gameTime ) { }
+		/// <summary>
+		/// Draws the world.
+		/// </summary>
+		/// <param name="gameTime">The game time.</param>
+		public virtual void Draw( GameTime gameTime ) { }
 	}
 }
